@@ -1,51 +1,69 @@
 
 
 public class Estacionamento {
+    private int contClientes = 1;
+    private String nome;
+    private Cliente[] id;
+    private Vaga[] vagas;
+    private int quantFileiras;
+    private int vagasPorFileira;
 
-	private String nome;
-	private Cliente[] id;
-	private Vaga[] vagas;
-	private int quantFileiras;
-	private int vagasPorFileira;
+    public Estacionamento(String nome, int fileiras, int vagasPorFila) {
+        
+    }
 
-	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
-		
-	}
+    public void addVeiculo(Veiculo veiculo, String idCli) {
+        
+    }
 
-	public void addVeiculo(Veiculo veiculo, String idCli) {
-		
-	}
+    public void addCliente(Cliente cliente) {
+        
+    }
 
-	public void addCliente(Cliente cliente) {
-		
-	}
+    private void gerarVagas() {
+        
+    }
 
-	private void gerarVagas() {
-		
-	}
+    public void estacionar(String placa) {
+        Veiculo veiculo = null;
 
-	public void estacionar(String placa) {
-		
-	}
+        for (Cliente cliente : id) {
+            veiculo = cliente.possuiVeiculo(placa);
+        }
 
-	public double sair(String placa) {
-		
-	}
+        if(veiculo == null) 
+        return;
 
-	public double totalArrecadado() {
-		
-	}
+        for(Vaga vaga: vagas){
+            if(vaga.disponivel()){
+                veiculo.estacionar(vaga);
+                break;
+            }
+        }
 
-	public double arrecadacaoNoMes(int mes) {
-		
-	}
 
-	public double valorMedioPorUso() {
-		
-	}
+        
+    }
+    
 
-	public String top5Clientes(int mes) {
-		
-	}
+    public double sair(String placa) {
+        
+    }
+
+    public double totalArrecadado() {
+        
+    }
+
+    public double arrecadacaoNoMes(int mes) {
+        
+    }
+
+    public double valorMedioPorUso() {
+        
+    }
+
+    public String top5Clientes(int mes) {
+        
+    }
 
 }
