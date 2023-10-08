@@ -16,7 +16,7 @@ public class Estacionamento {
 
 	public void addVeiculo(Veiculo veiculo, String idCli) {
 		for(Cliente c : id){
-				if(idCLi.equals(c.getId)){
+				if(idCli.equals(c.getId())){
                 c.addVeiculo(veiculo);
 				}
 		}
@@ -50,9 +50,9 @@ public class Estacionamento {
 	}
 
 	public double valorMedioPorUso() {
-		double resposta;
+		double resposta = 0.0;
 		for(Cliente c : id){
-			resposta = c.arrecadadoTotal()/c.totalDeUsos();
+			resposta = c.arrecadadoTotal()/(double)c.totalDeUsos();
 		}
 		return resposta;
 	}
@@ -60,10 +60,13 @@ public class Estacionamento {
 	public String top5Clientes(int mes) {
         double valorPrimario = id[0].arrecadacaoNoMes(mes);
 		String topClientes[] = new String[5];
+		double resposta = 0.0;
 		for(Cliente c : id){
 			resposta = c.arrecadadoNoMes(mes);
-			if( resposta > valorPrimario ){
-				
+			if( resposta < valorPrimario ){
+				double aux = resposta;
+				resposta = valorPrimario;
+				valorPrimario = aux;
 			}
 		}
 
