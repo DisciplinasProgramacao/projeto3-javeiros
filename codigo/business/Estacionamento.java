@@ -1,5 +1,4 @@
-
-
+package business;
 public class Estacionamento {
 
 	private String nome;

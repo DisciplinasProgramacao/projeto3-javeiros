@@ -1,5 +1,4 @@
 package business;
-
 public class UsoDeVaga {
 
 	private static final double FRACAO_USO = 0.25;
