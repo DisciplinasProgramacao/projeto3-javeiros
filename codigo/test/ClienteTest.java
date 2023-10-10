@@ -1,10 +1,11 @@
 package test;
-import business.Cliente;
 import business.Veiculo;
+import business.Cliente;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,6 +33,15 @@ public class ClienteTest {
         Veiculo result = malu.possuiVeiculo("3131");
         assertEquals(bmw, result);
     }
+
+    @Test
+    void testandoBuscarUmVeiculoNãoCadastrado(){
+        Veiculo result = malu.possuiVeiculo("2247");
+        assertNotEquals(volvo, result);
+    }
+
+
+
 
 }
 
