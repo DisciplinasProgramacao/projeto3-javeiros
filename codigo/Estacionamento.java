@@ -47,15 +47,43 @@ public class Estacionamento {
     
 
     public double sair(String placa) {
-        
+
+        Veiculo veiculo = null;
+
+        for(Cliente cliente : id){
+            cliente.possuiVeiculo(placa);
+        }
+
+        if(veiculo == null)
+        return;
+
+        veiculo.sair();
     }
 
     public double totalArrecadado() {
-        
+        double total;
+        for(Cliete cliente: id){
+            for(Veiculo veiculo: cliente.veiculos){
+                for(UsoDeVaga usodevaga: cliente.veiculo.usos){
+                    total = total + usodevaga.valorPago;
+                }
+            }
+        }
+        return total;
     }
 
     public double arrecadacaoNoMes(int mes) {
-        
+        double total;
+        for(Cliete cliente: id){
+            for(Veiculo veiculo: cliente.veiculos){
+                for(UsoDeVaga usodevaga: cliente.veiculo.usos){
+                    if(usodevaga.saida.???? == mes && usodevaga.saida.???? ==  ){
+                        total = total + usodevaga.valorPago;
+                    }
+                }
+            }
+        }
+        return total;
     }
 
     public double valorMedioPorUso() {
