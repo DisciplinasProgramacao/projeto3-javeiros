@@ -1,5 +1,3 @@
-
-
 public class Veiculo {
 
 	private int count;
@@ -16,6 +14,10 @@ public class Veiculo {
 		if(placa.matches(verificacao)){
 			this.placa = placa;
 		}
+	}
+	
+	public UsoDeVaga getUsoDeVaga(int n) {
+		return this.usos[n];
 	}
 
 	public Veiculo(String placa) {
@@ -57,8 +59,8 @@ public class Veiculo {
 	}
 
 	/**
-	 * 
-	 * @param mes
+	 * Retorna o valor total arrecado em um determinado mes
+	 * @param mes recebe o mês como parametro entre 1 e 12.
 	 * @return
 	 */
 	public double arrecadadoNoMes(int mes) {
@@ -70,11 +72,13 @@ public class Veiculo {
 				total += uso.valorPago();
 			}
 		}
+
+		return total;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Total de usos pelo veiculo
+	 * @return retorna o valor como int, sendo o total de uso
 	 */
 	public int totalDeUsos() {
 		return count;

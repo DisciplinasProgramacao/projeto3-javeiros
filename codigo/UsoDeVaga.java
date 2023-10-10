@@ -22,4 +22,8 @@ public class UsoDeVaga {
 		
 	}
 
+    public boolean estaDentroDoMes(int mes) {
+        return false;
+    }
+
 }
