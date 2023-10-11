@@ -1,29 +1,42 @@
-
+package estacionamento;
 
 public class UsoDeVaga {
 
-	private static final double FRACAO_USO = 0.25;
-	private static final double VALOR_FRACAO = 4.0;
-	private static final double VALOR_MAXIMO = 50.0;
-	private Vaga vaga;
-	private LocalDateTime entrada;
-	private LocalDateTime saida;
-	private double valorPago;
-
 	public UsoDeVaga(Vaga vaga) {
-		
+		// TODO Auto-generated constructor stub
 	}
 
-	public double sair() {
-		
+	public UsoDeVaga() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public boolean estaDentroDoMes(int mes) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public double valorPago() {
-		
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
-    public boolean estaDentroDoMes(int mes) {
-        return false;
-    }
+	public double sair() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	public double servico(TipoServico servico, int tempo) {
+		double totalDoServico = 0;
+		
+		if( servico == TipoServico.MANOBRISTA && tempo >= servico.getTempo() ) {
+			totalDoServico = servico.getValor();
+		}else if( servico == TipoServico.LAVAGEM && tempo > 1 ) {
+			totalDoServico = servico.getValor();
+		} else if( servico == TipoServico.POLIMENTO && tempo > 2) {
+			totalDoServico = servico.getValor();
+		}
+		
+		return totalDoServico;
+	}
 
 }
