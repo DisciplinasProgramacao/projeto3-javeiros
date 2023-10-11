@@ -1,3 +1,9 @@
+#Ignorando classes específicas, pois estão sendo elaboradas por outras pessoas
+codigo/business/Veiculo.java
+codigo/business/Estacionamento.java
+codigo/business/UsoDeVaga.java
+codigo/business/Vaga.java
+
 # Compiled class file
 **/*.class
 
