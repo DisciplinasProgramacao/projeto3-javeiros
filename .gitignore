@@ -3,6 +3,7 @@ codigo/business/Veiculo.java
 codigo/business/Estacionamento.java
 codigo/business/UsoDeVaga.java
 codigo/business/Vaga.java
+codigo/App.java
 
 # Compiled class file
 **/*.class
