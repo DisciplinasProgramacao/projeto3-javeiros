@@ -58,14 +58,11 @@ public class Estacionamento {
         }
 
         if(veiculo == null){
-        return 0.0;
-        }else{
-            veiculo.sair();
-            return 1;
+
         }
         
 
-        
+        veiculo.sair();
     }
 
     public double totalArrecadado() {
@@ -83,19 +80,7 @@ public class Estacionamento {
     public double arrecadacaoNoMes(int mes) {
         double total = 0.0;
         LocalDate dataAtual = LocalDate.now();
-        int option;
 
-        System.out.println("Digite uma das opções a baixo:");
-        System.out.println("|--------------------------------|");
-        System.out.println("|--------------------------------|");
-        System.out.println("|0 -  " + dataAtual.getMonth() + " " + dataAtual.getYear() + "   |");
-        System.out.println("|--------------------------------|");
-        for (int i = 1; i <= 11; i++) {
-            LocalDate mesAnterior = dataAtual.minusMonths(i);
-            System.out.println("|"+ i + " -  " + mesAnterior.getMonth() + " " + mesAnterior.getYear() + " |");
-        }
-        System.out.println("|--------------------------------|");
-        option = Integer.parseInt(teclado.nextLine());
 
         for(Cliente cliente: id){
             for(Veiculo veiculo: cliente.getVeiculos()){
