@@ -57,10 +57,15 @@ public class Estacionamento {
             cliente.possuiVeiculo(placa);
         }
 
-        if(veiculo == null)
-        return;
+        if(veiculo == null){
+        return 0.0;
+        }else{
+            veiculo.sair();
+            return 1;
+        }
+        
 
-        veiculo.sair();
+        
     }
 
     public double totalArrecadado() {
