@@ -5,31 +5,32 @@ public class Vaga {
 	private String id;
 	private boolean disponivel;
 
-	public String getId() {
-		return id;
-	}
+    public Vaga(char fila, int numero) {
+        this.id = Character.toString(fila).toUpperCase() + String.format("%02d", numero);
+        this.disponivel = true;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public boolean estacionar() {
+        if (disponivel) {
+            disponivel = false;
+            return true;
+        }
+        return false;
+    }
 
-	public void setDisponivel(boolean disponivel) {
-		this.disponivel = disponivel;
-	}
+    public boolean sair() {
+        if (!disponivel) {
+            disponivel = true;
+            return true;
+        }
+        return false;
+    }
 
-	public Vaga(int fila, int numero) {
-	
-	}
+    public boolean disponivel() {
+        return disponivel;
+    }
 
-	public boolean estacionar() throws Exception {
-		throw new Exception("Ainda não implementado");
-	}
-
-	public boolean sair() throws Exception {
-		throw new Exception("Ainda não implementado");
-	}
-	public boolean Disponivel() {
-		return disponivel;
-	}
-
+	public String toString() {
+        return id;
+    }
 }
