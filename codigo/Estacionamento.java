@@ -1,6 +1,9 @@
-
+import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Estacionamento {
+
+    static Scanner teclado = new Scanner(System.in);
     private int contClientes = 1;
     private String nome;
     private Cliente[] id;
@@ -61,11 +64,11 @@ public class Estacionamento {
     }
 
     public double totalArrecadado() {
-        double total;
-        for(Cliete cliente: id){
-            for(Veiculo veiculo: cliente.veiculos){
-                for(UsoDeVaga usodevaga: cliente.veiculo.usos){
-                    total = total + usodevaga.valorPago;
+        double total = 0.0;
+        for(Cliente cliente: id){
+            for(Veiculo veiculo: cliente.getVeiculos()){
+                for(UsoDeVaga usodevaga: veiculo.getUsos()){
+                    total = total + usodevaga.valorPago();
                 }
             }
         }
@@ -73,12 +76,29 @@ public class Estacionamento {
     }
 
     public double arrecadacaoNoMes(int mes) {
-        double total;
-        for(Cliete cliente: id){
-            for(Veiculo veiculo: cliente.veiculos){
-                for(UsoDeVaga usodevaga: cliente.veiculo.usos){
-                    if(usodevaga.saida.???? == mes && usodevaga.saida.???? ==  ){
-                        total = total + usodevaga.valorPago;
+        double total = 0.0;
+        LocalDate dataAtual = LocalDate.now();
+        int option;
+
+        System.out.println("Digite uma das opções a baixo:");
+        System.out.println("|--------------------------------|");
+        System.out.println("|--------------------------------|");
+        System.out.println("|0 -  " + dataAtual.getMonth() + " " + dataAtual.getYear() + "   |");
+        System.out.println("|--------------------------------|");
+        for (int i = 1; i <= 11; i++) {
+            LocalDate mesAnterior = dataAtual.minusMonths(i);
+            System.out.println("|"+ i + " -  " + mesAnterior.getMonth() + " " + mesAnterior.getYear() + " |");
+        }
+        System.out.println("|--------------------------------|");
+        option = Integer.parseInt(teclado.nextLine());
+
+        for(Cliente cliente: id){
+            for(Veiculo veiculo: cliente.getVeiculos()){
+                for(UsoDeVaga usodevaga: veiculo.getUsos()){
+                    LocalDate dataSaida = usodevaga.getSaida();
+                    LocalDate dataComparacao = dataAtual.minusMonths(option);
+                    if (dataSaida.getYear() == dataComparacao.getYear() && dataSaida.getMonthValue() == dataComparacao.getMonthValue()) {
+                        total += usodevaga.getValorPago();
                     }
                 }
             }
@@ -92,6 +112,10 @@ public class Estacionamento {
 
     public String top5Clientes(int mes) {
         
+    }
+
+    public Cliente[] getId() {
+        return null;
     }
 
 }
