@@ -4,10 +4,11 @@ import business.Veiculo;
 import business.Cliente;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import org.junit.jupiter.api.BeforeEach;
 
 public class ClienteTest {
 
@@ -25,7 +26,7 @@ public class ClienteTest {
     @Test
     public void testandoAdicionarUmVeiculoCadastrado() {
         malu.addVeiculo(bmw);
-        Veiculo result = malu.possuiVeiculo("3131");
+        Veiculo result = malu.possuiVeiculo("3121");
         assertEquals(bmw, result);
     }
 

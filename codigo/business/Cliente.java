@@ -43,7 +43,7 @@ public class Cliente {
 	 * @param veiculo do tipo Veiculo
 	 */
 	public void addVeiculo(Veiculo veiculo) {
-		veiculos.add(veiculo);
+		this.veiculos.add(veiculo);
 	}
 
 	/**
