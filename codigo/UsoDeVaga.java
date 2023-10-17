@@ -76,6 +76,11 @@ public class UsoDeVaga {
         return valorPago;
     }
 
+	/**
+	 * Contra um serviço vinculado ao uso de vaga com tempo mínimo de permanência dependento do tipo de serviço
+	 * @param servico o serviço pode ser MANOBRISTA, LAVAGEM, POLIMENTO
+	 * @return retorna o valor do serviço.
+	 */
 	public Double contratarServico(TipoServico servico) {
 
 		if(this.servico != null){
