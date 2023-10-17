@@ -86,7 +86,7 @@ public class Estacionamento {
             for(Veiculo veiculo: cliente.getVeiculos()){
                 for(UsoDeVaga usodevaga: veiculo.getUsos()){
                     LocalDate dataSaida = usodevaga.getSaida();
-                    LocalDate dataComparacao = dataAtual.minusMonths(option);
+                    LocalDate dataComparacao = dataAtual.minusMonths(mes);
                     if (dataSaida.getYear() == dataComparacao.getYear() && dataSaida.getMonthValue() == dataComparacao.getMonthValue()) {
                         total += usodevaga.getValorPago();
                     }
