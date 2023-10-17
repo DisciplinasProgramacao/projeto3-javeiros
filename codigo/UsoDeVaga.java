@@ -1,6 +1,8 @@
-package estacionamento;
+import java.time.LocalDate;
 
 public class UsoDeVaga {
+
+	private TipoServico servico;
 
 	public UsoDeVaga(Vaga vaga) {
 		// TODO Auto-generated constructor stub
@@ -25,18 +27,10 @@ public class UsoDeVaga {
 		return 0;
 	}
 	
-	public double servico(TipoServico servico, int tempo) {
-		double totalDoServico = 0;
+	public double contratarServico(TipoServico servico) {
+		double totalServico = 0;
 		
-		if( servico == TipoServico.MANOBRISTA && tempo >= servico.getTempo() ) {
-			totalDoServico = servico.getValor();
-		}else if( servico == TipoServico.LAVAGEM && tempo > 1 ) {
-			totalDoServico = servico.getValor();
-		} else if( servico == TipoServico.POLIMENTO && tempo > 2) {
-			totalDoServico = servico.getValor();
-		}
-		
-		return totalDoServico;
+		return totalServico;
 	}
 
 }
