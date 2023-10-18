@@ -1,4 +1,4 @@
-package estacionamento;
+package estacionamentos;
 
 import java.util.Arrays;
 
