@@ -1,3 +1,4 @@
+package excecoes;
 /**
  * Exceção lançada quando o tempo mínimo de permanência pra fazer o serviço não é atingido.
  */

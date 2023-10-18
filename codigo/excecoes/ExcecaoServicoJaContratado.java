@@ -1,3 +1,4 @@
+package excecoes;
 /**
  * Exceção lançada quando já existe serviço.
  */

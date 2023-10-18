@@ -1,5 +1,3 @@
-package estacionamento;
-
 public class Veiculo {
 	private int count;
 	private String placa;

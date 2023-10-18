@@ -1,6 +1,11 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
+import excecoes.ExcecaoSaidaJaFinalizada;
+import excecoes.ExcecaoServicoJaContratado;
+import excecoes.ExcecaoTempoMinimoNaoAtingido;
+
 public class UsoDeVaga {
 
     private static final double FRACAO_USO = 0.25;
@@ -33,8 +38,17 @@ public class UsoDeVaga {
      * @param saida Data e hora da saída do veículo da vaga.
      */
     public void registrarSaida(LocalDateTime saida) {
-        this.saida = saida;
-        calcularValorPago();
+        
+        if(saida != null){
+            throw new ExcecaoSaidaJaFinalizada();
+        }
+
+        if(vaga.sair()){
+            this.saida = saida;
+            calcularValorPago();
+        } else {
+            throw new ExcecaoNaoEhPossivelSairDaVaga();
+        }
     }
 
     /**
