@@ -2,8 +2,8 @@ package tests;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import UsoDeVaga;
-import Vaga;
+import estacionamentos.UsoDeVaga;
+import estacionamentos.Vaga;
 
 class UsoDeVagaTest {
 
