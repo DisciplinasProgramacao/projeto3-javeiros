@@ -1,6 +1,9 @@
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import estacionamentos.UsoDeVaga;
+import estacionamentos.Vaga;
+
 class UsoDeVagaTest {
 
     @Test
