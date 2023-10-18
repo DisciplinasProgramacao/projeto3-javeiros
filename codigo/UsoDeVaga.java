@@ -57,8 +57,11 @@ public class UsoDeVaga {
         if (saida != null) {
             long minutosEstacionados = entrada.until(saida, java.time.temporal.ChronoUnit.MINUTES);
             double valor = minutosEstacionados / 15.0 * VALOR_FRACAO;
-            valorPago = Math.min(valor, VALOR_MAXIMO);
+            if(servico != null){
+                valorPago = Math.min(valor, VALOR_MAXIMO) + servico.getValor();
+            }
         }
+
     }
     public Vaga getVaga() {
         return vaga;
