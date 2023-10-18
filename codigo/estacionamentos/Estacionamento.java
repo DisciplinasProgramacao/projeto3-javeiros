@@ -1,3 +1,4 @@
+package estacionamentos;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -67,31 +68,18 @@ public class Estacionamento {
 
     public double totalArrecadado() {
         double total = 0.0;
+
         for(Cliente cliente: id){
-            for(Veiculo veiculo: cliente.getVeiculos()){
-                for(UsoDeVaga usodevaga: veiculo.getUsos()){
-                    total = total + usodevaga.valorPago();
-                }
-            }
+            total = total + cliente.arrecadadoTotal();
         }
         return total;
     }
 
     public double arrecadacaoNoMes(int mes) {
         double total = 0.0;
-        LocalDate dataAtual = LocalDate.now();
-
 
         for(Cliente cliente: id){
-            for(Veiculo veiculo: cliente.getVeiculos()){
-                for(UsoDeVaga usodevaga: veiculo.getUsos()){
-                    LocalDate dataSaida = usodevaga.getSaida();
-                    LocalDate dataComparacao = dataAtual.minusMonths(mes);
-                    if (dataSaida.getYear() == dataComparacao.getYear() && dataSaida.getMonthValue() == dataComparacao.getMonthValue()) {
-                        total += usodevaga.getValorPago();
-                    }
-                }
-            }
+            total = total + cliente.arrecadadoNoMes(mes)
         }
         return total;
     }
@@ -106,6 +94,10 @@ public class Estacionamento {
 
     public Cliente[] getId() {
         return null;
+    }
+
+    public String  getNome(){
+        return this.nome;
     }
 
 }

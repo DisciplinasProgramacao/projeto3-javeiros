@@ -1,6 +1,11 @@
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import estacionamentos.*;
+
+
+
+
 public class App {
 
     private static Scanner teclado = new Scanner(System.in);
@@ -8,6 +13,11 @@ public class App {
     private static Estacionamento estacionamentoHelper;
 
     public static void main(String args[]) {
+        try{
+
+        }catch(Exception e){
+
+        }
         menu();
     }
 
@@ -159,26 +169,13 @@ public class App {
 
     public static void cadastrarVeiculo(){
 
-        Cliente cliente1 = encontrarCliente();
-        Veiculo veiculo = criarVeiculo();
-        cliente1.addVeiculo(veiculo);
-
-    }
-
-
-    public static Cliente encontrarCliente(){
         System.out.println("Digite o id do cliente no qual deseja cadastrar o veiculo: ");
-        int id = Integer.parseInt(teclado.nextLine());
-        Cliente cliente;
-
-        for(int i = 0; i < estacionamentoHelper.getId().length; i++){
-            if(estacionamentoHelper.getClienteId()[i].id == id){
-                cliente = estacionamentoHelper.getClienteId()[i];
-                break;
-            }
-        }
-        return cliente;
+        String id = (teclado.nextLine());
+        Veiculo veiculo = criarVeiculo();
+        estacionamentoHelper.addVeiculo(veiculo, id);
     }
+
+
 
     public static Veiculo criarVeiculo(){
         String placa = teclado.nextLine();
@@ -219,7 +216,7 @@ public class App {
     }
 
     public static void valorMedioUso(){
-        System.out.println("Valor medio por uso: " + estacionamentoHelper.getValorMedioUso());
+        System.out.println("Valor medio por uso: " + estacionamentoHelper.valorMedioPorUso());
     }
 
     public static void topClientes(){
