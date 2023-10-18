@@ -1,9 +1,9 @@
-package test;
-
-import business.Veiculo;
-import business.Cliente;
+package tests;
 
 import org.junit.jupiter.api.Test;
+
+import estacionamentos.Cliente;
+import estacionamentos.Veiculo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

@@ -1,4 +1,4 @@
-package business;
+package estacionamentos;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
