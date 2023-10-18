@@ -6,6 +6,7 @@ public class Vaga {
 	private String id;
 	private boolean disponivel;
 
+<<<<<<< HEAD
     public Vaga(char fila, int numero) {
         this.id = Character.toString(fila).toUpperCase() + String.format("%02d", numero);
         this.disponivel = true;
@@ -35,3 +36,22 @@ public class Vaga {
         return id;
     }
 }
+=======
+	public Vaga(int fila, int numero) {
+		
+	}
+
+	public boolean estacionar() {
+		
+	}
+
+	public boolean sair() {
+		
+	}
+
+	public boolean disponivel() {
+		
+	}
+
+}
+>>>>>>> feature-pedro

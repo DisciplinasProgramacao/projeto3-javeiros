@@ -1,11 +1,16 @@
 package estacionamentos;
+<<<<<<< HEAD
 import java.util.LinkedList;
 import java.util.List;
+=======
+
+>>>>>>> feature-pedro
 
 public class Cliente {
 
 	private String nome;
 	private String id;
+<<<<<<< HEAD
 	private LinkedList<Veiculo> veiculos;
 
 	/**
@@ -130,6 +135,36 @@ public class Cliente {
 			}
 		}
 		return soma;
+=======
+	private Veiculo[] veiculos;
+
+	public Cliente(String nome, String id) {
+		
+	}
+
+	public void addVeiculo(Veiculo veiculo) {
+		
+	}
+
+	public Veiculo possuiVeiculo(String placa) {
+		
+	}
+
+	public int totalDeUsos() {
+		
+	}
+
+	public double arrecadadoPorVeiculo(String placa) {
+		
+	}
+
+	public double arrecadadoTotal() {
+		
+	}
+
+	public double arrecadadoNoMes(int mes) {
+		
+>>>>>>> feature-pedro
 	}
 
 }

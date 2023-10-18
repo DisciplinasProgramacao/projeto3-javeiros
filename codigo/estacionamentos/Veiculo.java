@@ -1,4 +1,9 @@
 package estacionamentos;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> feature-pedro
 public class Veiculo {
 
 	private String placa;
