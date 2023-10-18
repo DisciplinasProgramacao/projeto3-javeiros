@@ -1,5 +1,6 @@
 package estacionamentos;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Cliente {
 
@@ -45,6 +46,17 @@ public class Cliente {
 	public void addVeiculo(Veiculo veiculo) {
 		this.veiculos.add(veiculo);
 	}
+
+	/**
+	 * Método para obter a lista de todos os veículos do Cliente.
+	 *
+	 * @return uma lista de objetos Veiculo
+	 */
+	public List<Veiculo> getVeiculos() {
+		return this.veiculos;
+	}
+
+
 
 	/**
 	 * Método que verifica se o Cliente possui um determinado carro a partir da
