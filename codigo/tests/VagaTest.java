@@ -1,4 +1,4 @@
-package test;
+package tests;
 
 import codigo.Vaga;
 import codigo.Veiculo;
