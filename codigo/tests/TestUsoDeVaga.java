@@ -1,9 +1,14 @@
 package tests;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import estacionamentos.UsoDeVaga;
 import estacionamentos.Vaga;
+import excecoes.ExcecaoTempoMinimoLavagem;
+import excecoes.ExcecaoTempoMinimoPolimento;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class UsoDeVagaTest {
 
@@ -62,5 +67,51 @@ class UsoDeVagaTest {
         uso.registrarSaida(saida);
 
         assertEquals(50.0, uso.getValorPago());
+    }
+
+    @Test
+    void testContratarLavagem() {
+        Vaga vaga = new Vaga('Y', 8);
+        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
+        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
+        LocalDateTime saida = LocalDateTime.of(2023, 10, 10, 9, 30);
+        uso.registrarSaida(saida);
+
+        assertDoesNotThrow(() -> uso.contratarLavagem());
+        assertEquals(36.0, uso.getValorPago()); // 16.0 (estacionamento) + 20.0 (lavagem)
+    }
+
+    @Test
+    void testContratarPolimento() {
+        Vaga vaga = new Vaga('Y', 8);
+        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
+        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
+        LocalDateTime saida = LocalDateTime.of(2023, 10, 10, 10, 30);
+        uso.registrarSaida(saida);
+
+        assertDoesNotThrow(() -> uso.contratarPolimento());
+        assertEquals(61.0, uso.getValorPago()); // 16.0 (estacionamento) + 45.0 (polimento)
+    }
+
+    @Test
+    void testExcecaoTempoMinimoLavagem() {
+        Vaga vaga = new Vaga('Y', 8);
+        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
+        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
+        LocalDateTime saida = LocalDateTime.of(2023, 10, 10, 8, 30);
+        uso.registrarSaida(saida);
+
+        assertThrows(ExcecaoTempoMinimoLavagem.class, () -> uso.contratarLavagem());
+    }
+
+    @Test
+    void testExcecaoTempoMinimoPolimento() {
+        Vaga vaga = new Vaga('Y', 8);
+        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
+        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
+        LocalDateTime saida = LocalDateTime.of(2023, 10, 10, 9, 30);
+        uso.registrarSaida(saida);
+
+        assertThrows(ExcecaoTempoMinimoPolimento.class, () -> uso.contratarPolimento());
     }
 }

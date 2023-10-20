@@ -1,6 +1,9 @@
 package estacionamentos;
-<<<<<<< HEAD
+
 import java.time.LocalDateTime;
+import java.time.Duration;
+import excecoes.ExcecaoTempoMinimoLavagem;
+import excecoes.ExcecaoTempoMinimoPolimento;
 
 public class UsoDeVaga {
 
@@ -12,6 +15,8 @@ public class UsoDeVaga {
     private LocalDateTime entrada;
     private LocalDateTime saida;
     private double valorPago;
+    private boolean lavagem;
+    private boolean polimento;
 
     /**
      * Construtor da classe UsoDeVaga.
@@ -24,6 +29,8 @@ public class UsoDeVaga {
         this.entrada = entrada;
         this.saida = null;
         this.valorPago = 0.0;
+        this.lavagem = false;
+        this.polimento = false;
     }
 
     /**
@@ -59,6 +66,35 @@ public class UsoDeVaga {
             valorPago = Math.min(valor, VALOR_MAXIMO);
         }
     }
+
+    /**
+     * Calcula o tempo de permanência do veículo em minutos.
+     * 
+     * @return long representando os minutos de permanência.
+     */
+    private long getPermanencia() {
+        if (saida != null) {
+            return Duration.between(entrada, saida).toMinutes();
+        }
+        return 0;
+    }
+
+    public void contratarLavagem() throws ExcecaoTempoMinimoLavagem {
+        if (getPermanencia() < 60) {
+            throw new ExcecaoTempoMinimoLavagem("Tempo mínimo de 1h para lavagem não atendido.");
+        }
+        this.lavagem = true;
+        this.valorPago += 20.0;
+    }
+
+    public void contratarPolimento() throws ExcecaoTempoMinimoPolimento {
+        if (getPermanencia() < 120) {
+            throw new ExcecaoTempoMinimoPolimento("Tempo mínimo de 2h para polimento não atendido.");
+        }
+        this.polimento = true;
+        this.valorPago += 45.0;
+    }
+
     public Vaga getVaga() {
         return vaga;
     }
