@@ -1,5 +1,4 @@
 package estacionamentos;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -131,77 +130,6 @@ public class Cliente {
 			}
 		}
 		return soma;
-	}
-
-
-
-	public String verHistoricoCompleto() {
-		String historico = "";
-
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			int totalDeUsos = veiculo.totalDeUsos();
-
-			for(int j = 0; j < totalDeUsos; j++){
-				UsoDeVaga usoDeVaga = veiculo.getUsoDeVaga(j);
-
-				historico = historico + "\n" + 
-				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-				"Vaga utilizada: " + usoDeVaga.getVaga().toString() + " | " +
-				"Entrada: " + usoDeVaga.getEntrada() + " | " +
-				"Saida: " + usoDeVaga.getSaida() + " | " + 
-				"Valor total: " + usoDeVaga.getValorPago() + " | ";
-			}
-		}
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
-	}
-
-	public String verHistoricoDataInicio(LocalDateTime filtro) {
-		String historico = "";
-
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			int totalDeUsos = veiculo.totalDeUsos();
-
-			for(int j = 0; j < totalDeUsos; j++){
-				UsoDeVaga usoDeVaga = veiculo.getUsoDeVaga(j);
-
-				if(usoDeVaga.getEntrada().isEqual(filtro)){
-					historico = historico + "\n" + 
-					"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-					"Vaga utilizada: " + usoDeVaga.getVaga().toString() + " | " +
-					"Entrada: " + usoDeVaga.getEntrada() + " | " +
-					"Saida: " + usoDeVaga.getSaida() + " | " + 
-					"Valor total: " + usoDeVaga.getValorPago() + " | ";
-				}
-			}
-		}
-
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
-	}
-
-	public String verHistoricoDataFim(LocalDateTime filtro) {
-		String historico = "";
-
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			int totalDeUsos = veiculo.totalDeUsos();
-
-			for(int j = 0; j < totalDeUsos; j++){
-				UsoDeVaga usoDeVaga = veiculo.getUsoDeVaga(j);
-
-				if(usoDeVaga.getSaida().isEqual(filtro)){
-					historico = historico + "\n" + 
-					"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-					"Vaga utilizada: " + usoDeVaga.getVaga().toString() + " | " +
-					"Entrada: " + usoDeVaga.getEntrada() + " | " +
-					"Saida: " + usoDeVaga.getSaida() + " | " + 
-					"Valor total: " + usoDeVaga.getValorPago() + " | ";
-				}
-			}
-		}
-
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
 	}
 
 }
