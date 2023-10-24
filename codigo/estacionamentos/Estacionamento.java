@@ -1,17 +1,25 @@
 package estacionamentos;
+import java.time.LocalDate;
+import java.util.Scanner;
 
 import java.util.Arrays;
 
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
 
+
 public class Estacionamento {
-	private int contClientes = 1;
-	private String nome;
-	private Cliente[] id;
-	private Vaga[] vagas;
-	private int quantFileiras;
-	private int vagasPorFileira;
+
+    static Scanner teclado = new Scanner(System.in);
+    private int contClientes = 1;
+    private String nome;
+    private Cliente[] id;
+    private Vaga[] vagas;
+    private int quantFileiras;
+    private int vagasPorFileira;
+
+
+    
 
 	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
 		this.nome = nome;
@@ -59,23 +67,7 @@ public class Estacionamento {
 		vagas = new Vaga[tam];
 	}
 
-	/* comentando métodos não implementados
-	public void estacionar(String placa) {
 
-	}
-
-	public double sair(String placa) {
-
-	}
-
-	public double totalArrecadado() {
-
-	}
-
-	public double arrecadacaoNoMes(int mes) {
-
-	}
-	*/
 
 	public double valorMedioPorUso() {
 		double resposta = 0.0;
@@ -125,4 +117,75 @@ public class Estacionamento {
 		return Arrays.toString(nomesTopClientes);
 	}
 
+
+    public void estacionar(String placa) {
+        Veiculo veiculo = null;
+
+        for (Cliente cliente : id) {
+            veiculo = cliente.possuiVeiculo(placa);
+        }
+
+        if(veiculo == null) 
+        return;
+
+        for(Vaga vaga: vagas){
+            if(vaga.disponivel()){
+                veiculo.estacionar(vaga);
+                break;
+            }
+        }
+
+
+        
+    }
+    
+
+    public double sair(String placa) {
+
+        Veiculo veiculo = null;
+
+        for(Cliente cliente : id){
+            cliente.possuiVeiculo(placa);
+        }
+
+        if(veiculo == null){
+
+        }
+        
+
+        veiculo.sair();
+    }
+
+    public double totalArrecadado() {
+        double total = 0.0;
+
+        for(Cliente cliente: id){
+            total = total + cliente.arrecadadoTotal();
+        }
+        return total;
+    }
+
+    public double arrecadacaoNoMes(int mes) {
+        double total = 0.0;
+
+        for(Cliente cliente: id){
+            total = total + cliente.arrecadadoNoMes(mes)
+        }
+        return total;
+    }
+
+
+    public Cliente[] getId() {
+        return null;
+    }
+
+    public String  getNome(){
+        return this.nome;
+    }
+
 }
+
+
+
+
+
