@@ -59,6 +59,7 @@ public class Estacionamento {
 		vagas = new Vaga[tam];
 	}
 
+	/* comentando métodos não implementados
 	public void estacionar(String placa) {
 
 	}
@@ -74,6 +75,7 @@ public class Estacionamento {
 	public double arrecadacaoNoMes(int mes) {
 
 	}
+	*/
 
 	public double valorMedioPorUso() {
 		double resposta = 0.0;

@@ -66,10 +66,26 @@ public class Cliente {
 	 * @return veiculo do tipo Veiculo caso a placa for encontrada ou nulo caso não
 	 *         exista na lista de veículos a placa informada.
 	 */
-	public Veiculo possuiVeiculo(String placa) {
+	public boolean possuiVeiculo(String placa) {
+		boolean resp = false;
 		for (int i = 0; i < veiculos.size(); i++) {
 			if ((veiculos.get(i).getPlaca()).equals(placa)) {
-				return this.veiculos.get(i);
+				return resp = true;
+			}
+		}
+		return resp;
+	}
+
+	/**
+	 * Método que retorna determinado veículo de acordo com a placa
+	 * 
+	 * @param placa do tipo string para realizar a busca na lista de veículos do cliente
+	 * @return o veículo do cliente caso encontrado. Senão retorna null.
+	 */
+	public Veiculo getVeiculo(String placa) {
+		for (int i = 0; i < veiculos.size(); i++) {
+			if ((veiculos.get(i).getPlaca()).equals(placa)) {
+				return veiculos.get(i);
 			}
 		}
 		return null;
@@ -97,7 +113,7 @@ public class Cliente {
 	 * @return total arrecadado do tipo double
 	 */
 	public double arrecadadoPorVeiculo(String placa) {
-		Veiculo veiculo = possuiVeiculo(placa);
+		Veiculo veiculo = getVeiculo(placa);
 		return veiculo.totalArrecadado();
 	}
 
