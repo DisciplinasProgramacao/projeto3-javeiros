@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 import java.time.Duration;
 import excecoes.ExcecaoTempoMinimoLavagem;
 import excecoes.ExcecaoTempoMinimoPolimento;
+import estacionamentos.Enums.TipoServico;
+import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
+import excecoes.ExcecaoSaidaJaFinalizada;
+import excecoes.ExcecaoServicoJaContratado;
+import excecoes.ExcecaoTempoMinimoNaoAtingido;
 
 public class UsoDeVaga {
 
@@ -17,6 +22,8 @@ public class UsoDeVaga {
     private double valorPago;
     private boolean lavagem;
     private boolean polimento;
+
+	private TipoServico servico;
 
     /**
      * Construtor da classe UsoDeVaga.
@@ -41,6 +48,17 @@ public class UsoDeVaga {
     public void registrarSaida(LocalDateTime saida) {
         this.saida = saida;
         calcularValorPago();
+        
+        if(saida != null){
+            throw new ExcecaoSaidaJaFinalizada();
+        }
+
+        if(vaga.sair()){
+            this.saida = saida;
+            calcularValorPago();
+        } else {
+            throw new ExcecaoNaoEhPossivelSairDaVaga();
+        }
     }
 
     /**
@@ -93,6 +111,11 @@ public class UsoDeVaga {
         }
         this.polimento = true;
         this.valorPago += 45.0;
+    
+
+        if(servico != null){
+            valorPago = Math.min(valor, VALOR_MAXIMO) + servico.getValor();
+        }
     }
 
     public Vaga getVaga() {
@@ -110,4 +133,26 @@ public class UsoDeVaga {
     public double getValorPago() {
         return valorPago;
     }
+
+	/**
+	 * Contra um serviço vinculado ao uso de vaga com tempo mínimo de permanência dependento do tipo de serviço
+	 * @param servico o serviço pode ser MANOBRISTA, LAVAGEM, POLIMENTO
+	 * @return retorna o valor do serviço.
+	 */
+	public Double contratarServico(TipoServico servico) {
+
+		if(this.servico != null){
+			throw new ExcecaoServicoJaContratado();
+		}
+
+		Duration duration = Duration.between(entrada, saida);
+
+		if(duration.toHours() >= servico.getTempo()){
+			this.servico = servico;
+			return servico.getValor();
+		}
+
+		throw new ExcecaoTempoMinimoNaoAtingido();
+	}
+
 }
