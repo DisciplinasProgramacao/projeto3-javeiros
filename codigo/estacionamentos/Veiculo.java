@@ -1,9 +1,11 @@
 package estacionamentos;
 
+import java.time.LocalDateTime;
+
 public class Veiculo {
 	private int count;
 	private String placa;
-	private UsoDeVaga[] usos;
+	private UsoDeVaga[] usoDeVagas;
 
 	public String getPlaca() {
 		return placa;
@@ -18,7 +20,7 @@ public class Veiculo {
 	}
 	
 	public UsoDeVaga getUsoDeVaga(int n) {
-		return this.usos[n];
+		return this.usoDeVagas[n];
 	}
 
 	public Veiculo(String placa) {
@@ -31,8 +33,8 @@ public class Veiculo {
 	 */
 	public void estacionar(Vaga vaga) {
 		if(vaga.disponivel()){
-			UsoDeVaga usoDeVaga = new UsoDeVaga(vaga);
-			usos[++count] = usoDeVaga; 
+			UsoDeVaga usoDeVaga = new UsoDeVaga(vaga, LocalDateTime.now());
+			usoDeVagas[++count] = usoDeVaga; 
 		}
 	}
 
@@ -41,7 +43,7 @@ public class Veiculo {
 	 * @return retorna o valor do veiculo 
 	 */
 	public double sair() {
-		return usos[count].sair();
+		return usoDeVagas[count].getValorPago();
 	}
 
 	/**
@@ -52,7 +54,7 @@ public class Veiculo {
 		
 		double total = 0;
 
-		for(UsoDeVaga uso : usos){
+		for(UsoDeVaga uso : usoDeVagas){
 			total += uso.getValorPago();
 		}
 		
@@ -68,7 +70,7 @@ public class Veiculo {
 		
 		double total = 0;
 		
-		for(UsoDeVaga uso : usos){
+		for(UsoDeVaga uso : usoDeVagas){
 			if(uso.estaDentroDoMes(mes)){
 				total += uso.getValorPago();
 			}
