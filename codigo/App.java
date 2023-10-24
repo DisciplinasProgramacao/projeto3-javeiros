@@ -2,6 +2,8 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 import estacionamentos.*;
+import excecoes.ExcecaoClienteJaCadastrado;
+import excecoes.ExcecaoVeiculoJaCadastrado;
 
 
 
@@ -12,7 +14,7 @@ public class App {
     private static Estacionamento estacionamentos[] = new Estacionamento[10];
     private static Estacionamento estacionamentoHelper;
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
         try{
 
         }catch(Exception e){
@@ -21,7 +23,7 @@ public class App {
         menu();
     }
 
-    public static void menu() {
+    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
 
         int i = 0;
         while (i != 3) {
@@ -110,7 +112,7 @@ public class App {
     }
 
 
-    public static void switchMenuEstacionameto(int option) {
+    public static void switchMenuEstacionameto(int option) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
 
         switch (option) {
             case 1:
@@ -153,7 +155,7 @@ public class App {
     }
 
     
-    public static void addCliente() {
+    public static void addCliente() throws ExcecaoClienteJaCadastrado {
 
         String nome;
         String id;
@@ -167,7 +169,7 @@ public class App {
 
     }
 
-    public static void cadastrarVeiculo(){
+    public static void cadastrarVeiculo() throws ExcecaoVeiculoJaCadastrado{
 
         System.out.println("Digite o id do cliente no qual deseja cadastrar o veiculo: ");
         String id = (teclado.nextLine());

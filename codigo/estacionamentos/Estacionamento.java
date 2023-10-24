@@ -117,44 +117,43 @@ public class Estacionamento {
 		return Arrays.toString(nomesTopClientes);
 	}
 
-
-    public void estacionar(String placa) {
-        Veiculo veiculo = null;
-
-        for (Cliente cliente : id) {
-            veiculo = cliente.possuiVeiculo(placa);
-        }
-
-        if(veiculo == null) 
-        return;
-
-        for(Vaga vaga: vagas){
-            if(vaga.disponivel()){
-                veiculo.estacionar(vaga);
-                break;
-            }
-        }
-
-
-        
-    }
-    
-
-    public double sair(String placa) {
-
-        Veiculo veiculo = null;
-
-        for(Cliente cliente : id){
-            cliente.possuiVeiculo(placa);
-        }
-
-        if(veiculo == null){
-
-        }
-        
-
-        veiculo.sair();
-    }
+	public void estacionar(String placa) {
+		Veiculo veiculo = null;
+	
+		for (Cliente cliente : id) {
+			if (cliente.possuiVeiculo(placa)) {
+				veiculo = cliente.getVeiculo(placa);
+				break;
+			}
+		}
+	
+		if (veiculo != null) {
+			for (Vaga vaga : vagas) {
+				if (vaga.disponivel()) {
+					veiculo.estacionar(vaga);
+					break;
+				}
+			}
+		}
+	}
+	
+	public double sair(String placa) {
+		Veiculo veiculo = null;
+	
+		for (Cliente cliente : id) {
+			if (cliente.possuiVeiculo(placa)) {
+				veiculo = cliente.getVeiculo(placa);
+				break;
+			}
+		}
+	
+		if (veiculo != null) {
+			return veiculo.sair();
+		}
+	
+		return 0.0; // Retorna 0.0 se o veículo não for encontrado
+	}
+	
 
     public double totalArrecadado() {
         double total = 0.0;
@@ -169,7 +168,7 @@ public class Estacionamento {
         double total = 0.0;
 
         for(Cliente cliente: id){
-            total = total + cliente.arrecadadoNoMes(mes)
+            total = total + cliente.arrecadadoNoMes(mes);
         }
         return total;
     }
