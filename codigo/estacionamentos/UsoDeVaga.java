@@ -111,11 +111,6 @@ public class UsoDeVaga {
         }
         this.polimento = true;
         this.valorPago += 45.0;
-    
-
-        if(servico != null){
-            valorPago = Math.min(valor, VALOR_MAXIMO) + servico.getValor();
-        }
     }
 
     public Vaga getVaga() {
