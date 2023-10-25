@@ -1,4 +1,5 @@
 package estacionamentos;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -7,19 +8,15 @@ import java.util.Arrays;
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
 
-
 public class Estacionamento {
 
-    static Scanner teclado = new Scanner(System.in);
-    private int contClientes = 1;
-    private String nome;
-    private Cliente[] id;
-    private Vaga[] vagas;
-    private int quantFileiras;
-    private int vagasPorFileira;
-
-
-    
+	static Scanner teclado = new Scanner(System.in);
+	private int contClientes = 1;
+	private String nome;
+	private Cliente[] id;
+	private Vaga[] vagas;
+	private int quantFileiras;
+	private int vagasPorFileira;
 
 	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
 		this.nome = nome;
@@ -29,7 +26,7 @@ public class Estacionamento {
 		gerarVagas();
 	}
 
-	public void addVeiculo(Veiculo veiculo, String idCli) throws ExcecaoVeiculoJaCadastrado {
+	public void addVeiculo(String placa, String idCli) throws ExcecaoVeiculoJaCadastrado {
 		Cliente clienteEncontrado = null;
 		for (Cliente c : id) {
 			if (idCli.equals(c.getId())) {
@@ -38,10 +35,10 @@ public class Estacionamento {
 			}
 		}
 
-		if (clienteEncontrado.possuiVeiculo(veiculo.getPlaca())) {
+		if (clienteEncontrado.possuiVeiculo(placa)) {
 			throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
 		} else {
-			clienteEncontrado.addVeiculo(veiculo);
+			clienteEncontrado.addVeiculo(new Veiculo(placa));
 		}
 	}
 
@@ -66,8 +63,6 @@ public class Estacionamento {
 		int tam = quantFileiras * vagasPorFileira;
 		vagas = new Vaga[tam];
 	}
-
-
 
 	public double valorMedioPorUso() {
 		double resposta = 0.0;
@@ -119,14 +114,14 @@ public class Estacionamento {
 
 	public void estacionar(String placa) {
 		Veiculo veiculo = null;
-	
+
 		for (Cliente cliente : id) {
 			if (cliente.possuiVeiculo(placa)) {
 				veiculo = cliente.getVeiculo(placa);
 				break;
 			}
 		}
-	
+
 		if (veiculo != null) {
 			for (Vaga vaga : vagas) {
 				if (vaga.disponivel()) {
@@ -136,55 +131,48 @@ public class Estacionamento {
 			}
 		}
 	}
-	
+
 	public double sair(String placa) {
 		Veiculo veiculo = null;
-	
+
 		for (Cliente cliente : id) {
 			if (cliente.possuiVeiculo(placa)) {
 				veiculo = cliente.getVeiculo(placa);
 				break;
 			}
 		}
-	
+
 		if (veiculo != null) {
 			return veiculo.sair();
 		}
-	
+
 		return 0.0; // Retorna 0.0 se o veículo não for encontrado
 	}
-	
 
-    public double totalArrecadado() {
-        double total = 0.0;
+	public double totalArrecadado() {
+		double total = 0.0;
 
-        for(Cliente cliente: id){
-            total = total + cliente.arrecadadoTotal();
-        }
-        return total;
-    }
+		for (Cliente cliente : id) {
+			total = total + cliente.arrecadadoTotal();
+		}
+		return total;
+	}
 
-    public double arrecadacaoNoMes(int mes) {
-        double total = 0.0;
+	public double arrecadacaoNoMes(int mes) {
+		double total = 0.0;
 
-        for(Cliente cliente: id){
-            total = total + cliente.arrecadadoNoMes(mes);
-        }
-        return total;
-    }
+		for (Cliente cliente : id) {
+			total = total + cliente.arrecadadoNoMes(mes);
+		}
+		return total;
+	}
 
+	public Cliente[] getId() {
+		return null;
+	}
 
-    public Cliente[] getId() {
-        return null;
-    }
-
-    public String  getNome(){
-        return this.nome;
-    }
+	public String getNome() {
+		return this.nome;
+	}
 
 }
-
-
-
-
-
