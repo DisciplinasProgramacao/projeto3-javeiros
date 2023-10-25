@@ -65,6 +65,9 @@ public class App {
 
     public static Estacionamento selecionarEstacionamentos() {
         System.out.println("Digite o nome do estacionamento que você quer acessar:");
+        for (int i = 0; i < estacionamentos.length && estacionamentos[i] != null; i++) {
+            System.out.println(i + "- "+ estacionamentos[i].getNome());
+        }
         String nometmp = teclado.nextLine();
         for (int i = 0; i < estacionamentos.length; i++) {
             if (estacionamentos[i].getNome().equals(nometmp)) {
