@@ -7,7 +7,7 @@ public class Vaga {
 	private boolean disponivel;
 
     public Vaga(char fila, int numero) {
-        this.id = Character.toString(fila).toUpperCase() + String.format("%02d", numero);
+        this.id = Character.toString(fila).toUpperCase() + numero;
         this.disponivel = true;
     }
 

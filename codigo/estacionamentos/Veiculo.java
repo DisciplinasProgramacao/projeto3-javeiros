@@ -1,30 +1,33 @@
 package estacionamentos;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 
 public class Veiculo {
 	private int count;
 	private String placa;
-	private UsoDeVaga[] usoDeVagas;
+	private LinkedList<UsoDeVaga> usoDeVagas;
 
 	public String getPlaca() {
 		return placa;
 	}
 
 	public void setPlaca(String placa) {
-		String verificacao = "^[A-Z]{3}-\\d{4}$";
-		
-		if(placa.matches(verificacao)){
-			this.placa = placa;
-		}
+		this.placa = placa;
 	}
 	
-	public UsoDeVaga getUsoDeVaga(int n) {
-		return this.usoDeVagas[n];
+	public UsoDeVaga getUsoDeVaga(Vaga vaga) {
+		for (int i = 0; i < usoDeVagas.size(); i++) {
+			if ((usoDeVagas.get(i)).getVaga().equals(vaga)) {
+				return usoDeVagas.get(i);
+			}
+		}
+		return null;
 	}
 
 	public Veiculo(String placa) {
 		setPlaca(placa);
+		usoDeVagas = new LinkedList<>();
 	}
 
 	/**
@@ -32,18 +35,25 @@ public class Veiculo {
 	 * @param vaga Classe vaga que contem adisponibilidade de estacionamento
 	 */
 	public void estacionar(Vaga vaga) {
-		if(vaga.disponivel()){
+		//if(vaga.disponivel()){
 			UsoDeVaga usoDeVaga = new UsoDeVaga(vaga, LocalDateTime.now());
-			usoDeVagas[++count] = usoDeVaga; 
-		}
+			usoDeVagas.add(usoDeVaga); 
+		//}
 	}
 
 	/**
 	 * Sair veiculo da vaga de estacionamento
 	 * @return retorna o valor do veiculo 
 	 */
-	public double sair() {
-		return usoDeVagas[count].getValorPago();
+	public double sair(Vaga vaga) {
+		for (int i = 0; i < usoDeVagas.size(); i++) {
+			if ((usoDeVagas.get(i)).getVaga().equals(vaga)) {
+				LocalDateTime localnow = LocalDateTime.now();
+				usoDeVagas.get(i).registrarSaida(localnow);
+				return usoDeVagas.get(i).getValorPago();
+			}
+		}
+		return 0.0;
 	}
 
 	/**

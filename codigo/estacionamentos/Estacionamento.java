@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
@@ -11,9 +12,9 @@ import excecoes.ExcecaoVeiculoJaCadastrado;
 public class Estacionamento {
 
 	static Scanner teclado = new Scanner(System.in);
-	private int contClientes = 1;
+	//private int contClientes = 1;
 	private String nome;
-	private Cliente[] id;
+	private LinkedList<Cliente> id;
 	private Vaga[] vagas;
 	private int quantFileiras;
 	private int vagasPorFileira;
@@ -22,7 +23,8 @@ public class Estacionamento {
 		this.nome = nome;
 		this.quantFileiras = fileiras;
 		this.vagasPorFileira = vagasPorFila;
-		id = new Cliente[100]; // Inicialize o array de clientes com um tamanho inicial
+		id = new LinkedList<>();
+		//id = new Cliente[100]; // Inicialize o array de clientes com um tamanho inicial
 		gerarVagas();
 	}
 
@@ -54,14 +56,20 @@ public class Estacionamento {
 		if (clienteEncontrado != null) {
 			throw new ExcecaoClienteJaCadastrado("Cliente já cadastrado no sistema!");
 		} else {
-			id[contClientes - 1] = cliente;
-			contClientes++;
+			id.add(cliente);
+			//id[contClientes - 1] = cliente;
+			//contClientes++;
 		}
 	}
 
 	private void gerarVagas() {
 		int tam = quantFileiras * vagasPorFileira;
 		vagas = new Vaga[tam];
+		for (int fila = 0; fila < quantFileiras; fila++) {
+            for (int numero = 1; numero <= vagasPorFileira; numero++) {
+                vagas[fila * vagasPorFileira + (numero - 1)] = new Vaga((char)('A' + fila), numero);
+            }
+        }
 	}
 
 	public double valorMedioPorUso() {
@@ -133,19 +141,13 @@ public class Estacionamento {
 	}
 
 	public double sair(String placa) {
-		Veiculo veiculo = null;
 
 		for (Cliente cliente : id) {
 			if (cliente.possuiVeiculo(placa)) {
-				veiculo = cliente.getVeiculo(placa);
-				break;
+				return cliente.getVeiculo(placa).sair(placa);
 			}
 		}
-
-		if (veiculo != null) {
-			return veiculo.sair();
-		}
-
+		
 		return 0.0; // Retorna 0.0 se o veículo não for encontrado
 	}
 

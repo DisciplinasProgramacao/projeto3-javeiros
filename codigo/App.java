@@ -50,50 +50,47 @@ public class App {
 
         System.out.println("Digite o nome do Estacionamento: ");
         nome = teclado.nextLine();
-        fileiras = 5;
-        veiculosFileiras = 10; //50 vagas
+        fileiras = 1;
+        veiculosFileiras = 10; //10 vagas totais
         estacionamento = new Estacionamento(nome, fileiras, veiculosFileiras);
-        System.out.println("Estacionamento " + estacionamento.getNome() + " criado com sucesso!");
-        /*for (int j = 0; j < estacionamentos.length; j++) {
-            if (estacionamentos[j] == null) {
-                estacionamentos[j] = estacionamento;
-                //return 1;
+        for (int i = 0; i < estacionamentos.length; i++) {
+            if (estacionamentos[i] == null) {
+                estacionamentos[i] = estacionamento;
+                System.out.println("Estacionamento " + estacionamentos[i].getNome() + " criado com sucesso!");
+                break;
             }
-        }*/
-       // return 0;
+        }
     }
 
 
     public static Estacionamento selecionarEstacionamentos() {
-        System.out.println("Digite o nome do estacionamento:");
+        System.out.println("Digite o nome do estacionamento que você quer acessar:");
         String nometmp = teclado.nextLine();
         for (int i = 0; i < estacionamentos.length; i++) {
             if (estacionamentos[i].getNome().equals(nometmp)) {
                 return estacionamentos[i];
             }
-            // System.out.println(i + "- " + estacionamentos[i].getNome());
         }
-        // int index = Integer.parseInt(teclado.nextLine());
-        // estacionamentoHelper = estacionamentos[index];
         return null;
     }
 
     public static void switchMenuEstacionameto(Estacionamento estacionamento) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
+        Estacionamento estAtual = estacionamento;
         int option = 0;
         while(option != 9){
-            System.out.println("Estacionamento: "+ estacionamento.getNome());
+            System.out.println("\nEstacionamento: "+ estacionamento.getNome().toUpperCase());
             System.out.println("|-------------------------------|");
             System.out.println("|    Selecione uma das Opcões   |");
             System.out.println("|-------------------------------|");
             System.out.println("| 1. Adicionar Cliente          |");
             System.out.println("| 2. Adicionar Veiculo          |");
             System.out.println("| 3. Estacionar                 |");
-            System.out.println("| 4. Sair                       |");
+            System.out.println("| 4. Sair da vaga               |");
             System.out.println("| 5. Total Arrecadado           |");
             System.out.println("| 6. Arracadação no Mes         |");
             System.out.println("| 7. Valor Médio por Uso        |");
             System.out.println("| 8. Top 5 clientes             |");
-            System.out.println("| 9. Sair                      |");
+            System.out.println("| 9. Sair                       |");
             System.out.println("|-------------------------------|");
             option = Integer.parseInt(teclado.nextLine());
 
@@ -125,7 +122,7 @@ public class App {
                 case 9:
                     break;
             }
-            System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:\n");
+            System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
             option = Integer.parseInt(teclado.nextLine());
         }
     }
@@ -138,8 +135,6 @@ public class App {
         nome = teclado.nextLine();
         System.out.println("Digite o id do cliente: ");
         id = teclado.nextLine();
-
-        //estacionamentoHelper.addCliente(new Cliente(nome, id));
         estacionamento.addCliente(new Cliente(nome, id));
 
     }
@@ -151,22 +146,8 @@ public class App {
         System.out.println("Digite a placa do veículo: ");
         String placa = teclado.nextLine();
         estacionamento.addVeiculo(placa, idCli);
+
     }
-
-    /*public static void cadastrarVeiculo(Estacionamento estacionamento) throws ExcecaoVeiculoJaCadastrado {
-
-        System.out.println("Digite o id do cliente no qual deseja cadastrar o veiculo: ");
-        String id = (teclado.nextLine());
-        Veiculo veiculo = criarVeiculo();
-        estacionamento.addVeiculo(veiculo, id);
-    }
-
-    public static Veiculo criarVeiculo(Estacionamento estacionamento) {
-        String placa = teclado.nextLine();
-        System.out.println("Digite a placa");
-        Veiculo veiculo = new Veiculo(placa);
-        return veiculo;
-    }*/
 
     public static void estacionar(Estacionamento estacionamento) {
         System.out.println("Digite a placa do veiculos: ");
