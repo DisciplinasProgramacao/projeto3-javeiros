@@ -1,9 +1,7 @@
 package estacionamentos;
-
-import java.time.LocalDateTime;
 import java.time.Duration;
-import excecoes.ExcecaoTempoMinimoLavagem;
-import excecoes.ExcecaoTempoMinimoPolimento;
+import java.time.LocalDateTime;
+
 import estacionamentos.Enums.TipoServico;
 import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
 import excecoes.ExcecaoSaidaJaFinalizada;
@@ -20,8 +18,6 @@ public class UsoDeVaga {
     private LocalDateTime entrada;
     private LocalDateTime saida;
     private double valorPago;
-    private boolean lavagem;
-    private boolean polimento;
 
 	private TipoServico servico;
 
@@ -31,13 +27,11 @@ public class UsoDeVaga {
      * @param vaga Vaga que será utilizada.
      * @param entrada Data e hora da entrada do veículo na vaga.
      */
-    public UsoDeVaga(Vaga vaga, LocalDateTime entrada) {
+    public UsoDeVaga(Vaga vaga) {//*ok */
         this.vaga = vaga;
-        this.entrada = entrada;
+        this.entrada = LocalDateTime.now();
         this.saida = null;
         this.valorPago = 0.0;
-        this.lavagem = false;
-        this.polimento = false;
     }
 
     /**
@@ -45,73 +39,34 @@ public class UsoDeVaga {
      * 
      * @param saida Data e hora da saída do veículo da vaga.
      */
-    public void registrarSaida(LocalDateTime saida) {
-        this.saida = saida;
-        calcularValorPago();
-        
+    public double sair() {//*ok 
         if(saida != null){
+
             throw new ExcecaoSaidaJaFinalizada();
         }
-
         if(vaga.sair()){
-            this.saida = saida;
-            calcularValorPago();
+            this.saida = LocalDateTime.now();
+            return this.valorPago = valorPago();
         } else {
             throw new ExcecaoNaoEhPossivelSairDaVaga();
         }
     }
 
-    /**
-     * Verifica se a entrada ou saída do veículo está dentro do mês especificado.
-     * 
-     * @param mes Mês a ser verificado.
-     * @return true se estiver dentro do mês, false caso contrário.
-     */
-    public boolean estaDentroDoMes(int mes) {
-        if (entrada != null && (entrada.getMonthValue() == mes || (saida != null && saida.getMonthValue() == mes))) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Calcula o valor a ser pago com base no tempo que o veículo permaneceu estacionado.
      */
-    private void calcularValorPago() {
+    private double valorPago() {//*ok */
         if (saida != null) {
             long minutosEstacionados = entrada.until(saida, java.time.temporal.ChronoUnit.MINUTES);
             double valor = minutosEstacionados / 15.0 * VALOR_FRACAO;
-            valorPago = Math.min(valor, VALOR_MAXIMO);
+            if(servico != null){
+                return valorPago = Math.min(valor, VALOR_MAXIMO) + servico.getValor();
+            }
         }
+        return 0.0;
     }
 
-    /**
-     * Calcula o tempo de permanência do veículo em minutos.
-     * 
-     * @return long representando os minutos de permanência.
-     */
-    private long getPermanencia() {
-        if (saida != null) {
-            return Duration.between(entrada, saida).toMinutes();
-        }
-        return 0;
-    }
-
-    public void contratarLavagem() throws ExcecaoTempoMinimoLavagem {
-        if (getPermanencia() < 60) {
-            throw new ExcecaoTempoMinimoLavagem("Tempo mínimo de 1h para lavagem não atendido.");
-        }
-        this.lavagem = true;
-        this.valorPago += 20.0;
-    }
-
-    public void contratarPolimento() throws ExcecaoTempoMinimoPolimento {
-        if (getPermanencia() < 120) {
-            throw new ExcecaoTempoMinimoPolimento("Tempo mínimo de 2h para polimento não atendido.");
-        }
-        this.polimento = true;
-        this.valorPago += 45.0;
-    }
 
     public Vaga getVaga() {
         return vaga;
