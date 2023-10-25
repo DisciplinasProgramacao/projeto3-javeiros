@@ -19,6 +19,12 @@ public class Estacionamento {
 	private int quantFileiras;
 	private int vagasPorFileira;
 
+	/**
+	 * Construtor de Estacionamento
+	 * @param nome nome do estacionamento
+	 * @param fileiras quantidade de fileiras
+	 * @param vagasPorFila quantidade de vagas por fileira
+	 */ 
 	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
 		this.nome = nome;
 		this.quantFileiras = fileiras;
@@ -28,6 +34,12 @@ public class Estacionamento {
 		gerarVagas();
 	}
 
+	/**
+	 * Função para adicionar veiculo ao cliente
+	 * @param placa
+	 * @param idCli
+	 * @throws ExcecaoVeiculoJaCadastrado
+	 */
 	public void addVeiculo(String placa, String idCli) throws ExcecaoVeiculoJaCadastrado {
 		Cliente clienteEncontrado = null;
 		for (Cliente c : id) {
@@ -44,6 +56,11 @@ public class Estacionamento {
 		}
 	}
 
+	/**
+	 * Função para adicionar cliente 
+	 * @param cliente
+	 * @throws ExcecaoClienteJaCadastrado
+	 */
 	public void addCliente(Cliente cliente) throws ExcecaoClienteJaCadastrado {
 
 		Cliente clienteEncontrado = null;
@@ -62,6 +79,9 @@ public class Estacionamento {
 		}
 	}
 
+    /**
+	 * Função para gerar vagas do estacionamento
+	 */
 	private void gerarVagas() {
 		int tam = quantFileiras * vagasPorFileira;
 		vagas = new Vaga[tam];
@@ -71,7 +91,11 @@ public class Estacionamento {
             }
         }
 	}
-
+ 
+	/**
+	 * Função que calcula o valor medio total do estacionamento
+	 * @return retorna um valor do tipo do double com a divisao entre o arrecadado total sobre o total de usos no sistema
+	 */
 	public double valorMedioPorUso() {
 		double resposta = 0.0;
 		int totalUsos = 0;
@@ -90,6 +114,11 @@ public class Estacionamento {
 		return resposta;
 	}
 
+	/**
+	 * Função para calcular o top de 5 clientes do estacionamento.
+	 * @param mes insere o mês para calcular o top5
+	 * @return o retorno é uma string com o nome dos 5 clientes que mais gastaram no mês
+	 */
 	public String top5Clientes(int mes) {
 		Cliente[] topClientes = new Cliente[5];
 
@@ -120,6 +149,10 @@ public class Estacionamento {
 		return Arrays.toString(nomesTopClientes);
 	}
 
+	/**
+	 * Função para estacionar o veículo no estacionamento
+	 * @param placa placa do veículo do cliente
+	 */
 	public void estacionar(String placa) {
 		Veiculo veiculo = null;
 
@@ -140,6 +173,11 @@ public class Estacionamento {
 		}
 	}
 
+	/**
+	 * Método para sair do estacionamento
+	 * @param placa placa do cliente em específico
+	 * @return retorna o valor pago pelo cliente
+	 */
 	public double sair(String placa) {
 
 		for (Cliente cliente : id) {
@@ -151,6 +189,10 @@ public class Estacionamento {
 		return 0.0; // Retorna 0.0 se o veículo não for encontrado
 	}
 
+	/**
+	 * Função para calcular o total arrecadado por todos os clientes do estacionamento
+	 *  * @return retorna o valor em double gasto em todo o estacionamento
+	 */
 	public double totalArrecadado() {
 		double total = 0.0;
 
@@ -160,6 +202,11 @@ public class Estacionamento {
 		return total;
 	}
 
+	/**
+	 * Função para calcular o total arrecadado no mês
+	 * @param mes parâmetro do mês em específico
+	 * @return retorna um valor double total arrecadado no mês
+	 */
 	public double arrecadacaoNoMes(int mes) {
 		double total = 0.0;
 
@@ -169,9 +216,6 @@ public class Estacionamento {
 		return total;
 	}
 
-	public Cliente[] getId() {
-		return null;
-	}
 
 	public String getNome() {
 		return this.nome;
