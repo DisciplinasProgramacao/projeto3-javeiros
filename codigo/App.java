@@ -159,9 +159,8 @@ public class App {
     }
 
     public static void sair(Estacionamento estacionamento) {
-        estacionamento.mostrarVagas();
-        System.out.println("Digite o id da vaga na qual o veiculo irá sair");
-        String vagaId = teclado.nextLine();
+        System.out.println("Digite a placa da vaga na qual o veiculo irá sair");
+        String placa = teclado.nextLine();
         Double valor = estacionamento.sair(placa);
         if(valor != 0.0){
             System.out.println("Veículo retirado. Valor pago = "+ valor);
