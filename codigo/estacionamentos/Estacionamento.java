@@ -177,4 +177,11 @@ public class Estacionamento {
 		return this.nome;
 	}
 
+
+	public void mostrarVagas(){
+		for(int i =0; i < vagas.length; i++){
+			System.out.println(i + "- status: "+ vagas[i].disponivel());
+		}
+	}
+
 }

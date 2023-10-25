@@ -69,7 +69,7 @@ public class App {
             System.out.println(i + "- "+ estacionamentos[i].getNome());
         }
         String nometmp = teclado.nextLine();
-        for (int i = 0; i < estacionamentos.length; i++) {
+        for (int i = 0; i < estacionamentos.length && estacionamentos[i] != null; i++) {
             if (estacionamentos[i].getNome().equals(nometmp)) {
                 return estacionamentos[i];
             }
@@ -159,8 +159,9 @@ public class App {
     }
 
     public static void sair(Estacionamento estacionamento) {
-        System.out.println("Digite a placa do veiculo:");
-        String placa = teclado.nextLine();
+        estacionamento.mostrarVagas();
+        System.out.println("Digite o id da vaga na qual o veiculo irá sair");
+        String vagaId = teclado.nextLine();
         Double valor = estacionamento.sair(placa);
         if(valor != 0.0){
             System.out.println("Veículo retirado. Valor pago = "+ valor);
