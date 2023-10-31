@@ -1,6 +1,7 @@
 package estacionamentos;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class Veiculo {
@@ -23,6 +24,10 @@ public class Veiculo {
 			}
 		}
 		return null;
+	}
+
+	public Collection<UsoDeVaga> getListUsoDeVaga(){
+		return new LinkedList<UsoDeVaga>(usoDeVagas);
 	}
 
 	public Veiculo(String placa) {

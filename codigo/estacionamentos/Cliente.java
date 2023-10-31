@@ -1,5 +1,6 @@
 package estacionamentos;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -143,7 +144,7 @@ public class Cliente {
 
 		for (int i = 0; i < veiculos.size(); i++) {
 			Veiculo veiculo = veiculos.get(i);
-			List<UsoDeVaga> totalDeUsos = veiculo.getUsoDeVagas();
+			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
 
 			for(UsoDeVaga u : totalDeUsos){
 				Vaga vaga = u.getVaga();
@@ -164,7 +165,7 @@ public class Cliente {
 
 		for (int i = 0; i < veiculos.size(); i++) {
 			Veiculo veiculo = veiculos.get(i);
-			List<UsoDeVaga> totalDeUsos = veiculo.getUsoDeVagas();
+			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
 
 			for(UsoDeVaga u : totalDeUsos){
 				Vaga vaga = u.getVaga();
@@ -186,7 +187,7 @@ public class Cliente {
 
 		for (int i = 0; i < veiculos.size(); i++) {
 			Veiculo veiculo = veiculos.get(i);
-			List<UsoDeVaga> totalDeUsos = veiculo.getUsoDeVagas();
+			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
 
 			for(UsoDeVaga u : totalDeUsos){
 				Vaga vaga = u.getVaga();
