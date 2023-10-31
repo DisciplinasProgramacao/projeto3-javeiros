@@ -143,17 +143,16 @@ public class Cliente {
 
 		for (int i = 0; i < veiculos.size(); i++) {
 			Veiculo veiculo = veiculos.get(i);
-			int totalDeUsos = veiculo.totalDeUsos();
+			List<UsoDeVaga> totalDeUsos = veiculo.getUsoDeVagas();
 
-			for(int j = 0; j < totalDeUsos; j++){
-				UsoDeVaga usoDeVaga = veiculo.getUsoDeVaga(j);
+			for(UsoDeVaga u : totalDeUsos){
+				Vaga vaga = u.getVaga();
+				// UsoDeVaga usoDeVaga = veiculo.getUsoDeVaga(j);
 
 				historico = historico + "\n" + 
 				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-				"Vaga utilizada: " + usoDeVaga.getVaga().toString() + " | " +
-				"Entrada: " + usoDeVaga.getEntrada() + " | " +
-				"Saida: " + usoDeVaga.getSaida() + " | " + 
-				"Valor total: " + usoDeVaga.getValorPago() + " | ";
+				"Vaga utilizada: " + vaga.toString() + " | " +
+				"Uso de Vaga: " + u.toString();
 			}
 		}
 		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
@@ -165,18 +164,16 @@ public class Cliente {
 
 		for (int i = 0; i < veiculos.size(); i++) {
 			Veiculo veiculo = veiculos.get(i);
-			int totalDeUsos = veiculo.totalDeUsos();
+			List<UsoDeVaga> totalDeUsos = veiculo.getUsoDeVagas();
 
-			for(int j = 0; j < totalDeUsos; j++){
-				UsoDeVaga usoDeVaga = veiculo.getUsoDeVaga(j);
+			for(UsoDeVaga u : totalDeUsos){
+				Vaga vaga = u.getVaga();
 
-				if(usoDeVaga.getEntrada().isEqual(filtro)){
-					historico = historico + "\n" + 
-					"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-					"Vaga utilizada: " + usoDeVaga.getVaga().toString() + " | " +
-					"Entrada: " + usoDeVaga.getEntrada() + " | " +
-					"Saida: " + usoDeVaga.getSaida() + " | " + 
-					"Valor total: " + usoDeVaga.getValorPago() + " | ";
+				if(u.getEntrada().isEqual(filtro)){
+				historico = historico + "\n" + 
+				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
+				"Vaga utilizada: " + vaga.toString() + " | " +
+				"Uso de Vaga: " + u.toString();
 				}
 			}
 		}
@@ -189,18 +186,15 @@ public class Cliente {
 
 		for (int i = 0; i < veiculos.size(); i++) {
 			Veiculo veiculo = veiculos.get(i);
-			int totalDeUsos = veiculo.totalDeUsos();
+			List<UsoDeVaga> totalDeUsos = veiculo.getUsoDeVagas();
 
-			for(int j = 0; j < totalDeUsos; j++){
-				UsoDeVaga usoDeVaga = veiculo.getUsoDeVaga(j);
-
-				if(usoDeVaga.getSaida().isEqual(filtro)){
+			for(UsoDeVaga u : totalDeUsos){
+				Vaga vaga = u.getVaga();
+				if(u.getSaida().isEqual(filtro)){
 					historico = historico + "\n" + 
-					"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-					"Vaga utilizada: " + usoDeVaga.getVaga().toString() + " | " +
-					"Entrada: " + usoDeVaga.getEntrada() + " | " +
-					"Saida: " + usoDeVaga.getSaida() + " | " + 
-					"Valor total: " + usoDeVaga.getValorPago() + " | ";
+				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
+				"Vaga utilizada: " + vaga.toString() + " | " +
+				"Uso de Vaga: " + u.toString();
 				}
 			}
 		}
