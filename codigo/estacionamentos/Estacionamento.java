@@ -181,8 +181,9 @@ public class Estacionamento {
 	public double sair(String placa) {
 
 		for (Cliente cliente : id) {
-			if (cliente.possuiVeiculo(placa)) {
-				return cliente.getVeiculo(placa).sair(placa);
+			Veiculo v = cliente.possuiVeiculo(placa);
+			if (v != null) {
+				return v.sair();
 			}
 		}
 		
