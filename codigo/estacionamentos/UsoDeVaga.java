@@ -84,6 +84,16 @@ public class UsoDeVaga {
         return valorPago;
     }
 
+    public TipoServico getTipoServico(){
+        return servico;
+    }
+
+    public void setTipoServico(TipoServico servico){
+        this.servico = servico;
+    }
+
+
+
     /**
      * Contra um serviço vinculado ao uso de vaga com tempo mínimo de permanência
      * dependento do tipo de serviço
@@ -108,13 +118,12 @@ public class UsoDeVaga {
     }
 
     @Override
-public String toString() {
-    return "UsoDeVaga{" +
-           "vaga=" + vaga +
-           ", entrada=" + entrada +
-           ", saida=" + saida +
-           ", valorPago=" + valorPago +
-           ", servico=" + (servico != null ? servico.name() : "Nenhum") +
-           '}';
-}
+    public String toString() {
+        return "UsoDeVaga{" +
+            "vaga=" + vaga +
+            ", entrada=" + entrada +
+            ", saida=" + saida +
+            ", valorPago=" + valorPago +
+            ", servico=" + servico + "}";
+    }
 }
