@@ -12,30 +12,33 @@ import excecoes.ExcecaoVeiculoJaCadastrado;
 public class Estacionamento {
 
 	static Scanner teclado = new Scanner(System.in);
-	//private int contClientes = 1;
+	// private int contClientes = 1;
 	private String nome;
 	private LinkedList<Cliente> id;
-	private Vaga[] vagas;
-	private int quantFileiras;
-	private int vagasPorFileira;
+	private LinkedList<Vaga> vagas;
+	// private int quantFileiras;
+	// private int vagasPorFileira;
 
 	/**
 	 * Construtor de Estacionamento
-	 * @param nome nome do estacionamento
-	 * @param fileiras quantidade de fileiras
+	 * 
+	 * @param nome         nome do estacionamento
+	 * @param fileiras     quantidade de fileiras
 	 * @param vagasPorFila quantidade de vagas por fileira
-	 */ 
-	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
+	 */
+	public Estacionamento(String nome) {
 		this.nome = nome;
-		this.quantFileiras = fileiras;
-		this.vagasPorFileira = vagasPorFila;
 		id = new LinkedList<>();
-		//id = new Cliente[100]; // Inicialize o array de clientes com um tamanho inicial
 		gerarVagas();
+		// this.quantFileiras = fileiras;
+		// this.vagasPorFileira = vagasPorFila;
+		// id = new Cliente[100]; // Inicialize o array de clientes com um tamanho
+		// inicial
 	}
 
 	/**
 	 * Função para adicionar veiculo ao cliente
+	 * 
 	 * @param placa
 	 * @param idCli
 	 * @throws ExcecaoVeiculoJaCadastrado
@@ -57,7 +60,8 @@ public class Estacionamento {
 	}
 
 	/**
-	 * Função para adicionar cliente 
+	 * Função para adicionar cliente
+	 * 
 	 * @param cliente
 	 * @throws ExcecaoClienteJaCadastrado
 	 */
@@ -74,27 +78,29 @@ public class Estacionamento {
 			throw new ExcecaoClienteJaCadastrado("Cliente já cadastrado no sistema!");
 		} else {
 			id.add(cliente);
-			//id[contClientes - 1] = cliente;
-			//contClientes++;
+			// id[contClientes - 1] = cliente;
+			// contClientes++;
 		}
 	}
 
-    /**
+	/**
 	 * Função para gerar vagas do estacionamento
 	 */
 	private void gerarVagas() {
-		int tam = quantFileiras * vagasPorFileira;
-		vagas = new Vaga[tam];
-		for (int fila = 0; fila < quantFileiras; fila++) {
-            for (int numero = 1; numero <= vagasPorFileira; numero++) {
-                vagas[fila * vagasPorFileira + (numero - 1)] = new Vaga((char)('A' + fila), numero);
-            }
-        }
+		vagas = new LinkedList<>();
+		// for (int fila = 0; fila < quantFileiras; fila++) {
+		// for (int numero = 1; numero <= vagasPorFileira; numero++) {
+		// vagas[fila * vagasPorFileira + (numero - 1)] = new Vaga((char)('A' + fila),
+		// numero);
+		// }
+		// }
 	}
- 
+
 	/**
 	 * Função que calcula o valor medio total do estacionamento
-	 * @return retorna um valor do tipo do double com a divisao entre o arrecadado total sobre o total de usos no sistema
+	 * 
+	 * @return retorna um valor do tipo do double com a divisao entre o arrecadado
+	 *         total sobre o total de usos no sistema
 	 */
 	public double valorMedioPorUso() {
 		double resposta = 0.0;
@@ -116,8 +122,10 @@ public class Estacionamento {
 
 	/**
 	 * Função para calcular o top de 5 clientes do estacionamento.
+	 * 
 	 * @param mes insere o mês para calcular o top5
-	 * @return o retorno é uma string com o nome dos 5 clientes que mais gastaram no mês
+	 * @return o retorno é uma string com o nome dos 5 clientes que mais gastaram no
+	 *         mês
 	 */
 	public String top5Clientes(int mes) {
 		Cliente[] topClientes = new Cliente[5];
@@ -145,12 +153,12 @@ public class Estacionamento {
 				nomesTopClientes[i] = topClientes[i].getNome();
 			}
 		}
-
 		return Arrays.toString(nomesTopClientes);
 	}
 
 	/**
 	 * Função para estacionar o veículo no estacionamento
+	 * 
 	 * @param placa placa do veículo do cliente
 	 */
 	public void estacionar(String placa) {
@@ -175,6 +183,7 @@ public class Estacionamento {
 
 	/**
 	 * Método para sair do estacionamento
+	 * 
 	 * @param placa placa do cliente em específico
 	 * @return retorna o valor pago pelo cliente
 	 */
@@ -186,13 +195,14 @@ public class Estacionamento {
 				return v.sair();
 			}
 		}
-		
+
 		return 0.0; // Retorna 0.0 se o veículo não for encontrado
 	}
 
 	/**
-	 * Função para calcular o total arrecadado por todos os clientes do estacionamento
-	 *  * @return retorna o valor em double gasto em todo o estacionamento
+	 * Função para calcular o total arrecadado por todos os clientes do
+	 * estacionamento
+	 * * @return retorna o valor em double gasto em todo o estacionamento
 	 */
 	public double totalArrecadado() {
 		double total = 0.0;
@@ -205,6 +215,7 @@ public class Estacionamento {
 
 	/**
 	 * Função para calcular o total arrecadado no mês
+	 * 
 	 * @param mes parâmetro do mês em específico
 	 * @return retorna um valor double total arrecadado no mês
 	 */
@@ -217,15 +228,16 @@ public class Estacionamento {
 		return total;
 	}
 
-
 	public String getNome() {
 		return this.nome;
 	}
 
-
-	public void mostrarVagas(){
-		for(int i =0; i < vagas.length; i++){
-			System.out.println(i + "- status: "+ vagas[i].disponivel());
+	/**
+	 * 
+	 */
+	public void mostrarVagas() {
+		for (Vaga v : vagas) {
+			System.out.println("Vaga " + vagas.indexOf(v) + " - status: " + v.disponivel());
 		}
 	}
 
