@@ -203,4 +203,9 @@ public class Cliente {
 		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
 	}
 
+
+	@Override
+	public String toString(){
+		return "Nome: " + nome + "\nVeículos: " + veiculos;
+	}
 }
