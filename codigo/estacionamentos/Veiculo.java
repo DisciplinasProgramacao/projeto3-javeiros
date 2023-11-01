@@ -2,7 +2,9 @@ package estacionamentos;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Veiculo {
 	private int count;
@@ -26,8 +28,9 @@ public class Veiculo {
 		return null;
 	}
 
+	// 
 	public Collection<UsoDeVaga> getListUsoDeVaga(){
-		return new LinkedList<UsoDeVaga>(usoDeVagas);
+		return List.copyOf(this.usoDeVagas);
 	}
 
 	public Veiculo(String placa) {
