@@ -31,7 +31,10 @@ public class Vaga {
         return disponivel;
     }
 
+    @Override
 	public String toString() {
-        return id;
+        String disponibilidade = disponivel ? "disponível" : "ocupada";
+        return "Vaga " + id + ", disponibilidade: " + disponibilidade;
     }
+    
 }
