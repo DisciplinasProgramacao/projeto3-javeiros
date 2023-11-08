@@ -52,7 +52,7 @@ public class Estacionamento {
 			}
 		}
 
-		if (clienteEncontrado.possuiVeiculo(placa)) {
+		if (clienteEncontrado.possuiVeiculo(placa) != null) {
 			throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
 		} else {
 			clienteEncontrado.addVeiculo(new Veiculo(placa));
@@ -165,8 +165,8 @@ public class Estacionamento {
 		Veiculo veiculo = null;
 
 		for (Cliente cliente : id) {
-			if (cliente.possuiVeiculo(placa)) {
-				veiculo = cliente.getVeiculo(placa);
+			veiculo = cliente.possuiVeiculo(placa);
+			if (veiculo != null) {
 				break;
 			}
 		}
