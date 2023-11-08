@@ -7,6 +7,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import estacionamentos.Cliente;
+import estacionamentos.Estacionamento;
+import estacionamentos.UsoDeVaga;
+import estacionamentos.Vaga;
+import estacionamentos.Veiculo;
+
 public class EstacionamentoTest {
     private Estacionamento estacionamento;
     private Cliente cliente;

@@ -44,7 +44,7 @@ public class Veiculo {
 	 */
 	public void estacionar(Vaga vaga) {
 		//if(vaga.disponivel()){
-			UsoDeVaga usoDeVaga = new UsoDeVaga(vaga, LocalDateTime.now());
+			UsoDeVaga usoDeVaga = new UsoDeVaga(vaga);
 			usoDeVagas.add(usoDeVaga); 
 		//}
 	}

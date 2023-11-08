@@ -101,7 +101,12 @@ public class Cliente {
 	 */
 	public double arrecadadoPorVeiculo(String placa) {
 		Veiculo veiculo = possuiVeiculo(placa);
-		return veiculo.totalArrecadado();
+
+		if(veiculo != null){
+			return veiculo.totalArrecadado();
+		}
+
+		return 0.0;
 	}
 
 	/**
@@ -139,69 +144,68 @@ public class Cliente {
 
 
 
-	public String verHistoricoCompleto() {
-		String historico = "";
+	// public String verHistoricoCompleto() {
+	// 	String historico = "";
 
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
+	// 	for (int i = 0; i < veiculos.size(); i++) {
+	// 		Veiculo veiculo = veiculos.get(i);
+	// 		Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
 
-			for(UsoDeVaga u : totalDeUsos){
-				Vaga vaga = u.getVaga();
-				// UsoDeVaga usoDeVaga = veiculo.getUsoDeVaga(j);
+	// 		for(UsoDeVaga u : totalDeUsos){
+	// 			Vaga vaga = u.getVaga();
 
-				historico = historico + "\n" + 
-				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-				"Vaga utilizada: " + vaga.toString() + " | " +
-				"Uso de Vaga: " + u.toString();
-			}
-		}
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
-	}
+	// 			historico = historico + "\n" + 
+	// 			"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
+	// 			"Vaga utilizada: " + vaga.toString() + " | " +
+	// 			"Uso de Vaga: " + u.toString();
+	// 		}
+	// 	}
+	// 	return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
+	// }
 
 	
-	public String verHistoricoDataInicio(LocalDateTime filtro) {
-		String historico = "";
+	// public String verHistoricoDataInicio(LocalDateTime filtro) {
+	// 	String historico = "";
 
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
+	// 	for (int i = 0; i < veiculos.size(); i++) {
+	// 		Veiculo veiculo = veiculos.get(i);
+	// 		Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
 
-			for(UsoDeVaga u : totalDeUsos){
-				Vaga vaga = u.getVaga();
+	// 		for(UsoDeVaga u : totalDeUsos){
+	// 			Vaga vaga = u.getVaga();
 
-				if(u.getEntrada().isEqual(filtro)){
-				historico = historico + "\n" + 
-				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-				"Vaga utilizada: " + vaga.toString() + " | " +
-				"Uso de Vaga: " + u.toString();
-				}
-			}
-		}
+	// 			if(u.getEntrada().isEqual(filtro)){
+	// 			historico = historico + "\n" + 
+	// 			"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
+	// 			"Vaga utilizada: " + vaga.toString() + " | " +
+	// 			"Uso de Vaga: " + u.toString();
+	// 			}
+	// 		}
+	// 	}
 
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
-	}
+	// 	return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
+	// }
 
-	public String verHistoricoDataFim(LocalDateTime filtro) {
-		String historico = "";
+	// public String verHistoricoDataFim(LocalDateTime filtro) {
+	// 	String historico = "";
 
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
+	// 	for (int i = 0; i < veiculos.size(); i++) {
+	// 		Veiculo veiculo = veiculos.get(i);
+	// 		Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
 
-			for(UsoDeVaga u : totalDeUsos){
-				Vaga vaga = u.getVaga();
-				if(u.getSaida().isEqual(filtro)){
-					historico = historico + "\n" + 
-				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-				"Vaga utilizada: " + vaga.toString() + " | " +
-				"Uso de Vaga: " + u.toString();
-				}
-			}
-		}
+	// 		for(UsoDeVaga u : totalDeUsos){
+	// 			Vaga vaga = u.getVaga();
+	// 			if(u.getSaida().isEqual(filtro)){
+	// 				historico = historico + "\n" + 
+	// 			"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
+	// 			"Vaga utilizada: " + vaga.toString() + " | " +
+	// 			"Uso de Vaga: " + u.toString();
+	// 			}
+	// 		}
+	// 	}
 
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
-	}
+	// 	return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
+	// }
 
 
 	@Override
