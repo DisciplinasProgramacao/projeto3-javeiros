@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
@@ -14,8 +16,9 @@ public class Estacionamento {
 	static Scanner teclado = new Scanner(System.in);
 	// private int contClientes = 1;
 	private String nome;
-	private LinkedList<Cliente> id;
-	private LinkedList<Vaga> vagas;
+	private Map<String, Cliente> id;
+    private LinkedList<Vaga> vagas;
+
 	// private int quantFileiras;
 	// private int vagasPorFileira;
 
@@ -28,7 +31,7 @@ public class Estacionamento {
 	 */
 	public Estacionamento(String nome) {
 		this.nome = nome;
-		id = new LinkedList<>();
+		this.id = new HashMap<>();
 		gerarVagas();
 		// this.quantFileiras = fileiras;
 		// this.vagasPorFileira = vagasPorFila;
@@ -44,20 +47,14 @@ public class Estacionamento {
 	 * @throws ExcecaoVeiculoJaCadastrado
 	 */
 	public void addVeiculo(String placa, String idCli) throws ExcecaoVeiculoJaCadastrado {
-		Cliente clienteEncontrado = null;
-		for (Cliente c : id) {
-			if (idCli.equals(c.getId())) {
-				clienteEncontrado = c;
-				break;
-			}
-		}
+        Cliente clienteEncontrado = id.get(idCli);
 
-		if (clienteEncontrado.possuiVeiculo(placa) != null) {
-			throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
-		} else {
-			clienteEncontrado.addVeiculo(new Veiculo(placa));
-		}
-	}
+        if (clienteEncontrado != null && clienteEncontrado.possuiVeiculo(placa) != null) {
+            throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
+        } else {
+            clienteEncontrado.addVeiculo(new Veiculo(placa));
+        }
+    }
 
 	/**
 	 * Função para adicionar cliente
@@ -66,22 +63,12 @@ public class Estacionamento {
 	 * @throws ExcecaoClienteJaCadastrado
 	 */
 	public void addCliente(Cliente cliente) throws ExcecaoClienteJaCadastrado {
-
-		Cliente clienteEncontrado = null;
-		for (Cliente c : id) {
-			if (cliente.equals(c.getId())) {
-				clienteEncontrado = c;
-				break;
-			}
-		}
-		if (clienteEncontrado != null) {
-			throw new ExcecaoClienteJaCadastrado("Cliente já cadastrado no sistema!");
-		} else {
-			id.add(cliente);
-			// id[contClientes - 1] = cliente;
-			// contClientes++;
-		}
-	}
+        if (id.containsKey(cliente.getId())) {
+            throw new ExcecaoClienteJaCadastrado("Cliente já cadastrado no sistema!");
+        } else {
+            id.put(cliente.getId(), cliente);
+        }
+    }
 
 	/**
 	 * Função para gerar vagas do estacionamento
