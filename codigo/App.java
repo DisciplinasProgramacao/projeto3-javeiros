@@ -1,4 +1,7 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import estacionamentos.*;
@@ -10,6 +13,9 @@ public class App {
     private static Scanner teclado = new Scanner(System.in);
     private static Estacionamento[] estacionamentos = new Estacionamento[40];
     private static Estacionamento estacionamentoHelper;
+
+    private static List<Estacionamento> todosEstacionamentos = new ArrayList<>();
+
 
     public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
 
@@ -93,7 +99,8 @@ public class App {
             System.out.println("| 6. Arracadação no Mes         |");
             System.out.println("| 7. Valor Médio por Uso        |");
             System.out.println("| 8. Top 5 clientes             |");
-            System.out.println("| 9. Sair                       |");
+            System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente             |"); 
+            System.out.println("| 10. Sair                       |");
             System.out.println("|-------------------------------|");
             option = Integer.parseInt(teclado.nextLine());
 
@@ -123,6 +130,9 @@ public class App {
                     topClientes(estacionamento);
                     break;
                 case 9:
+                    exibirArrecadacaoTotalPorEstacionamento();
+                    break;
+                case 10:
                     break;
             }
             System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
@@ -195,6 +205,27 @@ public class App {
         System.out.println("Digite o número do mes, para saber quais foram os top 5 clientes em determinado mês:\n");
         int mes = Integer.parseInt(teclado.nextLine());
         System.out.println(estacionamentoHelper.top5Clientes(mes));
+    }
+
+    
+    /**
+	 * Função para exibir o arrecadado total do estacionamento em ordem decrescente de valores
+	 * 
+	 * @return seu retorno é uma saida no console com os valores em ordem decrescente.
+	 */
+    public static void exibirArrecadacaoTotalPorEstacionamento() {
+
+        List<Double> arrecadacaoPorEstacionamento = new ArrayList<>();
+        for (Estacionamento estacionamento : todosEstacionamentos) {
+            arrecadacaoPorEstacionamento.add(estacionamento.totalArrecadado());
+        }
+
+        Collections.sort(arrecadacaoPorEstacionamento, Collections.reverseOrder());
+
+        System.out.println("Arrecadação total por estacionamento em ordem decrescente:");
+        for (int i = 0; i < arrecadacaoPorEstacionamento.size(); i++) {
+            System.out.println(todosEstacionamentos.get(i).getNome() + ": " + arrecadacaoPorEstacionamento.get(i));
+        }
     }
 
     public static void main(String args[]) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
