@@ -6,10 +6,22 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import estacionamentos.Enums.TipoUso;
+
 public class Veiculo {
 	private int count;
 	private String placa;
 	private LinkedList<UsoDeVaga> usoDeVagas;
+
+	private TipoUso tipoUso;
+
+	public TipoUso getTipoUso() {
+		return tipoUso;
+	}
+
+	public void setTipoUso(TipoUso tipoUso) {
+		this.tipoUso = tipoUso;
+	}
 
 	public String getPlaca() {
 		return placa;
@@ -89,7 +101,7 @@ public class Veiculo {
 		double total = 0;
 		
 		for(UsoDeVaga uso : usoDeVagas){
-			if(uso.estaDentroDoMes(mes)){
+			if(uso.getEntrada().getMonthValue() == mes){
 				total += uso.getValorPago();
 			}
 		}
@@ -102,6 +114,7 @@ public class Veiculo {
 	 * @return retorna o valor como int, sendo o total de uso
 	 */
 	public int totalDeUsos() {
+		count = usoDeVagas.size();
 		return count;
 	}
 

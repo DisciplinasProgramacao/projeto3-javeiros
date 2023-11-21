@@ -1,5 +1,6 @@
 package estacionamentos.Enums;
 public enum TipoServico {
+	
 	MANOBRISTA(5.0, 0),
 	LAVAGEM(20.0, 1),
 	POLIMENTO(45.0, 2);
