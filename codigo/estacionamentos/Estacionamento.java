@@ -93,10 +93,10 @@ public class Estacionamento {
 		double resposta = 0.0;
 		int totalUsos = 0;
 
-		for (Cliente c : id) {
+		for (Map.Entry<String, Cliente> c : id.entrySet()) {
 			if (c != null) {
-				resposta += c.arrecadadoTotal();
-				totalUsos += c.totalDeUsos();
+				resposta += c.getValue().arrecadadoTotal();
+				totalUsos += c.getValue().totalDeUsos();
 			}
 		}
 
@@ -117,16 +117,16 @@ public class Estacionamento {
 	public String top5Clientes(int mes) {
 		Cliente[] topClientes = new Cliente[5];
 
-		for (Cliente c : id) {
+		for (Map.Entry<String, Cliente> c : id.entrySet()) {
 			if (c != null) {
-				double valorDoCliente = c.arrecadadoNoMes(mes);
+				double valorDoCliente = c.getValue().arrecadadoNoMes(mes);
 
 				for (int i = 0; i < 5; i++) {
 					if (topClientes[i] == null || valorDoCliente > topClientes[i].arrecadadoNoMes(mes)) {
 						for (int j = 4; j > i; j--) {
 							topClientes[j] = topClientes[j - 1];
 						}
-						topClientes[i] = c;
+						topClientes[i] = c.getValue();
 						break;
 					}
 				}
@@ -151,8 +151,8 @@ public class Estacionamento {
 	public void estacionar(String placa) {
 		Veiculo veiculo = null;
 
-		for (Cliente cliente : id) {
-			veiculo = cliente.possuiVeiculo(placa);
+		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
+			veiculo = cliente.getValue().possuiVeiculo(placa);
 			if (veiculo != null) {
 				break;
 			}
@@ -176,8 +176,8 @@ public class Estacionamento {
 	 */
 	public double sair(String placa) {
 
-		for (Cliente cliente : id) {
-			Veiculo v = cliente.possuiVeiculo(placa);
+		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
+			Veiculo v = cliente.getValue().possuiVeiculo(placa);
 			if (v != null) {
 				return v.sair();
 			}
@@ -194,8 +194,8 @@ public class Estacionamento {
 	public double totalArrecadado() {
 		double total = 0.0;
 
-		for (Cliente cliente : id) {
-			total = total + cliente.arrecadadoTotal();
+		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
+			total = total + cliente.getValue().arrecadadoTotal();
 		}
 		return total;
 	}
@@ -209,8 +209,8 @@ public class Estacionamento {
 	public double arrecadacaoNoMes(int mes) {
 		double total = 0.0;
 
-		for (Cliente cliente : id) {
-			total = total + cliente.arrecadadoNoMes(mes);
+		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
+			total = total + cliente.getValue().arrecadadoNoMes(mes);
 		}
 		return total;
 	}
@@ -228,4 +228,20 @@ public class Estacionamento {
 		}
 	}
 
+	public double mediaUsosClientesMensalistas(){
+		int count;
+		int usos;
+
+		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
+            
+            if(cliente.getValue() instanceof UsuariosMensalista){
+				usos = usos + cliente.getValue().mediaUsosClientesMensalistas;
+				count++;
+       		}
+		}
+
+		return usos/count;
+	}
+
+	
 }

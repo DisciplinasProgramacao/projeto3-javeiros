@@ -112,9 +112,7 @@ public class App {
 
         System.out.println("Digite o nome do Estacionamento: ");
         nome = teclado.nextLine();
-        fileiras = 1;
-        veiculosFileiras = 10; //10 vagas totais
-        estacionamento = new Estacionamento(nome, fileiras, veiculosFileiras);
+        estacionamento = new Estacionamento(nome);
         for (int i = 0; i < estacionamentos.length; i++) {
             if (estacionamentos[i] == null) {
                 estacionamentos[i] = estacionamento;
@@ -144,20 +142,21 @@ public class App {
         int option = 0;
         while(option != 9){
             System.out.println("\nEstacionamento: "+ estacionamento.getNome().toUpperCase());
-            System.out.println("|-------------------------------|");
-            System.out.println("|    Selecione uma das Opcões   |");
-            System.out.println("|-------------------------------|");
-            System.out.println("| 1. Adicionar Cliente          |");
-            System.out.println("| 2. Adicionar Veiculo          |");
-            System.out.println("| 3. Estacionar                 |");
-            System.out.println("| 4. Sair da vaga               |");
-            System.out.println("| 5. Total Arrecadado           |");
-            System.out.println("| 6. Arracadação no Mes         |");
-            System.out.println("| 7. Valor Médio por Uso        |");
-            System.out.println("| 8. Top 5 clientes             |");
-            System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente             |"); 
-            System.out.println("| 10. Sair                       |");
-            System.out.println("|-------------------------------|");
+            System.out.println("|---------------------------------------------------------------------------|");
+            System.out.println("|    Selecione uma das Opcões                                               |");
+            System.out.println("|---------------------------------------------------------------------------|");
+            System.out.println("| 1. Adicionar Cliente                                                      |");
+            System.out.println("| 2. Adicionar Veiculo                                                      |");
+            System.out.println("| 3. Estacionar                                                             |");
+            System.out.println("| 4. Sair da vaga                                                           |");
+            System.out.println("| 5. Total Arrecadado                                                       |");
+            System.out.println("| 6. Arracadação no Mes                                                     |");
+            System.out.println("| 7. Valor Médio por Uso                                                    |");
+            System.out.println("| 8. Top 5 clientes                                                         |");
+            System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente |");
+            System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");  
+            System.out.println("| 11. Sair                                                                  |");
+            System.out.println("|---------------------------------------------------------------------------|");
             option = Integer.parseInt(teclado.nextLine());
 
             switch (option) {
@@ -189,6 +188,9 @@ public class App {
                     exibirArrecadacaoTotalPorEstacionamento();
                     break;
                 case 10:
+
+                    break;
+                case 11:
                     break;
             }
             System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
@@ -282,6 +284,11 @@ public class App {
         for (int i = 0; i < arrecadacaoPorEstacionamento.size(); i++) {
             System.out.println(todosEstacionamentos.get(i).getNome() + ": " + arrecadacaoPorEstacionamento.get(i));
         }
+    }
+
+
+    public void mediaValorMensalistas(Estacionamento estacionamento){
+        for(Estacionamento e)
     }
 
     public static void main(String args[]) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
