@@ -1,3 +1,8 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,9 +18,60 @@ public class App {
     private static Scanner teclado = new Scanner(System.in);
     private static Estacionamento[] estacionamentos = new Estacionamento[40];
     private static Estacionamento estacionamentoHelper;
-
     private static List<Estacionamento> todosEstacionamentos = new ArrayList<>();
 
+    // Carrega dados iniciais
+    private static void carregarDadosIniciais() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("dados.dat"))) {
+            todosEstacionamentos = (List<Estacionamento>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            // Arquivo de dados não encontrado
+            // Cria dados iniciais manualmente
+            criarDadosIniciais();
+        }
+    }
+
+    // Cria dados iniciais manualmente
+    public static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
+        // Criação dos estacionamentos
+        Estacionamento estacionamento1 = new Estacionamento("Estacionamento A");
+        Estacionamento estacionamento2 = new Estacionamento("Estacionamento B");
+        Estacionamento estacionamento3 = new Estacionamento("Estacionamento C");
+    
+        todosEstacionamentos.add(estacionamento1);
+        todosEstacionamentos.add(estacionamento2);
+        todosEstacionamentos.add(estacionamento3);
+    
+        // Criação dos clientes e veículos
+        for (Estacionamento estacionamento : todosEstacionamentos) {
+            for (int i = 0; i < 2; i++) {
+                Cliente cliente = new Cliente("Cliente" + (i + 1), "ID" + (i + 1));
+                cliente.addVeiculo(new Veiculo("Placa" + (i + 1)));
+                estacionamento.addCliente(cliente);
+            }
+        }
+    
+        // Criação de usos de vagas
+        for (int i = 0; i < 50; i++) {
+            int estacionamentoIndex = i % 3;
+            Estacionamento estacionamento = todosEstacionamentos.get(estacionamentoIndex);
+    
+            int clienteIndex = i % 2;  // 2 clientes por estacionamento
+            Cliente cliente = estacionamento.id.values().toArray(new Cliente[0])[clienteIndex];
+    
+            estacionamento.estacionar(cliente.getVeiculos().get(0).getPlaca());
+            estacionamento.sair(cliente.getVeiculos().get(0).getPlaca());
+        }
+    }
+
+    // Método para salvar os dados
+    private static void salvarDados() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("dados.dat"))) {
+            out.writeObject(todosEstacionamentos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
 

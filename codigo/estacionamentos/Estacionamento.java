@@ -16,7 +16,7 @@ public class Estacionamento {
 	static Scanner teclado = new Scanner(System.in);
 	// private int contClientes = 1;
 	private String nome;
-	private Map<String, Cliente> id;
+	public Map<String, Cliente> id;
     private LinkedList<Vaga> vagas;
 
 	// private int quantFileiras;
