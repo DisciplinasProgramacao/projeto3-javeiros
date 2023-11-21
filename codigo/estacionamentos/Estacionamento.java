@@ -228,6 +228,15 @@ public class Estacionamento {
 		}
 	}
 
+
+	/**
+ 	* Calcula a média de usos no mesCorrente para clientes mensalistas.
+ 	*
+ 	* Este método itera sobre um conjunto de clientes, identifica os clientes mensalistas
+ 	* e calcula a média de seus usos mensais. Retorna a média resultante.
+ 	*
+ 	* @return A média de usos mensais para clientes mensalistas.
+ 	*/
 	public double mediaUsosClientesMensalistas(){
 		int count;
 		int usos;

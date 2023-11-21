@@ -188,7 +188,7 @@ public class App {
                     exibirArrecadacaoTotalPorEstacionamento();
                     break;
                 case 10:
-
+                    mediaUsosMensalistasMesCorrente(estacionamento);
                     break;
                 case 11:
                     break;
@@ -259,6 +259,7 @@ public class App {
         System.out.println("Valor medio uso: " + (soma/cont));
     }
 
+    
     public static void topClientes(Estacionamento estacionamento) {
         System.out.println("Digite o número do mes, para saber quais foram os top 5 clientes em determinado mês:\n");
         int mes = Integer.parseInt(teclado.nextLine());
@@ -286,9 +287,17 @@ public class App {
         }
     }
 
-
-    public void mediaValorMensalistas(Estacionamento estacionamento){
-        for(Estacionamento e)
+    /**
+     * Calcula e imprime a média de usos mensais para clientes mensalistas no mês corrente.
+     *
+     * Este método recebe um objeto Estacionamento e utiliza o método mediaUsosClientesMensalistas()
+     * desse objeto para calcular a média de usos mensais para clientes mensalistas no mês corrente.
+     * A média calculada é então impressa no console.
+     *
+     * @param estacionamento O objeto Estacionamento que contém as informações sobre os clientes e seus usos.
+     */
+    public static void mediaUsosMensalistasMesCorrente(Estacionamento estacionamento){
+        System.out.println("A média dos usuos dos cliente mensalistas no mes correte foi de: "+ estacionamento.mediaUsosClientesMensalistas());
     }
 
     public static void main(String args[]) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
