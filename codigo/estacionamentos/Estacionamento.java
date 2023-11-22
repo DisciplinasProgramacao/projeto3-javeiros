@@ -249,14 +249,19 @@ public class Estacionamento {
 		int count;
 		int usos;
 
-		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
+		/*for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
             
             if(cliente.getValue() instanceof UsuarioMensalista){
 				usos = usos + cliente.getValue().usoMensalCorrente();
 				count++;
        		}
 		}
-
+		*/
+		id.values().stream()
+			.filter(cliente -> cliente.getTipoUso() == "Mensalista").forEach( cliente -> {
+				count++;
+				usos = usos + cliente.getValue().usoMensalCorrente();	
+			});	
 		return usos/count;
 	}
 
