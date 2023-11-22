@@ -13,6 +13,7 @@ public class Veiculo {
 	private String placa;
 	private LinkedList<UsoDeVaga> usoDeVagas;
 
+
 	private TipoUso tipoUso; 
 
 	public TipoUso getTipoUso() {
@@ -55,10 +56,25 @@ public class Veiculo {
 	 * @param vaga Classe vaga que contem adisponibilidade de estacionamento
 	 */
 	public void estacionar(Vaga vaga) {
-		//if(vaga.disponivel()){
-			UsoDeVaga usoDeVaga = new UsoDeVaga(vaga);
-			usoDeVagas.add(usoDeVaga); 
-		//}
+		// if(vaga.disponivel()){
+			UsoDeVaga usoDeVaga;
+			
+			switch ((tipoUso)) {
+				case HORISTA:
+					usoDeVaga = new UsoDeVagaHorista();
+					break;
+				case TURNO:
+					usoDeVaga = new UsoDeVagaTurno();
+					break;
+				case MENSALISTA:
+					usoDeVaga = new UsoDeVagaMensalista();
+					break;
+			
+				default:
+					break;
+			}
+			usoDeVaga.add(vaga); 
+		// }
 	}
 
 	//! Método precisa ser corrido URGENTEMENTE!!
