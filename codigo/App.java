@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import excecoes.ExcecaoNenhumClienteCadastrado;
 import estacionamentos.*;
+import estacionamentos.Enums.TipoUso;
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
 
@@ -314,22 +316,20 @@ public class App {
      * Método responsável por calcular a arrecadação média dos horistas no especionamento passsado como parâmetro
      * @param estacionamento estacionamento no qual será calculado a arrecadacao média dos clientes horistas
      */
-    public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento){
+    public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento) throws ExcecaoNenhumClienteCadastrado {
         Map<String, Cliente> clientes = estacionamento.getId();
         double totalArrecadado = 0.0;
-
-        // ! implementação não é possível por estar faltando o enum tipoUso em veiculo
-        //
-        // for (Map.Entry<String, Cliente> par : clientes.entrySet()) {
-        //     for(Veiculo veiculo : par.getValue().getVeiculos()){
-        //         if(veiculo.getTipoUso().equals(TipoDeUso.HORISTA)){
-        //             totalArrecadado += par.getValue().arrecadadoTotal();
-        //         }
-        //     }
-        // }
-
+        
         for (Map.Entry<String, Cliente> par : clientes.entrySet()) {
-            totalArrecadado += par.getValue().arrecadadoTotal();
+            for(Veiculo veiculo : par.getValue().getVeiculos()){
+                if(veiculo.getTipoUso().equals(TipoUso.HORISTA)){
+                    totalArrecadado += par.getValue().arrecadadoTotal();
+                }
+            }
+        }
+
+        if(clientes.size() < 1){
+            throw new ExcecaoNenhumClienteCadastrado();
         }
 
         System.out.println(
