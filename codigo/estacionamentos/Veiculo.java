@@ -105,6 +105,22 @@ public class Veiculo {
 		return count;
 	}
 
+
+	/**
+	 * Método responsável por gerar uma string com os detalhes de todos os usos de vago do veículo
+	 * @return string com os detalhes de todos os usos de vago do veículo
+	 */
+	public String gerarRelatorio(){
+		String relatorio = "";
+
+		for(UsoDeVaga usoDeVaga : usoDeVagas){
+			relatorio += usoDeVaga.toString() + "\n";
+		}
+
+		return relatorio;
+	}
+
+
 	@Override
 	public String toString(){
 		return "Placa " + placa;

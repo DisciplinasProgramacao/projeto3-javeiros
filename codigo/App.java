@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import estacionamentos.*;
@@ -155,7 +156,8 @@ public class App {
             System.out.println("| 8. Top 5 clientes                                                         |");
             System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente |");
             System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");  
-            System.out.println("| 11. Sair                                                                  |");
+            System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");  
+            System.out.println("| 12. Sair                                                                  |");
             System.out.println("|---------------------------------------------------------------------------|");
             option = Integer.parseInt(teclado.nextLine());
 
@@ -191,6 +193,9 @@ public class App {
                     mediaUsosMensalistasMesCorrente(estacionamento);
                     break;
                 case 11:
+                    arrecadacaoMediaClientesHoristasNoMesCorrente(estacionamento);
+                    break;
+                case 12:
                     break;
             }
             System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
@@ -302,6 +307,36 @@ public class App {
 
     public static void main(String args[]) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
         menu();
+    }
+
+
+    /**
+     * Método responsável por calcular a arrecadação média dos horistas no especionamento passsado como parâmetro
+     * @param estacionamento estacionamento no qual será calculado a arrecadacao média dos clientes horistas
+     */
+    public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento){
+        Map<String, Cliente> clientes = estacionamento.getId();
+        double totalArrecadado = 0.0;
+
+        // ! implementação não é possível por estar faltando o enum tipoUso em veiculo
+        //
+        // for (Map.Entry<String, Cliente> par : clientes.entrySet()) {
+        //     for(Veiculo veiculo : par.getValue().getVeiculos()){
+        //         if(veiculo.getTipoUso().equals(TipoDeUso.HORISTA)){
+        //             totalArrecadado += par.getValue().arrecadadoTotal();
+        //         }
+        //     }
+        // }
+
+        for (Map.Entry<String, Cliente> par : clientes.entrySet()) {
+            totalArrecadado += par.getValue().arrecadadoTotal();
+        }
+
+        System.out.println(
+            "O valor médio Arrecadado pelos clientes horistas do estacionamento \"" + 
+            estacionamento.getNome() + "\" no mês é: " + 
+            totalArrecadado / clientes.size()
+        );
 
     }
 

@@ -39,6 +39,14 @@ public class Estacionamento {
 		// inicial
 	}
 
+	public Map<String, Cliente> getId() {
+		return id;
+	}
+
+	public void setId(Map<String, Cliente> id) {
+		this.id = id;
+	}
+
 	/**
 	 * Função para adicionar veiculo ao cliente
 	 * 
