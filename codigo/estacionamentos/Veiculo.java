@@ -13,7 +13,7 @@ public class Veiculo {
 	private String placa;
 	private LinkedList<UsoDeVaga> usoDeVagas;
 
-	private TipoUso tipoUso;
+	private TipoUso tipoUso; 
 
 	public TipoUso getTipoUso() {
 		return tipoUso;
@@ -61,6 +61,7 @@ public class Veiculo {
 		//}
 	}
 
+	//! Método precisa ser corrido URGENTEMENTE!!
 	/**
 	 * Sair veiculo da vaga de estacionamento
 	 * @return retorna o valor do veiculo 
@@ -103,6 +104,19 @@ public class Veiculo {
 		for(UsoDeVaga uso : usoDeVagas){
 			if(uso.getEntrada().getMonthValue() == mes){
 				total += uso.getValorPago();
+			}
+		}
+
+		return total;
+	}
+
+	public int usoMensalCorrente() {
+		
+		int total = 0;
+		
+		for(UsoDeVaga uso : usoDeVagas){
+			if(uso.getEntrada().getMonthValue() == LocalDateTime.now().getMonthValue() && uso.getEntrada().getYear() == LocalDateTime.now().getYear()){
+				total++;
 			}
 		}
 

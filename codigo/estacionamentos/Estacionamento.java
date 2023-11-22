@@ -245,14 +245,14 @@ public class Estacionamento {
  	*
  	* @return A média de usos mensais para clientes mensalistas.
  	*/
-	public double mediaUsosClientesMensalistas(){
+	public double mediaUsoClienteMensalista(){
 		int count;
 		int usos;
 
 		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
             
-            if(cliente.getValue() instanceof UsuariosMensalista){
-				usos = usos + cliente.getValue().mediaUsosClientesMensalistas;
+            if(cliente.getValue() instanceof UsuarioMensalista){
+				usos = usos + cliente.getValue().usoMensalCorrente();
 				count++;
        		}
 		}

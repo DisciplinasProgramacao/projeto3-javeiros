@@ -210,4 +210,15 @@ public class Cliente {
 	public String toString(){
 		return "Nome: " + nome + "\nVeículos: " + veiculos;
 	}
+
+	public int usoMensalCorrente(){
+		int total = 0;
+		for(Veiculo veiculo: veiculos){
+			total = total + veiculo.usoMensalCorrente();
+		}
+		return total;
+
+	}
+
+	
 }
