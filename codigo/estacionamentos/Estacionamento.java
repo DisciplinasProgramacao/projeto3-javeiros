@@ -32,11 +32,7 @@ public class Estacionamento {
 	public Estacionamento(String nome) {
 		this.nome = nome;
 		this.id = new HashMap<>();
-		gerarVagas();
-		// this.quantFileiras = fileiras;
-		// this.vagasPorFileira = vagasPorFila;
-		// id = new Cliente[100]; // Inicialize o array de clientes com um tamanho
-		// inicial
+		this.vagas = new LinkedList<>();
 	}
 
 	public Map<String, Cliente> getId() {
@@ -45,6 +41,14 @@ public class Estacionamento {
 
 	public void setId(Map<String, Cliente> id) {
 		this.id = id;
+	}
+
+	public void gerarVagas( int numeroVagas){
+		vagas.clear();
+
+		for(int i = 1; i <= numeroVagas; i++){
+			vagas.add(new Vaga('i',i));
+		}
 	}
 
 	/**
@@ -77,19 +81,6 @@ public class Estacionamento {
             id.put(cliente.getId(), cliente);
         }
     }
-
-	/**
-	 * Função para gerar vagas do estacionamento
-	 */
-	private void gerarVagas() {
-		vagas = new LinkedList<>();
-		// for (int fila = 0; fila < quantFileiras; fila++) {
-		// for (int numero = 1; numero <= vagasPorFileira; numero++) {
-		// vagas[fila * vagasPorFileira + (numero - 1)] = new Vaga((char)('A' + fila),
-		// numero);
-		// }
-		// }
-	}
 
 	/**
 	 * Função que calcula o valor medio total do estacionamento

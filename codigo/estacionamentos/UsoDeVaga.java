@@ -4,22 +4,21 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import estacionamentos.Enums.TipoServico;
-import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
-import excecoes.ExcecaoSaidaJaFinalizada;
 import excecoes.ExcecaoServicoJaContratado;
 import excecoes.ExcecaoTempoMinimoNaoAtingido;
 
-public class UsoDeVaga {
+public abstract class UsoDeVaga {
 
-    private static final double FRACAO_USO = 0.25;
-    private static final double VALOR_FRACAO = 4.0;
-    private static final double VALOR_MAXIMO = 50.0;
+    public final double FRACAO_USO = 0.25;
+    public final double VALOR_FRACAO = 4.0;
+    public final double VALOR_MAXIMO = 50.0;
+    public final double MENSALIDADE = 500.0;
+
 
     private Vaga vaga;
     private LocalDateTime entrada;
     private LocalDateTime saida;
-    private double valorPago;
-
+    public double valorPago;
     private TipoServico servico;
 
     /**
@@ -33,39 +32,6 @@ public class UsoDeVaga {
         this.entrada = LocalDateTime.now();
         this.saida = null;
         this.valorPago = 0.0;
-    }
-
-    /**
-     * Registra a saída do veículo da vaga e calcula o valor a ser pago.
-     * 
-     * @param saida Data e hora da saída do veículo da vaga.
-     */
-    public double sair() {// *ok
-        if (saida != null) {
-
-            throw new ExcecaoSaidaJaFinalizada();
-        }
-        if (vaga.sair()) {
-            this.saida = LocalDateTime.now();
-            return this.valorPago = valorPago();
-        } else {
-            throw new ExcecaoNaoEhPossivelSairDaVaga();
-        }
-    }
-
-    /**
-     * Calcula o valor a ser pago com base no tempo que o veículo permaneceu
-     * estacionado.
-     */
-    private double valorPago() {// *ok */
-        if (saida != null) {
-            long minutosEstacionados = entrada.until(saida, java.time.temporal.ChronoUnit.MINUTES);
-            double valor = minutosEstacionados / 15.0 * VALOR_FRACAO;
-            if (servico != null) {
-                return valorPago = Math.min(valor, VALOR_MAXIMO) + servico.getValor();
-            }
-        }
-        return 0.0;
     }
 
     public Vaga getVaga() {
@@ -84,15 +50,13 @@ public class UsoDeVaga {
         return valorPago;
     }
 
-    public TipoServico getTipoServico(){
+    public TipoServico getTipoServico() {
         return servico;
     }
 
-    public void setTipoServico(TipoServico servico){
+    public void setTipoServico(TipoServico servico) {
         this.servico = servico;
     }
-
-
 
     /**
      * Contra um serviço vinculado ao uso de vaga com tempo mínimo de permanência
@@ -120,10 +84,45 @@ public class UsoDeVaga {
     @Override
     public String toString() {
         return "UsoDeVaga{" +
-            "vaga=" + vaga +
-            ", entrada=" + entrada +
-            ", saida=" + saida +
-            ", valorPago=" + valorPago +
-            ", servico=" + servico + "}";
+                "vaga=" + vaga +
+                ", entrada=" + entrada +
+                ", saida=" + saida +
+                ", valorPago=" + valorPago +
+                ", servico=" + servico + "}";
     }
+
+    // Codigo feito anteriormente
+
+    // public double sair() {// *ok
+    // if (saida != null) {
+    // throw new ExcecaoSaidaJaFinalizada();
+    // }
+    // if (vaga.sair()) {
+    // this.saida = LocalDateTime.now();
+    // return this.valorPago = valorPago();
+    // } else {
+    // throw new ExcecaoNaoEhPossivelSairDaVaga();
+    // }
+    // }
+
+    // public double valorPago() {// *ok */
+    //     if (saida != null) {
+    //         long minutosEstacionados = entrada.until(saida, java.time.temporal.ChronoUnit.MINUTES);
+    //         double valor = minutosEstacionados / 15.0 * VALOR_FRACAO;
+    //         if (servico != null) {
+    //             return valorPago = Math.min(valor, VALOR_MAXIMO) + servico.getValor();
+    //         }
+    //     }
+    //     return 0.0;
+    // }
+
+    // Código criado hoje, dia 25/11
+    public abstract double sair();
+
+    public LocalDateTime setSaida(LocalDateTime saida) {
+        return this.saida = saida;
+    }
+ 
+    public abstract double valorPago();
+
 }
