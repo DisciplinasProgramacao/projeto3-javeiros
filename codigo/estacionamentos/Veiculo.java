@@ -77,20 +77,21 @@ public class Veiculo {
 		// }
 	}
 
-	//! Método precisa ser corrido URGENTEMENTE!!
+
 	/**
 	 * Sair veiculo da vaga de estacionamento
 	 * @return retorna o valor do veiculo 
 	 */
-	public double sair(Vaga vaga) {
-		for (int i = 0; i < usoDeVagas.size(); i++) {
-			if ((usoDeVagas.get(i)).getVaga().equals(vaga)) {
-				LocalDateTime localnow = LocalDateTime.now();
-				usoDeVagas.get(i).registrarSaida(localnow);
-				return usoDeVagas.get(i).getValorPago();
+
+	 public double sair() {
+
+		for (UsoDeVaga usoDeVaga: usoDeVagas ) {
+		
+			if(usoDeVaga.getSaida() == null){
+				return usoDeVaga.sair();
 			}
 		}
-		return 0.0;
+			return 0.0;
 	}
 
 	/**
