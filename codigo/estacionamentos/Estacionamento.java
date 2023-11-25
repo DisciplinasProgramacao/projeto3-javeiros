@@ -3,6 +3,8 @@ package estacionamentos;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import estacionamentos.Enums.TipoUso;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -56,13 +58,13 @@ public class Estacionamento {
 	 * @param idCli
 	 * @throws ExcecaoVeiculoJaCadastrado
 	 */
-	public void addVeiculo(String placa, String idCli) throws ExcecaoVeiculoJaCadastrado {
+	public void addVeiculo(String placa, String idCli, TipoUso tipoUso) throws ExcecaoVeiculoJaCadastrado {
         Cliente clienteEncontrado = id.get(idCli);
 
         if (clienteEncontrado != null && clienteEncontrado.possuiVeiculo(placa) != null) {
             throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
         } else {
-            clienteEncontrado.addVeiculo(new Veiculo(placa));
+            clienteEncontrado.addVeiculo(new Veiculo(placa, tipoUso));
         }
     }
 
@@ -238,20 +240,14 @@ public class Estacionamento {
 		int count;
 		int usos;
 
-		/*for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
-            
-            if(cliente.getValue() instanceof UsuarioMensalista){
-				usos = usos + cliente.getValue().usoMensalCorrente();
-				count++;
-       		}
-		}
-		*/
+		/* 
 		id.values().stream()
 			.filter(cliente -> cliente.getTipoUso() == "Mensalista").forEach( cliente -> {
 				count++;
 				usos = usos + cliente.getValue().usoMensalCorrente();	
 			});	
 		return usos/count;
+		*/
 	}
 
 	

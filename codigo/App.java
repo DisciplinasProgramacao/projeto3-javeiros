@@ -227,8 +227,9 @@ public class App {
         String idCli = teclado.nextLine();
         System.out.println("Digite a placa do veículo: ");
         String placa = teclado.nextLine();
-        estacionamento.addVeiculo(placa, idCli);
-
+        System.out.println("Digite o tipo de uso (HORISTA ou MENSALISTA): ");
+        TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
+                estacionamento.addVeiculo(placa, idCli, tipoUso);
     }
 
     public static void estacionar(Estacionamento estacionamento) {
@@ -302,7 +303,7 @@ public class App {
      * Calcula e imprime a média de usos mensais para clientes mensalistas no mês corrente.
      *
      * Este método recebe um objeto Estacionamento e utiliza o método mediaUsosClientesMensalistas()
-     * desse objeto para calcular a média de usos mensais para clientes mensalistas no mês corrente.
+     * desse objeto para calcular a média de usos mensaxis para clientes mensalistas no mês corrente.
      * A média calculada é então impressa no console.
      *
      * @param estacionamento O objeto Estacionamento que contém as informações sobre os clientes e seus usos.

@@ -46,9 +46,9 @@ public class Veiculo {
 		return List.copyOf(this.usoDeVagas);
 	}
 
-	public Veiculo(String placa) {
-		setPlaca(placa);
-		usoDeVagas = new LinkedList<>();
+	public Veiculo(String placa, TipoUso tipoUso) {
+		this.placa = placa;
+		this.tipoUso = tipoUso;
 	}
 
 	/**
