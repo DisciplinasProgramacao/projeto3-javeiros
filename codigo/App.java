@@ -319,7 +319,12 @@ public class App {
     public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento) throws ExcecaoNenhumClienteCadastrado {
         Map<String, Cliente> clientes = estacionamento.getId();
         double totalArrecadado = 0.0;
-        
+        clientes.values().stream()
+            .filter(c->c.gettipo().equals(TipoUso.MENSALISTA))
+            .mapToDouble(Cliente::arrecadadoTotal)
+            .sum();
+
+            
         for (Map.Entry<String, Cliente> par : clientes.entrySet()) {
             for(Veiculo veiculo : par.getValue().getVeiculos()){
                 if(veiculo.getTipoUso().equals(TipoUso.HORISTA)){
