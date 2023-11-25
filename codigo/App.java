@@ -158,8 +158,9 @@ public class App {
             System.out.println("| 8. Top 5 clientes                                                         |");
             System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente |");
             System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");  
-            System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");  
-            System.out.println("| 12. Sair                                                                  |");
+            System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
+            System.out.println("| 12. Gerar vagas                                                           |");        
+            System.out.println("| 13. Sair                                                                  |");
             System.out.println("|---------------------------------------------------------------------------|");
             option = Integer.parseInt(teclado.nextLine());
 
@@ -198,6 +199,9 @@ public class App {
                     //arrecadacaoMediaClientesHoristasNoMesCorrente(estacionamento);
                     break;
                 case 12:
+                    gerarVagas(estacionamento);
+                    break;    
+                case 13:
                     break;
             }
             System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
@@ -339,5 +343,12 @@ public class App {
             totalArrecadado / clientes.size()
         );
     }
+
+    public static void gerarVagas(Estacionamento  estacionamento){
+        int vagas;
+        System.out.println("Digite o numero de vagas os qual deseja gerar?");
+        vagas = Integer.parseInt(teclado.nextLine());
+        estacionamento.gerarVagas(); 
+    }  
 
 }
