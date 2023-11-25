@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import estacionamentos.Enums.TipoUso;
+import excecoes.ExcecaoRelatorioVazio;
 
 public class Veiculo {
 	private int count;
@@ -154,6 +155,10 @@ public class Veiculo {
      * @return String contendo o relatório.
      */
     public String gerarRelatorio() {
+        if (usoDeVagas.isEmpty()) {
+            throw new ExcecaoRelatorioVazio();
+        }
+
         StringBuilder relatorio = new StringBuilder();
         relatorio.append("Relatório de Uso para Veículo com Placa: ").append(placa).append("\n");
 
