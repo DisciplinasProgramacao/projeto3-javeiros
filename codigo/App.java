@@ -196,7 +196,7 @@ public class App {
                     mediaUsosMensalistasMesCorrente(estacionamento);
                     break;
                 case 11:
-                    //arrecadacaoMediaClientesHoristasNoMesCorrente(estacionamento);
+                    arrecadacaoMediaClientesHoristasNoMesCorrente(estacionamento);
                     break;
                 case 12:
                     gerarVagas(estacionamento);
@@ -318,35 +318,13 @@ public class App {
 
     //!Esse código não deve estar na aplicação
 
-    /**
-     * Método responsável por calcular a arrecadação média dos horistas no especionamento passsado como parâmetro
-     * @param estacionamento estacionamento no qual será calculado a arrecadacao média dos clientes horistas
-    */
+    
     public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento) throws ExcecaoNenhumClienteCadastrado {
-        Map<String, Cliente> clientes = estacionamento.getId();
-        double totalArrecadado = 0.0;
-        clientes.values().stream()
-            .filter(c->c.gettipo().equals(TipoUso.MENSALISTA))
-            .mapToDouble(Cliente::arrecadadoTotal)
-            .sum();
-
-            
-        for (Map.Entry<String, Cliente> par : clientes.entrySet()) {
-            for(Veiculo veiculo : par.getValue().getVeiculos()){
-                if(veiculo.getTipoUso().equals(TipoUso.HORISTA)){
-                    totalArrecadado += par.getValue().arrecadadoTotal();
-                }
-            }
-        }
-
-        if(clientes.size() < 1){
-            throw new ExcecaoNenhumClienteCadastrado();
-        }
+        
+        double resultado = estacionamento.arrecadacaoClientesHoristas();
 
         System.out.println(
-            "O valor médio Arrecadado pelos clientes horistas do estacionamento \"" + 
-            estacionamento.getNome() + "\" no mês é: " + 
-            totalArrecadado / clientes.size()
+            "O valor médio Arrecadado pelos clientes horistas do estacionamento \"" + estacionamento.getNome() + "\" no mês é: " + resultado
         );
     }
 

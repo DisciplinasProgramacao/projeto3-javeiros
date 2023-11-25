@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import excecoes.ExcecaoClienteJaCadastrado;
+import excecoes.ExcecaoNenhumClienteCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
 
 public class Estacionamento {
@@ -248,6 +249,26 @@ public class Estacionamento {
 			});	
 		return usos/count;
 		*/
+	}
+
+	/**
+     * Método responsável por calcular a arrecadação média dos horistas no especionamento passsado como parâmetro
+	 * @return a média do valor total arrecadado por todos clientes horistas 
+    */
+	public double arrecadacaoClientesHoristas() throws ExcecaoNenhumClienteCadastrado{
+		Map<String, Cliente> clientes = this.getId();
+        double totalArrecadado = 0.0;
+
+        totalArrecadado = clientes.values().stream()
+            .filter(c->c.getTipoUso().equals(TipoUso.HORISTA))
+            .mapToDouble(Cliente::arrecadadoTotal)
+            .sum();
+
+        if(clientes.size() < 1){
+            throw new ExcecaoNenhumClienteCadastrado();
+        }
+
+		return totalArrecadado / clientes.size();
 	}
 
 	
