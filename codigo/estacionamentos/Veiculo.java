@@ -77,7 +77,6 @@ public class Veiculo {
 		// }
 	}
 
-
 	/**
 	 * Sair veiculo da vaga de estacionamento
 	 * @return retorna o valor do veiculo 
@@ -86,12 +85,11 @@ public class Veiculo {
 	 public double sair() {
 
 		for (UsoDeVaga usoDeVaga: usoDeVagas ) {
-		
 			if(usoDeVaga.getSaida() == null){
 				return usoDeVaga.sair();
 			}
 		}
-			return 0.0;
+		return 0.0;
 	}
 
 	/**
