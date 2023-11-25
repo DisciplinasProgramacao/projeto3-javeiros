@@ -348,7 +348,7 @@ public class App {
         int vagas;
         System.out.println("Digite o numero de vagas os qual deseja gerar?");
         vagas = Integer.parseInt(teclado.nextLine());
-        estacionamento.gerarVagas(); 
+        estacionamento.gerarVagas(vagas);; 
     }  
 
 }

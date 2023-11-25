@@ -61,19 +61,18 @@ public class Veiculo {
 			
 			switch ((tipoUso)) {
 				case HORISTA:
-					usoDeVaga = new UsoDeVagaHorista();
+					usoDeVaga = new UsoDeVagaHorista(vaga);
 					break;
 				case TURNO:
-					usoDeVaga = new UsoDeVagaTurno();
+					usoDeVaga = new UsoDeVagaTurno(vaga);
 					break;
 				case MENSALISTA:
-					usoDeVaga = new UsoDeVagaMensalista();
+					usoDeVaga = new UsoDeVagaMensalista(vaga);
 					break;
 			
 				default:
 					break;
 			}
-			usoDeVaga.add(vaga); 
 		// }
 	}
 
