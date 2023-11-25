@@ -19,8 +19,6 @@ public class Estacionamento {
 	public Map<String, Cliente> id;
     private LinkedList<Vaga> vagas;
 
-	// private int quantFileiras;
-	// private int vagasPorFileira;
 
 	/**
 	 * Construtor de Estacionamento
