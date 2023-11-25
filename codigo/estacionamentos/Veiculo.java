@@ -2,7 +2,6 @@ package estacionamentos;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -149,20 +148,25 @@ public class Veiculo {
 		return count;
 	}
 
+	    /**
+     * Método para gerar um relatório detalhado de todos os usos de vaga do veículo.
+     * @return String contendo o relatório.
+     */
+    public String gerarRelatorio() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("Relatório de Uso para Veículo com Placa: ").append(placa).append("\n");
 
-	/**
-	 * Método responsável por gerar uma string com os detalhes de todos os usos de vago do veículo
-	 * @return string com os detalhes de todos os usos de vago do veículo
-	 */
-	public String gerarRelatorio(){
-		String relatorio = "";
+        for (UsoDeVaga uso : usoDeVagas) {
+            relatorio.append("Vaga: ").append(uso.getVaga().toString())
+                     .append(", Entrada: ").append(uso.getEntrada())
+                     .append(", Saída: ").append(uso.getSaida())
+                     .append(", Tipo de Uso: ").append(uso.getClass().getSimpleName())
+                     .append(", Valor Pago: R$").append(uso.getValorPago())
+                     .append("\n");
+        }
 
-		for(UsoDeVaga usoDeVaga : usoDeVagas){
-			relatorio += usoDeVaga.toString() + "\n";
-		}
-
-		return relatorio;
-	}
+        return relatorio.toString();
+    }
 
 
 	@Override
