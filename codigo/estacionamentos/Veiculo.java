@@ -48,6 +48,7 @@ public class Veiculo {
 	public Veiculo(String placa, TipoUso tipoUso) {
 		this.placa = placa;
 		this.tipoUso = tipoUso;
+		this.usoDeVagas = new LinkedList<>();
 	}
 
 	/**
