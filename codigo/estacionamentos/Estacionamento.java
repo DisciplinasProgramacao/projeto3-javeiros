@@ -3,6 +3,8 @@ package estacionamentos;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import estacionamentos.Enums.TipoUso;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -19,8 +21,6 @@ public class Estacionamento {
 	public Map<String, Cliente> id;
     private LinkedList<Vaga> vagas;
 
-	// private int quantFileiras;
-	// private int vagasPorFileira;
 
 	/**
 	 * Construtor de Estacionamento
@@ -32,11 +32,7 @@ public class Estacionamento {
 	public Estacionamento(String nome) {
 		this.nome = nome;
 		this.id = new HashMap<>();
-		gerarVagas();
-		// this.quantFileiras = fileiras;
-		// this.vagasPorFileira = vagasPorFila;
-		// id = new Cliente[100]; // Inicialize o array de clientes com um tamanho
-		// inicial
+		this.vagas = new LinkedList<>();
 	}
 
 	public Map<String, Cliente> getId() {
@@ -47,6 +43,14 @@ public class Estacionamento {
 		this.id = id;
 	}
 
+	public void gerarVagas( int numeroVagas){
+		vagas.clear();
+
+		for(int i = 1; i <= numeroVagas; i++){
+			vagas.add(new Vaga('i',i));
+		}
+	}
+
 	/**
 	 * Função para adicionar veiculo ao cliente
 	 * 
@@ -54,13 +58,13 @@ public class Estacionamento {
 	 * @param idCli
 	 * @throws ExcecaoVeiculoJaCadastrado
 	 */
-	public void addVeiculo(String placa, String idCli) throws ExcecaoVeiculoJaCadastrado {
+	public void addVeiculo(String placa, String idCli, TipoUso tipoUso) throws ExcecaoVeiculoJaCadastrado {
         Cliente clienteEncontrado = id.get(idCli);
 
         if (clienteEncontrado != null && clienteEncontrado.possuiVeiculo(placa) != null) {
             throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
         } else {
-            clienteEncontrado.addVeiculo(new Veiculo(placa));
+            clienteEncontrado.addVeiculo(new Veiculo(placa, tipoUso));
         }
     }
 
@@ -77,19 +81,6 @@ public class Estacionamento {
             id.put(cliente.getId(), cliente);
         }
     }
-
-	/**
-	 * Função para gerar vagas do estacionamento
-	 */
-	private void gerarVagas() {
-		vagas = new LinkedList<>();
-		// for (int fila = 0; fila < quantFileiras; fila++) {
-		// for (int numero = 1; numero <= vagasPorFileira; numero++) {
-		// vagas[fila * vagasPorFileira + (numero - 1)] = new Vaga((char)('A' + fila),
-		// numero);
-		// }
-		// }
-	}
 
 	/**
 	 * Função que calcula o valor medio total do estacionamento
@@ -245,19 +236,18 @@ public class Estacionamento {
  	*
  	* @return A média de usos mensais para clientes mensalistas.
  	*/
-	public double mediaUsosClientesMensalistas(){
+	public double mediaUsoClienteMensalista(){
 		int count;
 		int usos;
 
-		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
-            
-            if(cliente.getValue() instanceof UsuariosMensalista){
-				usos = usos + cliente.getValue().mediaUsosClientesMensalistas;
+		/* 
+		id.values().stream()
+			.filter(cliente -> cliente.getTipoUso() == "Mensalista").forEach( cliente -> {
 				count++;
-       		}
-		}
-
+				usos = usos + cliente.getValue().usoMensalCorrente();	
+			});	
 		return usos/count;
+		*/
 	}
 
 	

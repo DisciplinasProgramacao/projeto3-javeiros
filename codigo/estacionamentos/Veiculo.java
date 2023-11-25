@@ -13,7 +13,8 @@ public class Veiculo {
 	private String placa;
 	private LinkedList<UsoDeVaga> usoDeVagas;
 
-	private TipoUso tipoUso;
+
+	private TipoUso tipoUso; 
 
 	public TipoUso getTipoUso() {
 		return tipoUso;
@@ -45,9 +46,9 @@ public class Veiculo {
 		return List.copyOf(this.usoDeVagas);
 	}
 
-	public Veiculo(String placa) {
-		setPlaca(placa);
-		usoDeVagas = new LinkedList<>();
+	public Veiculo(String placa, TipoUso tipoUso) {
+		this.placa = placa;
+		this.tipoUso = tipoUso;
 	}
 
 	/**
@@ -55,22 +56,39 @@ public class Veiculo {
 	 * @param vaga Classe vaga que contem adisponibilidade de estacionamento
 	 */
 	public void estacionar(Vaga vaga) {
-		//if(vaga.disponivel()){
-			UsoDeVaga usoDeVaga = new UsoDeVaga(vaga);
-			usoDeVagas.add(usoDeVaga); 
-		//}
+		// if(vaga.disponivel()){
+			UsoDeVaga usoDeVaga;
+			
+			switch ((tipoUso)) {
+				case HORISTA:
+					usoDeVaga = new UsoDeVagaHorista(vaga);
+					usoDeVagas.add(usoDeVaga);
+					break;
+				case TURNO:
+					usoDeVaga = new UsoDeVagaTurno(vaga);
+					usoDeVagas.add(usoDeVaga);
+					break;
+				case MENSALISTA:
+					usoDeVaga = new UsoDeVagaMensalista(vaga);
+					usoDeVagas.add(usoDeVaga);
+					break;
+
+				default:
+					break;
+			}
+		// }
 	}
 
 	/**
 	 * Sair veiculo da vaga de estacionamento
 	 * @return retorna o valor do veiculo 
 	 */
-	public double sair(Vaga vaga) {
-		for (int i = 0; i < usoDeVagas.size(); i++) {
-			if ((usoDeVagas.get(i)).getVaga().equals(vaga)) {
-				LocalDateTime localnow = LocalDateTime.now();
-				usoDeVagas.get(i).registrarSaida(localnow);
-				return usoDeVagas.get(i).getValorPago();
+
+	 public double sair() {
+
+		for (UsoDeVaga usoDeVaga: usoDeVagas ) {
+			if(usoDeVaga.getSaida() == null){
+				return usoDeVaga.sair();
 			}
 		}
 		return 0.0;
@@ -103,6 +121,19 @@ public class Veiculo {
 		for(UsoDeVaga uso : usoDeVagas){
 			if(uso.getEntrada().getMonthValue() == mes){
 				total += uso.getValorPago();
+			}
+		}
+
+		return total;
+	}
+
+	public int usoMensalCorrente() {
+		
+		int total = 0;
+		
+		for(UsoDeVaga uso : usoDeVagas){
+			if(uso.getEntrada().getMonthValue() == LocalDateTime.now().getMonthValue() && uso.getEntrada().getYear() == LocalDateTime.now().getYear()){
+				total++;
 			}
 		}
 

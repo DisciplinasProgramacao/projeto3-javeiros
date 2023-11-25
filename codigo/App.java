@@ -158,8 +158,9 @@ public class App {
             System.out.println("| 8. Top 5 clientes                                                         |");
             System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente |");
             System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");  
-            System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");  
-            System.out.println("| 12. Sair                                                                  |");
+            System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
+            System.out.println("| 12. Gerar vagas                                                           |");        
+            System.out.println("| 13. Sair                                                                  |");
             System.out.println("|---------------------------------------------------------------------------|");
             option = Integer.parseInt(teclado.nextLine());
 
@@ -195,9 +196,12 @@ public class App {
                     mediaUsosMensalistasMesCorrente(estacionamento);
                     break;
                 case 11:
-                    arrecadacaoMediaClientesHoristasNoMesCorrente(estacionamento);
+                    //arrecadacaoMediaClientesHoristasNoMesCorrente(estacionamento);
                     break;
                 case 12:
+                    gerarVagas(estacionamento);
+                    break;    
+                case 13:
                     break;
             }
             System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
@@ -223,8 +227,9 @@ public class App {
         String idCli = teclado.nextLine();
         System.out.println("Digite a placa do veículo: ");
         String placa = teclado.nextLine();
-        estacionamento.addVeiculo(placa, idCli);
-
+        System.out.println("Digite o tipo de uso (HORISTA ou MENSALISTA): ");
+        TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
+                estacionamento.addVeiculo(placa, idCli, tipoUso);
     }
 
     public static void estacionar(Estacionamento estacionamento) {
@@ -298,24 +303,25 @@ public class App {
      * Calcula e imprime a média de usos mensais para clientes mensalistas no mês corrente.
      *
      * Este método recebe um objeto Estacionamento e utiliza o método mediaUsosClientesMensalistas()
-     * desse objeto para calcular a média de usos mensais para clientes mensalistas no mês corrente.
+     * desse objeto para calcular a média de usos mensaxis para clientes mensalistas no mês corrente.
      * A média calculada é então impressa no console.
      *
      * @param estacionamento O objeto Estacionamento que contém as informações sobre os clientes e seus usos.
      */
     public static void mediaUsosMensalistasMesCorrente(Estacionamento estacionamento){
-        System.out.println("A média dos usuos dos cliente mensalistas no mes correte foi de: "+ estacionamento.mediaUsosClientesMensalistas());
+        System.out.println("A média dos usuos dos cliente mensalistas no mes correte foi de: "+ estacionamento.mediaUsoClienteMensalista());
     }
 
     public static void main(String args[]) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
         menu();
     }
 
+    //!Esse código não deve estar na aplicação
 
     /**
      * Método responsável por calcular a arrecadação média dos horistas no especionamento passsado como parâmetro
      * @param estacionamento estacionamento no qual será calculado a arrecadacao média dos clientes horistas
-     */
+    */
     public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento) throws ExcecaoNenhumClienteCadastrado {
         Map<String, Cliente> clientes = estacionamento.getId();
         double totalArrecadado = 0.0;
@@ -342,7 +348,13 @@ public class App {
             estacionamento.getNome() + "\" no mês é: " + 
             totalArrecadado / clientes.size()
         );
-
     }
+
+    public static void gerarVagas(Estacionamento  estacionamento){
+        int vagas;
+        System.out.println("Digite o numero de vagas os qual deseja gerar?");
+        vagas = Integer.parseInt(teclado.nextLine());
+        estacionamento.gerarVagas(vagas);; 
+    }  
 
 }

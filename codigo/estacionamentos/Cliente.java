@@ -4,24 +4,48 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import estacionamentos.Enums.TipoUso;
+
 public class Cliente {
 
 	private String nome;
 	private String id;
 	private LinkedList<Veiculo> veiculos;
+	private TipoUso tipoUso;
 
 	/**
-	 * Construtor para a criação de um Cliente, o qual possuirá um nome próprio, um
-	 * identificador e a instanciação de uma lista que conterá seus veículos.
+	 * Construtor para a criação de um Cliente.
 	 * 
-	 * @param nome do tipo String, contendo o nome do Cliente
-	 * @param id   do tipo String, contendo o id do Cliente
+	 * @param nome 	Nome do cliente
+	 * @param id    Identificador único do cliente.
 	 */
 	public Cliente(String nome, String id) {
 		setNome(nome);
 		setId(id);
 		veiculos = new LinkedList<>();
 	}
+
+	/**
+     * Construtor para a criação de um Cliente especificando o Enum tipo de uso.
+     *
+     * @param nome    Nome do cliente.
+     * @param id      Identificador único do cliente.
+     * @param tipoUso Tipo de uso associado ao cliente.
+     */
+	public Cliente(String nome, String id, TipoUso tipoUso) {
+        setNome(nome);
+        setId(id);
+        setTipoUso(tipoUso);
+        veiculos = new LinkedList<>();
+    }
+
+	public TipoUso getTipoUso() {
+        return tipoUso;
+    }
+
+    public void setTipoUso(TipoUso tipoUso) {
+        this.tipoUso = tipoUso;
+    }
 
 	public String getNome() {
 		return this.nome;
@@ -210,4 +234,15 @@ public class Cliente {
 	public String toString(){
 		return "Nome: " + nome + "\nVeículos: " + veiculos;
 	}
+
+	public int usoMensalCorrente(){
+		int total = 0;
+		for(Veiculo veiculo: veiculos){
+			total = total + veiculo.usoMensalCorrente();
+		}
+		return total;
+
+	}
+
+	
 }
