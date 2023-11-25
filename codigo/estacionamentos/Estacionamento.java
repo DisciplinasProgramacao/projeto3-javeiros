@@ -11,8 +11,10 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import excecoes.ExcecaoClienteJaCadastrado;
+import excecoes.ExcecaoNaoPossuiVagasDisponiveis;
 import excecoes.ExcecaoNenhumClienteCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
+import excecoes.ExcecaoVeiculoNaoCadastrado;
 
 public class Estacionamento {
 
@@ -148,8 +150,9 @@ public class Estacionamento {
 	 * 
 	 * @param placa placa do veículo do cliente
 	 */
-	public void estacionar(String placa) {
+	public void estacionar(String placa) throws ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
 		Veiculo veiculo = null;
+		boolean vagaDisponivel = false;
 
 		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
 			veiculo = cliente.getValue().possuiVeiculo(placa);
@@ -162,9 +165,16 @@ public class Estacionamento {
 			for (Vaga vaga : vagas) {
 				if (vaga.disponivel()) {
 					veiculo.estacionar(vaga);
+					vagaDisponivel = true;
 					break;
 				}
 			}
+		}else{
+			throw new ExcecaoVeiculoNaoCadastrado("O veiculo com a placa: " + placa + " não esta cadastrado no sistema");
+		}
+
+		if(!vagaDisponivel){
+			throw new ExcecaoNaoPossuiVagasDisponiveis("O estacionamento não possui vagas disponiveis");
 		}
 	}
 
@@ -237,18 +247,18 @@ public class Estacionamento {
  	*
  	* @return A média de usos mensais para clientes mensalistas.
  	*/
-	public double mediaUsoClienteMensalista(){
-		int count;
-		int usos;
-
-		/* 
-		id.values().stream()
-			.filter(cliente -> cliente.getTipoUso() == "Mensalista").forEach( cliente -> {
-				count++;
-				usos = usos + cliente.getValue().usoMensalCorrente();	
-			});	
-		return usos/count;
-		*/
+	 public double mediaUsoClienteMensalista(){
+		double usos = id.values().stream()
+				.filter(cliente -> cliente.getTipoUso() == TipoUso.MENSALISTA)
+				.mapToDouble(Cliente::usoMensalCorrente)
+				.sum();
+	
+		long count = id.values().stream()
+				.filter(cliente -> cliente.getTipoUso() == TipoUso.MENSALISTA)
+				.count();
+	
+		// Verifica se count é diferente de zero para evitar divisão por zero
+		return (count != 0) ? usos / count : 0.0;
 	}
 
 	/**

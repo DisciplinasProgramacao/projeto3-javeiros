@@ -14,7 +14,10 @@ import excecoes.ExcecaoNenhumClienteCadastrado;
 import estacionamentos.*;
 import estacionamentos.Enums.TipoUso;
 import excecoes.ExcecaoClienteJaCadastrado;
+import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
+import excecoes.ExcecaoNaoPossuiVagasDisponiveis;
 import excecoes.ExcecaoVeiculoJaCadastrado;
+import excecoes.ExcecaoVeiculoNaoCadastrado;
 
 public class App {
 
@@ -76,7 +79,7 @@ public class App {
         }
     }
 
-    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
+    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
 
         int i = 0;
         while (i != 3) {
@@ -140,7 +143,7 @@ public class App {
         return null;
     }
 
-    public static void switchMenuEstacionameto(Estacionamento estacionamento) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
+    public static void switchMenuEstacionameto(Estacionamento estacionamento) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis{
         Estacionamento estAtual = estacionamento;
         int option = 0;
         while(option != 9){
@@ -159,8 +162,9 @@ public class App {
             System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente |");
             System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");  
             System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
-            System.out.println("| 12. Gerar vagas                                                           |");        
-            System.out.println("| 13. Sair                                                                  |");
+            System.out.println("| 12. Gerar vagas                                                           |");
+            System.out.println("| 12. Relatorio do Veiculo                                                  |");                
+            System.out.println("| 14. Sair                                                                  |");
             System.out.println("|---------------------------------------------------------------------------|");
             option = Integer.parseInt(teclado.nextLine());
 
@@ -169,13 +173,13 @@ public class App {
                     addCliente(estacionamento);
                     break;
                 case 2:
-                    addVeiculo(estacionamento);  //!ver se essa logica vai funcionar [passar o estacionamento como parametro]
+                    addVeiculo(estacionamento); 
                     break;
                 case 3:
-                    estacionar(estacionamento);
+                    estacionar(estacionamento); //!Verficar funcionamento correto
                     break;
                 case 4:
-                    sair(estacionamento);
+                    sair(estacionamento); //! Principal Erro (não está retornando o valor corretamente);
                     break;
                 case 5:
                     totalArrecadado(estacionamento);
@@ -200,8 +204,11 @@ public class App {
                     break;
                 case 12:
                     gerarVagas(estacionamento);
-                    break;    
+                    break;
                 case 13:
+                    relatorioDoVeiculo(estacionamento);
+                    break;        
+                case 14:
                     break;
             }
             System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
@@ -232,7 +239,7 @@ public class App {
                 estacionamento.addVeiculo(placa, idCli, tipoUso);
     }
 
-    public static void estacionar(Estacionamento estacionamento) {
+    public static void estacionar(Estacionamento estacionamento) throws ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis{
         System.out.println("Digite a placa do veiculos: ");
         String placa = teclado.nextLine();
         estacionamento.estacionar(placa);
@@ -313,10 +320,14 @@ public class App {
     }
 
     public static void main(String args[]) throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
-        menu();
+        try{
+            menu();
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        
     }
 
-    //!Esse código não deve estar na aplicação
 
     
     public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento) throws ExcecaoNenhumClienteCadastrado {
@@ -335,4 +346,9 @@ public class App {
         estacionamento.gerarVagas(vagas);; 
     }  
 
+    public static void relatorioDoVeiculo(Estacionamento estacionamento){
+        System.out.println("Digite a placa do veiculo");
+        String placa =  teclado.nextLine();
+        
+    }
 }
