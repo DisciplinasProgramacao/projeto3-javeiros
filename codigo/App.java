@@ -79,7 +79,7 @@ public class App {
         }
     }
 
-    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
+    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
 
         int i = 0;
         while (i != 3) {

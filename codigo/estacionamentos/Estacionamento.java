@@ -135,6 +135,11 @@ public class Estacionamento {
 			}
 		}
 
+		for(int i = 0; i < 5; i++){
+			if(topClientes[i] == null)
+				topClientes[i] = new SemCliente();
+		}
+
 		// Agora topClientes contém os 5 principais clientes
 		String[] nomesTopClientes = new String[5];
 		for (int i = 0; i < 5; i++) {

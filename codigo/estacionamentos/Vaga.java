@@ -20,7 +20,8 @@ public class Vaga {
     }
 
     public boolean sair() {
-        if (!disponivel) {
+        // true
+        if (disponivel) { // false
             disponivel = true;
             return true;
         }

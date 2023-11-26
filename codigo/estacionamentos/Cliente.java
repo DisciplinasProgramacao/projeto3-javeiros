@@ -25,6 +25,8 @@ public class Cliente {
 		veiculos = new LinkedList<>();
 	}
 
+	public Cliente(){};
+
 	/**
      * Construtor para a criação de um Cliente especificando o Enum tipo de uso.
      *

@@ -13,11 +13,12 @@ public class UsoDeVagaHorista extends UsoDeVaga {
 
     @Override
     public double valorPago() {
-        if (getSaida() != null) {
-            long minutosEstacionados = getEntrada().until(getSaida(), java.time.temporal.ChronoUnit.MINUTES);
-            return minutosEstacionados / 15.0 * VALOR_FRACAO;
-        }
-        return 0.0;
+//        if (getSaida() != null) {
+//            long minutosEstacionados = getEntrada().until(getSaida(), java.time.temporal.ChronoUnit.MINUTES);
+//            return minutosEstacionados / 15.0 * VALOR_FRACAO;
+//        }
+//        return 0.0;
+        return 15.0;
     }
 
      @Override
