@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import excecoes.ExcecaoNenhumClienteCadastrado;
 import estacionamentos.*;
@@ -33,12 +29,12 @@ public class App {
         } catch (IOException | ClassNotFoundException e) {
             // Arquivo de dados não encontrado
             // Cria dados iniciais manualmente
-            criarDadosIniciais();
+            //criarDadosIniciais();
         }
     }
 
     // Cria dados iniciais manualmente
-    public static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado {
+    public static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
         // Criação dos estacionamentos
         Estacionamento estacionamento1 = new Estacionamento("Estacionamento A");
         Estacionamento estacionamento2 = new Estacionamento("Estacionamento B");
@@ -52,7 +48,7 @@ public class App {
         for (Estacionamento estacionamento : todosEstacionamentos) {
             for (int i = 0; i < 2; i++) {
                 Cliente cliente = new Cliente("Cliente" + (i + 1), "ID" + (i + 1));
-                cliente.addVeiculo(new Veiculo("Placa" + (i + 1)));
+                cliente.addVeiculo(new Veiculo("Placa" + (i + 1), TipoUso.HORISTA));
                 estacionamento.addCliente(cliente);
             }
         }
@@ -176,10 +172,10 @@ public class App {
                     addVeiculo(estacionamento); 
                     break;
                 case 3:
-                    estacionar(estacionamento); //!Verficar funcionamento correto
+                    estacionar(estacionamento);
                     break;
                 case 4:
-                    sair(estacionamento); //! Principal Erro (não está retornando o valor corretamente);
+                    sair(estacionamento);
                     break;
                 case 5:
                     totalArrecadado(estacionamento);
@@ -234,7 +230,7 @@ public class App {
         String idCli = teclado.nextLine();
         System.out.println("Digite a placa do veículo: ");
         String placa = teclado.nextLine();
-        System.out.println("Digite o tipo de uso (HORISTA ou MENSALISTA): ");
+        System.out.println("Digite o tipo de uso (HORISTA, MENSALISTA OU TURNO): ");
         TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
                 estacionamento.addVeiculo(placa, idCli, tipoUso);
     }
@@ -282,7 +278,8 @@ public class App {
     public static void topClientes(Estacionamento estacionamento) {
         System.out.println("Digite o número do mes, para saber quais foram os top 5 clientes em determinado mês:\n");
         int mes = Integer.parseInt(teclado.nextLine());
-        System.out.println(estacionamentoHelper.top5Clientes(mes));
+        System.out.println(estacionamento.top5Clientes(mes));
+
     }
 
     
@@ -293,17 +290,21 @@ public class App {
 	 */
     public static void exibirArrecadacaoTotalPorEstacionamento() {
 
-        List<Double> arrecadacaoPorEstacionamento = new ArrayList<>();
-        for (Estacionamento estacionamento : todosEstacionamentos) {
-            arrecadacaoPorEstacionamento.add(estacionamento.totalArrecadado());
+        System.out.println("Digite o mes de arrecadação:");
+        int mes = Integer.parseInt(teclado.nextLine());
+
+        Map<String, Double> listaArrecadado = new TreeMap<>();
+
+        for(Estacionamento estac : estacionamentos){
+            if(estac != null){
+                listaArrecadado.put(estac.getNome(), estac.arrecadacaoNoMes(mes));
+            }
         }
 
-        Collections.sort(arrecadacaoPorEstacionamento, Collections.reverseOrder());
-
-        System.out.println("Arrecadação total por estacionamento em ordem decrescente:");
-        for (int i = 0; i < arrecadacaoPorEstacionamento.size(); i++) {
-            System.out.println(todosEstacionamentos.get(i).getNome() + ": " + arrecadacaoPorEstacionamento.get(i));
+        for(String nome : listaArrecadado.keySet()){
+            System.out.println(nome + ": " + listaArrecadado.get(nome));
         }
+
     }
 
     /**
