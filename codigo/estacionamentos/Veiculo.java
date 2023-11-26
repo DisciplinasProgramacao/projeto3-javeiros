@@ -131,6 +131,10 @@ public class Veiculo {
 	public int usoMensalCorrente() {
 		
 		int total = 0;
+
+		if(tipoUso != TipoUso.MENSALISTA){
+			return total;
+		}
 		
 		for(UsoDeVaga uso : usoDeVagas){
 			if(uso.getEntrada().getMonthValue() == LocalDateTime.now().getMonthValue() && uso.getEntrada().getYear() == LocalDateTime.now().getYear()){
