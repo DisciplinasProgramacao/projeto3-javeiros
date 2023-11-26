@@ -353,11 +353,13 @@ public class App {
         System.out.println("Digite o numero de vagas os qual deseja gerar?");
         vagas = Integer.parseInt(teclado.nextLine());
         estacionamento.gerarVagas(vagas);; 
-    }  
+    }
 
     public static void relatorioDoVeiculo(Estacionamento estacionamento){
         System.out.println("Digite a placa do veiculo");
         String placa =  teclado.nextLine();
-        
+
+        estacionamento.relatorioVeiculos(placa);
+
     }
 }

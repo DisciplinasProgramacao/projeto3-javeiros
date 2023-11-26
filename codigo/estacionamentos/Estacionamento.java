@@ -288,5 +288,13 @@ public class Estacionamento {
 		return totalArrecadado / clientes.size();
 	}
 
+	public static void relatorioDoVeiculo(estacionamentos.Estacionamento estacionamento){
+		System.out.println("Digite a placa do veiculo");
+		String placa =  teclado.nextLine();
+
+		estacionamento.relatorioVeiculos(placa);
+
+	}
+
 	
 }
