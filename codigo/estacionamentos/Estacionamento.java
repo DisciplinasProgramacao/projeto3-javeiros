@@ -253,18 +253,20 @@ public class Estacionamento {
  	* @return A média de usos mensais para clientes mensalistas.
  	*/
 	 public double mediaUsoClienteMensalista(){
-		double usos = id.values().stream()
-				.filter(cliente -> cliente.getTipoUso() == TipoUso.MENSALISTA)
-				.mapToDouble(Cliente::usoMensalCorrente)
-				.sum();
+		int count = 0; // Inicialização de count
+		double usos = 0.0; // Inicialização de usos como double
 	
-		long count = id.values().stream()
-				.filter(cliente -> cliente.getTipoUso() == TipoUso.MENSALISTA)
-				.count();
+		for (Cliente cliente : id.values()) {
+			if (cliente.getTipoUso() == TipoUso.MENSALISTA) {
+				count++;
+				usos += cliente.usoMensalCorrente();
+			}
+		}    
 	
-		// Verifica se count é diferente de zero para evitar divisão por zero
-		return (count != 0) ? usos / count : 0.0;
+		return usos/count;
 	}
+	
+	
 
 	/**
      * Método responsável por calcular a arrecadação média dos horistas no especionamento passsado como parâmetro

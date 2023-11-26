@@ -243,7 +243,6 @@ public class Cliente {
 			total = total + veiculo.usoMensalCorrente();
 		}
 		return total;
-
 	}
 
 	
