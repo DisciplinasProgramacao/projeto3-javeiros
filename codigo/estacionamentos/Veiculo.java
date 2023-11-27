@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import estacionamentos.Enums.TipoUso;
+import estacionamentos.interfaces.CalcularUsoDeVaga;
 import excecoes.ExcecaoRelatorioVazio;
 
 public class Veiculo {
@@ -58,19 +59,19 @@ public class Veiculo {
 	 */
 	public void estacionar(Vaga vaga) {
 		// if(vaga.disponivel()){
-			UsoDeVaga usoDeVaga;
+		UsoDeVaga usoDeVaga;
 			
 			switch ((tipoUso)) {
 				case HORISTA:
-					usoDeVaga = new UsoDeVagaHorista(vaga);
+					usoDeVaga = new UsoDeVaga(vaga, new UsoDeVagaHorista());
 					usoDeVagas.add(usoDeVaga);
 					break;
 				case TURNO:
-					usoDeVaga = new UsoDeVagaTurno(vaga);
+					usoDeVaga = new UsoDeVaga(vaga, new UsoDeVagaTurno());
 					usoDeVagas.add(usoDeVaga);
 					break;
 				case MENSALISTA:
-					usoDeVaga = new UsoDeVagaMensalista(vaga);
+					usoDeVaga = new UsoDeVaga(vaga, new UsoDeVagaMensalista());
 					usoDeVagas.add(usoDeVaga);
 					break;
 

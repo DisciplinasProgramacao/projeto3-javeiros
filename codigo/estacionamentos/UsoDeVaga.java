@@ -4,16 +4,20 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import estacionamentos.Enums.TipoServico;
+import estacionamentos.interfaces.CalcularUsoDeVaga;
+import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
+import excecoes.ExcecaoSaidaJaFinalizada;
 import excecoes.ExcecaoServicoJaContratado;
 import excecoes.ExcecaoTempoMinimoNaoAtingido;
 
-public abstract class UsoDeVaga {
+public class UsoDeVaga {
 
     public final double FRACAO_USO = 0.25;
     public final double VALOR_FRACAO = 4.0;
     public final double VALOR_MAXIMO = 50.0;
     public final double MENSALIDADE = 500.0;
 
+    private final CalcularUsoDeVaga calcularUsoDeVaga;
 
     private Vaga vaga;
     private LocalDateTime entrada;
@@ -27,11 +31,12 @@ public abstract class UsoDeVaga {
      * @param vaga    Vaga que será utilizada.
      * @param entrada Data e hora da entrada do veículo na vaga.
      */
-    public UsoDeVaga(Vaga vaga) {// *ok */
+    public UsoDeVaga(Vaga vaga, CalcularUsoDeVaga calcularUsoDeVaga) {// *ok */
         this.vaga = vaga;
         this.entrada = LocalDateTime.now();
         this.saida = null;
         this.valorPago = 0.0;
+        this.calcularUsoDeVaga = calcularUsoDeVaga;
     }
 
     public Vaga getVaga() {
@@ -117,12 +122,27 @@ public abstract class UsoDeVaga {
     // }
 
     // Código criado hoje, dia 25/11
-    public abstract double sair();
 
     public LocalDateTime setSaida(LocalDateTime saida) {
         return this.saida = saida;
     }
- 
-    public abstract double valorPago();
+
+    public double sair() {
+        if (getSaida() != null) {
+            throw new ExcecaoSaidaJaFinalizada();
+        }
+
+        if (getVaga().sair()) {
+            setSaida(LocalDateTime.now());
+            return this.valorPago = valorPago();
+        } else {
+            throw new ExcecaoNaoEhPossivelSairDaVaga();
+        }
+    }
+
+    public double valorPago(){
+        return calcularUsoDeVaga.valorPago(getEntrada(), getSaida());
+    }
+
 
 }

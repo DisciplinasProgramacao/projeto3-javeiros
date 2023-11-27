@@ -2,31 +2,16 @@ package estacionamentos;
 
 import java.time.LocalDateTime;
 
+import estacionamentos.interfaces.CalcularUsoDeVaga;
 import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
 import excecoes.ExcecaoSaidaJaFinalizada;
 
-public class UsoDeVagaMensalista extends UsoDeVaga {
+public class UsoDeVagaMensalista implements CalcularUsoDeVaga {
 
-    public UsoDeVagaMensalista(Vaga vaga) {
-        super(vaga);
-    }
+    public final double MENSALIDADE = 500.0;
 
     @Override
-    public double sair() {
-        if (getSaida() != null) {
-            throw new ExcecaoSaidaJaFinalizada();
-        }
-
-        if (getVaga().sair()) {
-            setSaida(LocalDateTime.now());
-            return this.valorPago = valorPago();
-        } else {
-            throw new ExcecaoNaoEhPossivelSairDaVaga();
-        }
-    }
-
-    @Override
-    public double valorPago() {
+    public double valorPago(LocalDateTime getEntrada, LocalDateTime getSaida) {
         return MENSALIDADE;
     }
 
