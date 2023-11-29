@@ -43,8 +43,8 @@ public class Veiculo {
 	}
 
 	// 
-	public Collection<UsoDeVaga> getListUsoDeVaga(){
-		return List.copyOf(this.usoDeVagas);
+	public List<UsoDeVaga> getListUsoDeVaga(){
+		return this.usoDeVagas;
 	}
 
 	public Veiculo(String placa, TipoUso tipoUso) {

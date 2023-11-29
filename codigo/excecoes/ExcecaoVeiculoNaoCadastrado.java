@@ -1,6 +1,6 @@
 package excecoes;
 
-public class ExcecaoVeiculoNaoCadastrado extends Exception {
+public class ExcecaoVeiculoNaoCadastrado extends RuntimeException {
     public ExcecaoVeiculoNaoCadastrado(String msg) {
         super(msg);
     }

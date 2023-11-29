@@ -7,12 +7,14 @@ import java.time.LocalDate;
 import java.util.*;
 
 import excecoes.ExcecaoNenhumClienteCadastrado;
+import excecoes.ExcecaoSaidaJaFinalizada;
 import estacionamentos.*;
 import estacionamentos.Enums.TipoUso;
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
 import excecoes.ExcecaoNaoPossuiVagasDisponiveis;
 import excecoes.ExcecaoVeiculoJaCadastrado;
+import excecoes.ExcecaoVeiculoJaEstacionado;
 import excecoes.ExcecaoVeiculoNaoCadastrado;
 
 public class App {
@@ -20,7 +22,7 @@ public class App {
     private static Scanner teclado = new Scanner(System.in);
     private static Estacionamento[] estacionamentos = new Estacionamento[40];
     private static Estacionamento estacionamentoHelper;
-    private static List<Estacionamento> todosEstacionamentos = new ArrayList<>();
+    private static List<Estacionamento> todosEstacionamentos = new ArrayList<Estacionamento>();
 
     // Carrega dados iniciais
     private static void carregarDadosIniciais() {
@@ -80,7 +82,7 @@ public class App {
     public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
 
         int i = 0;
-        while (i != 3) {
+        do {
             System.out.println("|-------------------------------|");
             System.out.println("|        Menu Principal         |");
             System.out.println("|-------------------------------|");
@@ -90,21 +92,33 @@ public class App {
             System.out.println("|-------------------------------|");
             System.out.print("Digite uma das opções acima: ");
 
-            i = Integer.parseInt(teclado.nextLine());
+            // i = Integer.parseInt(teclado.nextLine());
 
-            switch (i) {
-
-                case 1:
-                    addEstacionamento();
-                    break;
-                case 2:
-                    Estacionamento estc = selecionarEstacionamentos();
-                    //int optionMenu = menuEstacionamento();
-                    switchMenuEstacionameto(estc);
-                    break;
+            while (!teclado.hasNextInt()) {
+                System.out.println("Por favor, insira um número válido.");
+                teclado.nextLine();
             }
 
-        }
+            i = teclado.nextInt();
+
+        
+            switch (i) {
+                case 1:
+                    App.addEstacionamento();
+                    break;
+                case 2:
+                    Estacionamento estc = App.selecionarEstacionamentos();
+                    App.switchMenuEstacionameto(estc);
+                    break;
+                case 3:
+                    System.out.println("Encerrando...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+
+        } while (i != 3);
+
     }
 
     public static void addEstacionamento() {
@@ -115,30 +129,44 @@ public class App {
         Estacionamento estacionamento;
 
         System.out.println("Digite o nome do Estacionamento: ");
+        teclado.nextLine();
+
         nome = teclado.nextLine();
         estacionamento = new Estacionamento(nome);
-        for (int i = 0; i < estacionamentos.length; i++) {
-            if (estacionamentos[i] == null) {
-                estacionamentos[i] = estacionamento;
-                System.out.println("Estacionamento " + estacionamentos[i].getNome() + " criado com sucesso!");
-                break;
-            }
-        }
+
+        todosEstacionamentos.add(estacionamento);
+        System.out.println("Estacionamento " + estacionamento.getNome() + " criado com sucesso!");
+
     }
 
 
     public static Estacionamento selecionarEstacionamentos() {
-        System.out.println("Digite o nome do estacionamento que você quer acessar:");
-        for (int i = 0; i < estacionamentos.length && estacionamentos[i] != null; i++) {
-            System.out.println(i + "- "+ estacionamentos[i].getNome());
-        }
-        String nometmp = teclado.nextLine();
-        for (int i = 0; i < estacionamentos.length && estacionamentos[i] != null; i++) {
-            if (estacionamentos[i].getNome().equals(nometmp)) {
-                return estacionamentos[i];
+        Estacionamento estacionamentoSelecionado = null;
+
+        // if(estacionamentos.length < 1){
+        //     throw Alguma coisa
+        // }
+
+        do {
+            System.out.println("Digite o nome do estacionamento que você quer acessar:");
+            int i = 0;
+            for (Estacionamento estacionamento : todosEstacionamentos) {
+                i++;
+                System.out.println(i + "- "+ estacionamento.getNome());
             }
-        }
-        return null;
+
+            String nometmp = teclado.nextLine();
+            i = 0;
+
+            for (Estacionamento estacionamento : todosEstacionamentos) {
+                if (estacionamento.getNome().equals(nometmp)) {
+                    estacionamentoSelecionado = estacionamento;
+                }
+            }
+        } while(estacionamentoSelecionado == null);
+
+        return estacionamentoSelecionado;
+        
     }
 
     public static void switchMenuEstacionameto(Estacionamento estacionamento){
@@ -243,18 +271,34 @@ public class App {
                 estacionamento.addVeiculo(placa, idCli, tipoUso);
     }
 
-    public static void estacionar(Estacionamento estacionamento) throws ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis{
+    public static void estacionar(Estacionamento estacionamento) throws ExcecaoNaoPossuiVagasDisponiveis{
         System.out.println("Digite a placa do veiculos: ");
-        String placa = teclado.nextLine();
-        estacionamento.estacionar(placa);
+        try {
+            String placa = teclado.nextLine();
+            estacionamento.estacionar(placa);
+        } catch (ExcecaoVeiculoNaoCadastrado veiculoNaoCadastrado) {
+            System.out.println("Esse veiculo não está cadastrado, deseja cadastrar? 1 - Sim | 2 - Não");
+            String resposta = teclado.nextLine();
+
+            if(resposta.equals("1")){
+                App.addVeiculo(estacionamento);
+            }
+        } catch (ExcecaoVeiculoJaEstacionado veiculoJaEstacionado){
+            System.out.println(veiculoJaEstacionado.getMessage());
+        }
+ 
     }
 
     public static void sair(Estacionamento estacionamento) {
         System.out.println("Digite a placa da vaga na qual o veiculo irá sair");
-        String placa = teclado.nextLine();
-        Double valor = estacionamento.sair(placa);
-        if(valor != 0.0){
-            System.out.println("Veículo retirado. Valor pago = "+ valor);
+        try {
+            String placa = teclado.nextLine();
+            Double valor = estacionamento.sair(placa);
+            if(valor != 0.0){
+                System.out.println("Veículo retirado. Valor pago = "+ valor);
+            }
+        } catch (ExcecaoSaidaJaFinalizada e) {
+            System.out.println("Esse veículo não está estacionado.");
         }
     }
 

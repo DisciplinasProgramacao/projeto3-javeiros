@@ -8,12 +8,14 @@ import estacionamentos.Enums.TipoUso;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoNaoPossuiVagasDisponiveis;
 import excecoes.ExcecaoNenhumClienteCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
+import excecoes.ExcecaoVeiculoJaEstacionado;
 import excecoes.ExcecaoVeiculoNaoCadastrado;
 
 public class Estacionamento {
@@ -22,8 +24,7 @@ public class Estacionamento {
 	// private int contClientes = 1;
 	private String nome;
 	public Map<String, Cliente> id;
-    private LinkedList<Vaga> vagas;
-
+	private LinkedList<Vaga> vagas;
 
 	/**
 	 * Construtor de Estacionamento
@@ -46,11 +47,11 @@ public class Estacionamento {
 		this.id = id;
 	}
 
-	public void gerarVagas( int numeroVagas){
+	public void gerarVagas(int numeroVagas) {
 		vagas.clear();
 
-		for(int i = 1; i <= numeroVagas; i++){
-			vagas.add(new Vaga('i',i));
+		for (int i = 1; i <= numeroVagas; i++) {
+			vagas.add(new Vaga('i', i));
 		}
 	}
 
@@ -62,14 +63,14 @@ public class Estacionamento {
 	 * @throws ExcecaoVeiculoJaCadastrado
 	 */
 	public void addVeiculo(String placa, String idCli, TipoUso tipoUso) throws ExcecaoVeiculoJaCadastrado {
-        Cliente clienteEncontrado = id.get(idCli);
+		Cliente clienteEncontrado = id.get(idCli);
 
-        if (clienteEncontrado != null && clienteEncontrado.possuiVeiculo(placa) != null) {
-            throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
-        } else {
-            clienteEncontrado.addVeiculo(new Veiculo(placa, tipoUso));
-        }
-    }
+		if (clienteEncontrado != null && clienteEncontrado.possuiVeiculo(placa) != null) {
+			throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
+		} else {
+			clienteEncontrado.addVeiculo(new Veiculo(placa, tipoUso));
+		}
+	}
 
 	/**
 	 * Função para adicionar cliente
@@ -78,12 +79,12 @@ public class Estacionamento {
 	 * @throws ExcecaoClienteJaCadastrado
 	 */
 	public void addCliente(Cliente cliente) throws ExcecaoClienteJaCadastrado {
-        if (id.containsKey(cliente.getId())) {
-            throw new ExcecaoClienteJaCadastrado("Cliente já cadastrado no sistema!");
-        } else {
-            id.put(cliente.getId(), cliente);
-        }
-    }
+		if (id.containsKey(cliente.getId())) {
+			throw new ExcecaoClienteJaCadastrado("Cliente já cadastrado no sistema!");
+		} else {
+			id.put(cliente.getId(), cliente);
+		}
+	}
 
 	/**
 	 * Função que calcula o valor medio total do estacionamento
@@ -135,8 +136,8 @@ public class Estacionamento {
 			}
 		}
 
-		for(int i = 0; i < 5; i++){
-			if(topClientes[i] == null)
+		for (int i = 0; i < 5; i++) {
+			if (topClientes[i] == null)
 				topClientes[i] = new SemCliente();
 		}
 
@@ -155,7 +156,7 @@ public class Estacionamento {
 	 * 
 	 * @param placa placa do veículo do cliente
 	 */
-	public void estacionar(String placa) throws ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
+	public void estacionar(String placa) throws ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoVeiculoJaEstacionado {
 		Veiculo veiculo = null;
 		boolean vagaDisponivel = false;
 
@@ -164,10 +165,21 @@ public class Estacionamento {
 			if (veiculo != null) {
 				break;
 			}
+
 		}
 
 		if (veiculo != null) {
+
+			List<UsoDeVaga> usoDeVagas = veiculo.getListUsoDeVaga();
+
 			for (Vaga vaga : vagas) {
+
+				for(UsoDeVaga usoDeVaga : usoDeVagas){
+					if(usoDeVaga.getVaga().equals(vaga) && !vaga.disponivel()){
+						throw new ExcecaoVeiculoJaEstacionado();
+					}
+				}
+
 				if (vaga.disponivel()) {
 					veiculo.estacionar(vaga);
 					vagaDisponivel = true;
@@ -193,6 +205,7 @@ public class Estacionamento {
 
 		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
 			Veiculo v = cliente.getValue().possuiVeiculo(placa);
+
 			if (v != null) {
 				return v.sair();
 			}
@@ -243,58 +256,57 @@ public class Estacionamento {
 		}
 	}
 
-
 	/**
- 	* Calcula a média de usos no mesCorrente para clientes mensalistas.
- 	*
- 	* Este método itera sobre um conjunto de clientes, identifica os clientes mensalistas
- 	* e calcula a média de seus usos mensais. Retorna a média resultante.
- 	*
- 	* @return A média de usos mensais para clientes mensalistas.
- 	*/
-	 public double mediaUsoClienteMensalista(){
+	 * Calcula a média de usos no mesCorrente para clientes mensalistas.
+	 *
+	 * Este método itera sobre um conjunto de clientes, identifica os clientes
+	 * mensalistas
+	 * e calcula a média de seus usos mensais. Retorna a média resultante.
+	 *
+	 * @return A média de usos mensais para clientes mensalistas.
+	 */
+	public double mediaUsoClienteMensalista() {
 		int count = 0; // Inicialização de count
 		double usos = 0.0; // Inicialização de usos como double
-	
+
 		for (Cliente cliente : id.values()) {
 			if (cliente.getTipoUso() == TipoUso.MENSALISTA) {
 				count++;
 				usos += cliente.usoMensalCorrente();
 			}
-		}    
-	
-		return usos/count;
+		}
+
+		return usos / count;
 	}
-	
-	
 
 	/**
-     * Método responsável por calcular a arrecadação média dos horistas no especionamento passsado como parâmetro
-	 * @return a média do valor total arrecadado por todos clientes horistas 
-    */
-	public double arrecadacaoClientesHoristas() throws ExcecaoNenhumClienteCadastrado{
+	 * Método responsável por calcular a arrecadação média dos horistas no
+	 * especionamento passsado como parâmetro
+	 * 
+	 * @return a média do valor total arrecadado por todos clientes horistas
+	 */
+	public double arrecadacaoClientesHoristas() throws ExcecaoNenhumClienteCadastrado {
 		Map<String, Cliente> clientes = this.getId();
-        double totalArrecadado = 0.0;
+		double totalArrecadado = 0.0;
 
-        totalArrecadado = clientes.values().stream()
-            .filter(c->c.getTipoUso().equals(TipoUso.HORISTA))
-            .mapToDouble(Cliente::arrecadadoTotal)
-            .sum();
+		totalArrecadado = clientes.values().stream()
+				.filter(c -> c.getTipoUso().equals(TipoUso.HORISTA))
+				.mapToDouble(Cliente::arrecadadoTotal)
+				.sum();
 
-        if(clientes.size() < 1){
-            throw new ExcecaoNenhumClienteCadastrado();
-        }
+		if (clientes.size() < 1) {
+			throw new ExcecaoNenhumClienteCadastrado();
+		}
 
 		return totalArrecadado / clientes.size();
 	}
 
-	public static void relatorioDoVeiculo(estacionamentos.Estacionamento estacionamento){
+	public static void relatorioDoVeiculo(estacionamentos.Estacionamento estacionamento) {
 		System.out.println("Digite a placa do veiculo");
-		String placa =  teclado.nextLine();
+		String placa = teclado.nextLine();
 
 		estacionamento.relatorioVeiculos(placa);
 
 	}
 
-	
 }
