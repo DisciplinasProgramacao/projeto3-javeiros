@@ -63,4 +63,30 @@ class UsoDeVagaTest {
 
         assertEquals(50.0, uso.getValorPago());
     }
+
+
+    @Test
+    void testTempoEstacionamento() {
+        Vaga vaga = new Vaga('A', 1);
+        LocalDateTime entrada = LocalDateTime.now();
+        UsoDeVaga usoDeVaga = new UsoDeVaga(vaga, entrada);
+
+        LocalDateTime saida = entrada.plusHours(2);
+        usoDeVaga.registrarSaida(saida);
+
+        assertEquals(2, ChronoUnit.HOURS.between(usoDeVaga.getEntrada(), usoDeVaga.getSaida()));
+    }
+
+    @Test
+    void testValorPagoComTempoMaximo() {
+        Vaga vaga = new Vaga('A', 1);
+        LocalDateTime entrada = LocalDateTime.now();
+        UsoDeVaga usoDeVaga = new UsoDeVaga(vaga, entrada);
+
+        LocalDateTime saida = entrada.plusHours(10); // Supondo que 10 horas seja o tempo máximo
+        usoDeVaga.registrarSaida(saida);
+
+        assertEquals(usoDeVaga.getValorMaximo(), usoDeVaga.getValorPago());
+    }
+
 }
