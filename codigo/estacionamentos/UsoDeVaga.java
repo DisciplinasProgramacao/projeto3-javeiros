@@ -96,33 +96,6 @@ public class UsoDeVaga {
                 ", servico=" + servico + "}";
     }
 
-    // Codigo feito anteriormente
-
-    // public double sair() {// *ok
-    // if (saida != null) {
-    // throw new ExcecaoSaidaJaFinalizada();
-    // }
-    // if (vaga.sair()) {
-    // this.saida = LocalDateTime.now();
-    // return this.valorPago = valorPago();
-    // } else {
-    // throw new ExcecaoNaoEhPossivelSairDaVaga();
-    // }
-    // }
-
-    // public double valorPago() {// *ok */
-    //     if (saida != null) {
-    //         long minutosEstacionados = entrada.until(saida, java.time.temporal.ChronoUnit.MINUTES);
-    //         double valor = minutosEstacionados / 15.0 * VALOR_FRACAO;
-    //         if (servico != null) {
-    //             return valorPago = Math.min(valor, VALOR_MAXIMO) + servico.getValor();
-    //         }
-    //     }
-    //     return 0.0;
-    // }
-
-    // Código criado hoje, dia 25/11
-
     public LocalDateTime setSaida(LocalDateTime saida) {
         return this.saida = saida;
     }

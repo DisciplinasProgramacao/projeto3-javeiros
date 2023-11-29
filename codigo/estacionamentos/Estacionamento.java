@@ -1,9 +1,9 @@
 package estacionamentos;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 import estacionamentos.Enums.TipoUso;
+import estacionamentos.interfaces.UsoDeVagaFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -62,15 +62,15 @@ public class Estacionamento {
 	 * @param idCli
 	 * @throws ExcecaoVeiculoJaCadastrado
 	 */
-	public void addVeiculo(String placa, String idCli, TipoUso tipoUso) throws ExcecaoVeiculoJaCadastrado {
-		Cliente clienteEncontrado = id.get(idCli);
+	public void addVeiculo(String placa, String idCli, TipoUso tipoUso, UsoDeVagaFactory usoDeVagaFactory) throws ExcecaoVeiculoJaCadastrado {
+        Cliente clienteEncontrado = id.get(idCli);
 
-		if (clienteEncontrado != null && clienteEncontrado.possuiVeiculo(placa) != null) {
-			throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
-		} else {
-			clienteEncontrado.addVeiculo(new Veiculo(placa, tipoUso));
-		}
-	}
+        if (clienteEncontrado != null && clienteEncontrado.possuiVeiculo(placa) != null) {
+            throw new ExcecaoVeiculoJaCadastrado("Veículo já cadastrado para este cliente");
+        } else {
+            clienteEncontrado.addVeiculo(new Veiculo(placa, tipoUso, usoDeVagaFactory));
+        }
+    }
 
 	/**
 	 * Função para adicionar cliente
