@@ -114,8 +114,7 @@ public class Estacionamento {
 	 * Função para calcular o top de 5 clientes do estacionamento.
 	 * 
 	 * @param mes insere o mês para calcular o top5
-	 * @return o retorno é uma string com o nome dos 5 clientes que mais gastaram no
-	 *         mês
+	 * @return o retorno é uma string com o nome dos 5 clientes que mais gastaram no mês
 	 */
 	public String top5Clientes(int mes) {
 		Cliente[] topClientes = new Cliente[5];
@@ -301,6 +300,12 @@ public class Estacionamento {
 		return totalArrecadado / clientes.size();
 	}
 
+	/**
+	 * Método responsável por calcular a arrecadação média dos mensalistas no
+	 * especionamento passsado como parâmetro
+	 * @param veiculo veículo a ser pesquisado seu relatório
+	 * @return relatório do veiculo inserido
+	 */
 	public  String relatorioDoVeiculo(String veiculo) {
 		System.out.println("Digite a placa do veiculo");
 		String placa = teclado.nextLine();

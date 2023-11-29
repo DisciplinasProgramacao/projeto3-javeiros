@@ -100,6 +100,10 @@ public class UsoDeVaga {
         return this.saida = saida;
     }
 
+    /**
+     * sair da vaga
+     * @return valor pago pelo uso da vaga
+     */
     public double sair() {
         if (getSaida() != null) {
             throw new ExcecaoSaidaJaFinalizada();
@@ -113,6 +117,10 @@ public class UsoDeVaga {
         }
     }
 
+    /**
+     * Calcula o valor a ser pago pelo uso da vaga.
+     * @return Valor a ser pago pelo uso da vaga.
+     */
     public double valorPago(){
         return calcularUsoDeVaga.valorPago(getEntrada(), getSaida());
     }

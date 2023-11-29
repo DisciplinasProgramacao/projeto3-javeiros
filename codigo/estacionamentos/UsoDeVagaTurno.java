@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import estacionamentos.interfaces.CalcularUsoDeVaga;
-import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
-import excecoes.ExcecaoSaidaJaFinalizada;
 
 public class UsoDeVagaTurno implements CalcularUsoDeVaga {
 

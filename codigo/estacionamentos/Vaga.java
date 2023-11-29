@@ -11,6 +11,10 @@ public class Vaga {
         this.disponivel = true;
     }
 
+    /**
+     * Estaciona um carro na vaga.
+     * @return true se o carro foi estacionado, false caso contrário.
+     */
     public boolean estacionar() {
         if (disponivel) {
             disponivel = false;
@@ -19,6 +23,10 @@ public class Vaga {
         return false;
     }
 
+    /**
+     * Sair da vaga.
+     * @return true se o carro saiu da vaga, false caso contrário.
+     */
     public boolean sair() {
         // true
         if (disponivel) { // false
@@ -28,6 +36,10 @@ public class Vaga {
         return false;
     }
 
+    /**
+     * Verifica se a vaga está disponível.
+     * @return true se a vaga está disponível, false caso contrário.
+     */
     public boolean disponivel() {
         return disponivel;
     }

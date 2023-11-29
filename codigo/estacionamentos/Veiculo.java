@@ -13,7 +13,6 @@ public class Veiculo {
 	private String placa;
 	private LinkedList<UsoDeVaga> usoDeVagas;
 	private UsoDeVagaFactory usoDeVagaFactory;
-
 	private TipoUso tipoUso;
 
 	public TipoUso getTipoUso() {
@@ -32,6 +31,11 @@ public class Veiculo {
 		this.placa = placa;
 	}
 
+	/**
+	 * Retorna o uso de vaga do veículo para uma vaga específica.
+	 * @param vaga Vaga a ser pesquisada. 
+	 * @return Uso de vaga do veículo para a vaga pesquisada.
+	 */
 	public UsoDeVaga getUsoDeVaga(Vaga vaga) {
 		for (int i = 0; i < usoDeVagas.size(); i++) {
 			if ((usoDeVagas.get(i)).getVaga().equals(vaga)) {
@@ -41,7 +45,10 @@ public class Veiculo {
 		return null;
 	}
 
-	//
+	/**
+	 * Retorna uma lista imutável de usos de vaga do veículo.
+	 * @return Lista imutável de usos de vaga do veículo.
+	 */
 	public List<UsoDeVaga> getListUsoDeVaga() {
 		return List.copyOf(this.usoDeVagas);
 	}
@@ -78,7 +85,6 @@ public class Veiculo {
 	 * 
 	 * @return retorna o valor do veiculo
 	 */
-
 	public double sair() {
 
 		for (UsoDeVaga usoDeVaga : usoDeVagas) {
@@ -124,6 +130,11 @@ public class Veiculo {
 		return total;
 	}
 
+	/**
+	 * Retorna o valor total arrecado em um determinado mes
+	 * 
+	 * @return retorna o valor do mes atual
+	 */
 	public int usoMensalCorrente() {
 
 		int total = 0;

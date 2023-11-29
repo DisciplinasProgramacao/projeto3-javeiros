@@ -3,8 +3,6 @@ package estacionamentos;
 import java.time.LocalDateTime;
 
 import estacionamentos.interfaces.CalcularUsoDeVaga;
-import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
-import excecoes.ExcecaoSaidaJaFinalizada;
 
 public class UsoDeVagaMensalista implements CalcularUsoDeVaga {
 
