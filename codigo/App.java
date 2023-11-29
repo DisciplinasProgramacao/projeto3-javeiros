@@ -11,11 +11,13 @@ import excecoes.ExcecaoSaidaJaFinalizada;
 import estacionamentos.*;
 import estacionamentos.Enums.TipoUso;
 import excecoes.ExcecaoClienteJaCadastrado;
+import excecoes.ExcecaoEstacionamentoNaoCadastrado;
 import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
 import excecoes.ExcecaoNaoPossuiVagasDisponiveis;
 import excecoes.ExcecaoVeiculoJaCadastrado;
 import excecoes.ExcecaoVeiculoJaEstacionado;
 import excecoes.ExcecaoVeiculoNaoCadastrado;
+import excecoes.ExcecaoEstacionamentoNaoCadastrado;
 
 public class App {
 
@@ -79,7 +81,7 @@ public class App {
         }
     }
 
-    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
+    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis,  ExcecaoEstacionamentoNaoCadastrado {
 
         int i = 0;
         do {
@@ -104,10 +106,10 @@ public class App {
         
             switch (i) {
                 case 1:
-                    App.addEstacionamento();
+                    addEstacionamento();
                     break;
                 case 2:
-                    Estacionamento estc = App.selecionarEstacionamentos();
+                    Estacionamento estc = selecionarEstacionamentos();
                     App.switchMenuEstacionameto(estc);
                     break;
                 case 3:
@@ -128,10 +130,8 @@ public class App {
         int veiculosFileiras;
         Estacionamento estacionamento;
 
-        System.out.println("Digite o nome do Estacionamento: ");
-        teclado.nextLine();
-
-        nome = teclado.nextLine();
+        System.out.println("Digite o nome do Estacionamento:");
+        nome = teclado.next();
         estacionamento = new Estacionamento(nome);
 
         todosEstacionamentos.add(estacionamento);
@@ -140,14 +140,14 @@ public class App {
     }
 
 
-    public static Estacionamento selecionarEstacionamentos() {
+    public static Estacionamento selecionarEstacionamentos() throws ExcecaoEstacionamentoNaoCadastrado {
         Estacionamento estacionamentoSelecionado = null;
 
         // if(estacionamentos.length < 1){
         //     throw Alguma coisa
         // }
 
-        do {
+        while(estacionamentoSelecionado == null) {
             System.out.println("Digite o nome do estacionamento que você quer acessar:");
             int i = 0;
             for (Estacionamento estacionamento : todosEstacionamentos) {
@@ -155,7 +155,7 @@ public class App {
                 System.out.println(i + "- "+ estacionamento.getNome());
             }
 
-            String nometmp = teclado.nextLine();
+            String nometmp = teclado.next();
             i = 0;
 
             for (Estacionamento estacionamento : todosEstacionamentos) {
@@ -163,7 +163,10 @@ public class App {
                     estacionamentoSelecionado = estacionamento;
                 }
             }
-        } while(estacionamentoSelecionado == null);
+            if(estacionamentoSelecionado == null){
+                throw new ExcecaoEstacionamentoNaoCadastrado("O estacionamento escrito não está cadastrado no sistema");
+            }
+        } ;
 
         return estacionamentoSelecionado;
         
@@ -190,6 +193,7 @@ public class App {
                 System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");  
                 System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
                 System.out.println("| 12. Gerar vagas                                                           |");
+                System.out.println("| 12. Relatório do Veiculo                                                  |");
                 System.out.println("| 14. Sair                                                                  |");
                 System.out.println("|---------------------------------------------------------------------------|");
                 option = Integer.parseInt(teclado.nextLine());
@@ -401,9 +405,9 @@ public class App {
 
     public static void relatorioDoVeiculo(Estacionamento estacionamento){
         System.out.println("Digite a placa do veiculo");
-        String placa =  teclado.nextLine();
-
-        estacionamento.relatorioVeiculos(placa);
-
+        String placa =  teclado.next();
+        String relatorio  = estacionamento.relatorioDoVeiculo(placa);
+        System.out.println(relatorio);
     }
+    
 }

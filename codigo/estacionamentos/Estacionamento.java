@@ -301,11 +301,24 @@ public class Estacionamento {
 		return totalArrecadado / clientes.size();
 	}
 
-	public static void relatorioDoVeiculo(estacionamentos.Estacionamento estacionamento) {
+	public  String relatorioDoVeiculo(String veiculo) {
 		System.out.println("Digite a placa do veiculo");
 		String placa = teclado.nextLine();
 
-		estacionamento.relatorioVeiculos(placa);
+		Veiculo v = null;
+
+			for (Cliente cliente : id.values()) {
+				if (cliente.possuiVeiculo(placa) != null) {
+					v = cliente.possuiVeiculo(placa);
+					break;
+				}
+			}
+
+			if(v == null){
+				throw new ExcecaoVeiculoNaoCadastrado("A placa informada não pertece a nenhum veiculo em nosso sistema");
+			}else{
+				return v.gerarRelatorio();
+			}
 
 	}
 

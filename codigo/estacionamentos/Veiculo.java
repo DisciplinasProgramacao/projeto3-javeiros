@@ -168,11 +168,11 @@ public class Veiculo {
         relatorio.append("Relatório de Uso para Veículo com Placa: ").append(placa).append("\n");
 
         for (UsoDeVaga uso : usoDeVagas) {
-            relatorio.append("Vaga: ").append(uso.getVaga().toString())
-                     .append(", Entrada: ").append(uso.getEntrada())
-                     .append(", Saída: ").append(uso.getSaida())
-                     .append(", Tipo de Uso: ").append(uso.getClass().getSimpleName())
-                     .append(", Valor Pago: R$").append(uso.getValorPago())
+            relatorio.append(" \n Vaga: ").append(uso.getVaga().toString())
+                     .append(",\n Entrada: ").append(uso.getEntrada())
+                     .append(",\n Saída: ").append(uso.getSaida())
+                     .append(",\n Tipo de Uso: ").append(uso.getClass().getSimpleName())
+                     .append(",\n Valor Pago: R$").append(uso.getValorPago())
                      .append("\n");
         }
 
