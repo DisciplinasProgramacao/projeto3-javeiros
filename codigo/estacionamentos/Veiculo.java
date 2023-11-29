@@ -160,6 +160,7 @@ public class Veiculo {
      * @return String contendo o relatório.
      */
     public String gerarRelatorio() {
+		//! implementar ordenação ordem crescente de data ou decrescente de valor
         if (usoDeVagas.isEmpty()) {
             throw new ExcecaoRelatorioVazio();
         }

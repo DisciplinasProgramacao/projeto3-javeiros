@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import excecoes.ExcecaoNenhumClienteCadastrado;
@@ -185,6 +187,8 @@ public class App {
                 System.out.println("| 2. Adicionar Veiculo                                                      |");
                 System.out.println("| 3. Estacionar                                                             |");
                 System.out.println("| 4. Sair da vaga                                                           |");
+                System.out.println("| --------------------------------------------------------------------------|");
+                System.out.println("| RELATORIOS:                                                               |");
                 System.out.println("| 5. Total Arrecadado                                                       |");
                 System.out.println("| 6. Arracadação no Mes                                                     |");
                 System.out.println("| 7. Valor Médio por Uso                                                    |");
@@ -193,7 +197,8 @@ public class App {
                 System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");  
                 System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
                 System.out.println("| 12. Gerar vagas                                                           |");
-                System.out.println("| 12. Relatório do Veiculo                                                  |");
+                System.out.println("| 13. Relatório do Veiculo                                                  |");
+                System.out.println("| 14. Histórico do Cliente                                                  |");
                 System.out.println("| 14. Sair                                                                  |");
                 System.out.println("|---------------------------------------------------------------------------|");
                 option = Integer.parseInt(teclado.nextLine());
@@ -237,8 +242,11 @@ public class App {
                         break;
                     case 13:
                         relatorioDoVeiculo(estacionamento);
-                        break;        
+                        break;
                     case 14:
+                        historicoCliente(estacionamento);
+                        break;                   
+                    case 15:
                         break;
                 }
 
@@ -345,7 +353,7 @@ public class App {
 	 * @return seu retorno é uma saida no console com os valores em ordem decrescente.
 	 */
     public static void exibirArrecadacaoTotalPorEstacionamento() {
-
+        //! implementar ordenação decrescente
         System.out.println("Digite o mes de arrecadação:");
         int mes = Integer.parseInt(teclado.nextLine());
 
@@ -404,10 +412,49 @@ public class App {
     }
 
     public static void relatorioDoVeiculo(Estacionamento estacionamento){
+        
+        //! implementar ordenação ordem crescente de data ou decrescente de valor
         System.out.println("Digite a placa do veiculo");
         String placa =  teclado.next();
+        System.out.println("Selecione o método de ordenação:");
+        System.out.println("01: Ordem crescente de data");
+        System.out.println("02: Ordem decrescente de valor");
+        int metodo =  Integer.parseInt(teclado.nextLine());
+
+        //! implementar mudança
         String relatorio  = estacionamento.relatorioDoVeiculo(placa);
         System.out.println(relatorio);
+    }
+
+
+    public static void historicoCliente(Estacionamento estacionamento){
+        
+        //! implementar 
+        System.out.println("Digite o Id do Cliente");
+        String id =  teclado.next();
+        System.out.println("|  Digite a data de início e fim da pesquisa  |");
+        System.out.println("Utilize o seguinte formato d/m/aaaa");
+        System.out.println("Data inicio: ");
+        String dataIncio = teclado.nextLine();
+        System.out.println("Data Fim: ");
+        String dataFim = teclado.nextLine();
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
+
+        try {
+            // Convertendo a string para um objeto LocalDate
+            LocalDate dataIncioLocalDate = LocalDate.parse(dataIncio, formato);
+            LocalDate dataFimLocalDate = LocalDate.parse(dataFim, formato);
+            
+            //! implementar mudanças
+        } catch (DateTimeParseException e) {
+            System.err.println("Erro ao converter a data: " + e.getMessage());
+        }
+
+    }
+
+    public static void valorMedioUtilizacao(){
+        //!Implementar todos os métodos necessários
     }
     
 }
