@@ -64,6 +64,15 @@ public class EstacionamentoTest {
     }
 
     @Test
+    void testEstacionarVeiculoInexistente() {
+        assertThrows(IllegalArgumentException.class, () -> {
+        estacionamento.estacionar("XYZ1234");
+        });
+    }
+
+
+
+    @Test
     void testGetId() {
         estacionamento.addCliente(cliente);
 
@@ -94,7 +103,19 @@ public class EstacionamentoTest {
 
     @Test
     void testTop5Clientes() {
-        
+        for (int i = 1; i <= 6; i++) {
+            Cliente cliente = new Cliente("Cliente" + i, String.valueOf(i));
+            estacionamento.addCliente(cliente);
+            Veiculo veiculo = new Veiculo("ABC" + i);
+            estacionamento.addVeiculo(veiculo, cliente.getId());
+            estacionamento.estacionar(veiculo.getPlaca());
+            estacionamento.sair(veiculo.getPlaca());
+        }
+    
+        String top5 = estacionamento.top5Clientes(0); // Supondo que o mês atual é 0
+        assertNotNull(top5);
+        assertTrue(top5.contains("Cliente1"));
+        // Verificar se contém os nomes dos 5 clientes com maior gasto
     }
 
     @Test
@@ -113,6 +134,21 @@ public class EstacionamentoTest {
        //Não consegui passar datas personalizadas para simular o tempo estacionado 
     }
 
+    //Outra forma de executar esse teste
+    // @Test
+    // void testTotalArrecadado() {
+    //     estacionamento.addCliente(cliente);
+    //     estacionamento.addVeiculo(veiculo, cliente.getId());
+    //     estacionamento.estacionar(veiculo.getPlaca());
+    //     estacionamento.sair(veiculo.getPlaca());
+
+    // double total = estacionamento.totalArrecadado();
+    // assertTrue(total > 0);
+    // }
+
+
+
+
     @Test
     void testValorMedioPorUso() {
         estacionamento.addCliente(cliente);
@@ -129,6 +165,23 @@ public class EstacionamentoTest {
 
     }
 
+    //Outra forma de executar esse teste
+    // @Test
+    // oid testValorMedioPorUso() {
+    //     estacionamento.addCliente(cliente);
+    //     estacionamento.addVeiculo(veiculo, cliente.getId());
+
+    //     for (int i = 0; i < 5; i++) {
+    //         estacionamento.estacionar(veiculo.getPlaca());
+    //         estacionamento.sair(veiculo.getPlaca());
+    //     }
+
+    //     double valorMedio = estacionamento.valorMedioPorUso();
+    //     assertTrue(valorMedio > 0);
+    // }
+
+
+
     @Test
     void testArrecadacaoNoMes() {
         estacionamento.addCliente(cliente);
@@ -142,4 +195,17 @@ public class EstacionamentoTest {
         double arrecadacaoNoMes = estacionamento.arrecadacaoNoMes(0);
     }
     
+    //Outra forma de executar esse teste
+    // @Test
+    // void testArrecadacaoNoMes() {
+    //     estacionamento.addCliente(cliente);
+    //     estacionamento.addVeiculo(veiculo, cliente.getId());
+    //     estacionamento.estacionar(veiculo.getPlaca());
+    //     estacionamento.sair(veiculo.getPlaca());
+
+    //     double arrecadacaoNoMes = estacionamento.arrecadacaoNoMes(0); // Supondo que o mês atual é 0
+    //     assertTrue(arrecadacaoNoMes > 0);
+    // }
+    
+
 }
