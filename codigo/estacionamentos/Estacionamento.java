@@ -321,5 +321,26 @@ public class Estacionamento {
 			}
 
 	}
+	/**
+ 	* Gera relatórios para todos os veículos no estacionamento.
+ 	* 
+ 	* Este método percorre todos os clientes cadastrados no estacionamento.
+ 	* Para cada cliente, ele itera sobre todos os veículos associados e
+ 	* imprime o relatório de cada veículo. Se não houver clientes ou veículos,
+ 	* uma mensagem é exibida indicando que o estacionamento está vazio.
+ 	*/
+	public void gerarRelatoriosDeTodosVeiculos() {
+    	if (id.isEmpty()) {
+        	System.out.println("Não há clientes ou veículos no estacionamento.");
+        	return;
+    	}	
+
+    	for (Cliente cliente : id.values()) {
+        	for (Veiculo veiculo : cliente.getVeiculos()) {
+            System.out.println(veiculo.gerarRelatorio());
+        }
+    }
+}
+	
 
 }
