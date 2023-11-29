@@ -1,4 +1,4 @@
-package estacionamentos.Enums;
+package estacionamentos;
 
 import java.time.LocalTime;
 

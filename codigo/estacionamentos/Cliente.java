@@ -22,6 +22,7 @@ public class Cliente {
 	public Cliente(String nome, String id) {
 		setNome(nome);
 		setId(id);
+		setTipoUso(null);
 		veiculos = new LinkedList<>();
 	}
 
