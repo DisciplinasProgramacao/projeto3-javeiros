@@ -36,6 +36,12 @@ public class ClienteTest {
         assertNotEquals(volvo, result);
     }
 
-    
+    @Test
+    void testAdicionarVeiculoNull() {
+        assertThrows(NullPointerException.class, () -> {
+        malu.addVeiculo(null);
+        });
+    }
+
 
 }
