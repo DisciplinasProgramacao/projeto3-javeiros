@@ -1,6 +1,7 @@
 package estacionamentos;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class Veiculo {
 
 	public String getPlaca() {
 		return placa;
-	}
+	}x
 
 	public void setPlaca(String placa) {
 		this.placa = placa;
@@ -192,6 +193,18 @@ public class Veiculo {
 	@Override
 	public String toString() {
 		return "Placa " + placa;
+	}
+
+
+	public String historico(LocalDateTime dataInicio, LocalDateTime dataFim){
+		String historico = "*******************\nVEICULO\nPLACA: " + this.placa + "\n\n";
+		for(UsoDeVaga uso : usoDeVagas){
+			if(uso.ocorrenciaEntreDatas(dataInicio, dataFim)){
+				historico += uso.toString();
+			}
+		}
+		historico += "*******************";
+		return historico;
 	}
 
 }
