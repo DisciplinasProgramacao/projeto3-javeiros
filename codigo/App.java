@@ -103,7 +103,7 @@ public class App {
     }
 
     public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
-            ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoEstacionamentoNaoCadastrado {
+            ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoEstacionamentoNaoCadastrado, ExcecaoOpicaoInvalida {
 
         int i = 0;
         do {
@@ -116,14 +116,9 @@ public class App {
             System.out.println("|-------------------------------|");
             System.out.print("Digite uma das opções acima: ");
 
-            // i = Integer.parseInt(teclado.nextLine());
 
-            while (!teclado.hasNextInt()) {
-                System.out.println("Por favor, insira um número válido.");
-                teclado.nextLine();
-            }
 
-            i = teclado.nextInt();
+            i = Integer.parseInt(teclado.nextLine());
 
             switch (i) {
                 case 1:
@@ -137,7 +132,7 @@ public class App {
                     System.out.println("Encerrando...");
                     break;
                 default:
-                    System.out.println("Opção inválida. Tente novamente.");
+                    throw new ExcecaoOpicaoInvalida("Opicao digitada invalida");
             }
 
         } while (i != 3);
@@ -152,7 +147,7 @@ public class App {
         Estacionamento estacionamento;
 
         System.out.println("Digite o nome do Estacionamento:");
-        nome = teclado.next();
+        nome = teclado.nextLine();
         estacionamento = new Estacionamento(nome);
 
         todosEstacionamentos.add(estacionamento);
@@ -175,7 +170,7 @@ public class App {
                 System.out.println(i + "- " + estacionamento.getNome());
             }
 
-            String nometmp = teclado.next();
+            String nometmp = teclado.nextLine();
             i = 0;
 
             for (Estacionamento estacionamento : todosEstacionamentos) {
@@ -194,9 +189,8 @@ public class App {
     }
 
     public static void switchMenuEstacionameto(Estacionamento estacionamento) {
-        Estacionamento estAtual = estacionamento;
-        int option = 0;
-        while (option != 9) {
+        int option = 1;
+        while (option != 0) {
             try {
                 System.out.println("\nEstacionamento: " + estacionamento.getNome().toUpperCase());
                 System.out.println("|---------------------------------------------------------------------------|");
@@ -206,19 +200,19 @@ public class App {
                 System.out.println("| 2. Adicionar Veiculo                                                      |");
                 System.out.println("| 3. Estacionar                                                             |");
                 System.out.println("| 4. Sair da vaga                                                           |");
+                System.out.println("| 5. Gerar vagas                                                           |");
                 System.out.println("| --------------------------------------------------------------------------|");
                 System.out.println("| RELATORIOS:                                                               |");
-                System.out.println("| 5. Total Arrecadado                                                       |");
-                System.out.println("| 6. Arracadação no Mes                                                     |");
-                System.out.println("| 7. Valor Médio por Uso                                                    |");
-                System.out.println("| 8. Top 5 clientes                                                         |");
-                System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente |");
-                System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");
-                System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
-                System.out.println("| 12. Gerar vagas                                                           |");
+                System.out.println("| 6. Total Arrecadado                                                       |");
+                System.out.println("| 7. Arracadação no Mes                                                     |");
+                System.out.println("| 8. Valor Médio por Uso                                                    |");
+                System.out.println("| 9. Top 5 clientes                                                         |");
+                System.out.println("| 10. Arrecadação total de cada um dos estacionamentos, em ordem decrescente");
+                System.out.println("| 11. Média de utilização dos clientes mensalistas                          |");
+                System.out.println("| 12. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
                 System.out.println("| 13. Relatório do Veiculo                                                  |");
                 System.out.println("| 14. Histórico do Cliente                                                  |");
-                System.out.println("| 14. Sair                                                                  |");
+                System.out.println("| 0 . Sair                                                                  |");
                 System.out.println("|---------------------------------------------------------------------------|");
                 option = Integer.parseInt(teclado.nextLine());
 
@@ -265,13 +259,9 @@ public class App {
                     case 14:
                         historicoCliente(estacionamento);
                         break;
-                    case 15:
+                    case 0:
                         break;
                 }
-
-                System.out
-                        .println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
-                option = Integer.parseInt(teclado.nextLine());
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -320,21 +310,10 @@ public class App {
     }
 
     public static void estacionar(Estacionamento estacionamento) throws ExcecaoNaoPossuiVagasDisponiveis {
-        System.out.println("Digite a placa do veiculos: ");
-        try {
+        System.out.println("Digite a placa do veiculo: ");
             String placa = teclado.nextLine();
             estacionamento.estacionar(placa);
-        } catch (ExcecaoVeiculoNaoCadastrado veiculoNaoCadastrado) {
-            System.out.println("Esse veiculo não está cadastrado, deseja cadastrar? 1 - Sim | 2 - Não");
-            String resposta = teclado.nextLine();
-
-            if (resposta.equals("1")) {
-                App.addVeiculo(estacionamento);
-            }
-        } catch (ExcecaoVeiculoJaEstacionado veiculoJaEstacionado) {
-            System.out.println(veiculoJaEstacionado.getMessage());
-        }
-
+            System.out.println("Veiculo estacionado com sucesso!");
     }
 
     public static void sair(Estacionamento estacionamento) {
@@ -456,7 +435,7 @@ public class App {
 
         // ! implementar ordenação ordem crescente de data ou decrescente de valor
         System.out.println("Digite a placa do veiculo");
-        String placa = teclado.next();
+        String placa = teclado.nextLine();
         System.out.println("Selecione o método de ordenação:");
         System.out.println("01: Ordem crescente de data");
         System.out.println("02: Ordem decrescente de valor");
@@ -474,7 +453,7 @@ public class App {
         String dataFim = "";
 
         System.out.println("Digite o Id do Cliente");
-        idCliente = teclado.next();
+        idCliente = teclado.nextLine();
         System.out.println("Deseja filtar por data?");
         System.out.println("0 - SIM");
         System.out.println("1 - NAO");
@@ -482,24 +461,27 @@ public class App {
 
         switch (option) {
             case 0:
-                dataInicio = "1/1/1900";
+                dataInicio = "01/01/1900";
                 dataFim = "30/12/2100";
                 break;
 
             case 1:
                 System.out.println("|  Digite a data de início e fim da pesquisa  |");
-                System.out.println("Utilize o seguinte formato d/m/aaaa");
+                System.out.println("Utilize o seguinte formato dd/MM/aaaa");
                 System.out.println("Data inicio: ");
                 dataInicio = teclado.nextLine();
                 System.out.println("Data Fim: ");
                 dataFim = teclado.nextLine();
+
+                dataInicio += " 00:00:00";
+                dataFim += " 00:00:00";
                 break;
 
             default:
                 throw new ExcecaoOpicaoInvalida("Opcao selecionada inválida");
         }
 
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime dataIncioLocalDateTime;
         LocalDateTime dataFimLocalDateTime;
 
