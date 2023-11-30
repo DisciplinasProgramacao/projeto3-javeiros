@@ -26,7 +26,7 @@ public class Veiculo {
 
 	public String getPlaca() {
 		return placa;
-	}x
+	}
 
 	public void setPlaca(String placa) {
 		this.placa = placa;
