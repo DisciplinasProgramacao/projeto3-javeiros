@@ -1,6 +1,7 @@
 package estacionamentos;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import estacionamentos.Enums.TipoServico;
@@ -125,5 +126,15 @@ public class UsoDeVaga {
         return calcularUsoDeVaga.valorPago(getEntrada(), getSaida());
     }
 
-
+    /**
+    * Verifica se a entrada do veículo na vaga ocorreu entre duas datas especificadas.
+    * 
+    * @param dataInicio Data de início do intervalo a ser verificado.
+    * @param dataFim    Data de fim do intervalo a ser verificado.
+    * @return           Retorna true se a entrada ocorreu entre as datas especificadas, caso contrário, retorna false.
+    */
+    public boolean ocorrenciaEntreDatas(LocalDateTime dataInicio, LocalDateTime dataFim){
+        return this.entrada.isAfter(dataInicio) && this.entrada.isBefore(dataFim);
+    }
+    
 }
