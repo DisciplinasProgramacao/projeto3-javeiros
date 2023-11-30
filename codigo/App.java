@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -13,6 +14,7 @@ import excecoes.ExcecaoSaidaJaFinalizada;
 import estacionamentos.*;
 import estacionamentos.Enums.TipoUso;
 import excecoes.ExcecaoClienteJaCadastrado;
+import excecoes.ExcecaoClienteNaoCadastrado;
 import excecoes.ExcecaoEstacionamentoNaoCadastrado;
 import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
 import excecoes.ExcecaoNaoPossuiVagasDisponiveis;
@@ -20,6 +22,7 @@ import excecoes.ExcecaoVeiculoJaCadastrado;
 import excecoes.ExcecaoVeiculoJaEstacionado;
 import excecoes.ExcecaoVeiculoNaoCadastrado;
 import excecoes.ExcecaoEstacionamentoNaoCadastrado;
+import excecoes.ExcecaoOpicaoInvalida;
 
 public class App {
 
@@ -427,29 +430,51 @@ public class App {
     }
 
 
-    public static void historicoCliente(Estacionamento estacionamento){
-        
-        //! implementar 
+    public static void historicoCliente(Estacionamento estacionamento) throws ExcecaoOpicaoInvalida, ExcecaoClienteNaoCadastrado{
+        String idCliente;
+        String dataIncio = "";
+        String dataFim = "";
+
         System.out.println("Digite o Id do Cliente");
-        String id =  teclado.next();
-        System.out.println("|  Digite a data de início e fim da pesquisa  |");
-        System.out.println("Utilize o seguinte formato d/m/aaaa");
-        System.out.println("Data inicio: ");
-        String dataIncio = teclado.nextLine();
-        System.out.println("Data Fim: ");
-        String dataFim = teclado.nextLine();
+        idCliente =  teclado.next();
+        System.out.println("Deseja filtar por data?");
+        System.out.println("0 - SIM");
+        System.out.println("1 - NAO");
+        int option = Integer.parseInt(teclado.nextLine());
+
+        switch (option) {
+            case 0:
+                dataIncio = "1/1/1900";
+                dataFim = "30/12/2100";
+                break;
+
+            case 1:
+                System.out.println("|  Digite a data de início e fim da pesquisa  |");
+                System.out.println("Utilize o seguinte formato d/m/aaaa");
+                System.out.println("Data inicio: ");
+                dataIncio = teclado.nextLine();
+                System.out.println("Data Fim: ");
+                dataFim = teclado.nextLine();
+                break;    
+        
+            default:
+                throw new ExcecaoOpicaoInvalida("Opcao selecionada inválida");
+        }
+
 
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDateTime dataIncioLocalDateTime;
+        LocalDateTime dataFimLocalDateTime;
 
         try {
             // Convertendo a string para um objeto LocalDate
-            LocalDate dataIncioLocalDate = LocalDate.parse(dataIncio, formato);
-            LocalDate dataFimLocalDate = LocalDate.parse(dataFim, formato);
-            
-            //! implementar mudanças
+            dataIncioLocalDateTime = LocalDateTime.parse(dataIncio, formato);
+            dataFimLocalDateTime = LocalDateTime.parse(dataFim, formato);
+            System.out.println(estacionamento.historicoCliente(idCliente, dataIncioLocalDateTime, dataFimLocalDateTime));
         } catch (DateTimeParseException e) {
             System.err.println("Erro ao converter a data: " + e.getMessage());
         }
+        
 
     }
 
