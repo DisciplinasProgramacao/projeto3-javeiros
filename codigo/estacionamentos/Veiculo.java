@@ -195,15 +195,21 @@ public class Veiculo {
 		return "Placa " + placa;
 	}
 
-
+	/**
+	 * Gera um histórico detalhado de todos os usos de vaga do veículo no intervalo de datas especificado.
+	 *
+	 * @param dataInicio Data de início do intervalo.
+	 * @param dataFim    Data de fim do intervalo.
+	 * @return String contendo o histórico detalhado dos usos de vaga do veículo no intervalo de datas.
+	 */
 	public String historico(LocalDateTime dataInicio, LocalDateTime dataFim){
-		String historico = "*******************\nVEICULO\nPLACA: " + this.placa + "\n\n";
+		String historico = "-------------------\n VEICULO\nPLACA: " + this.placa + "\n\n";
 		for(UsoDeVaga uso : usoDeVagas){
 			if(uso.ocorrenciaEntreDatas(dataInicio, dataFim)){
 				historico += uso.toString();
 			}
 		}
-		historico += "*******************";
+		historico += "-------------------\n\n";
 		return historico;
 	}
 

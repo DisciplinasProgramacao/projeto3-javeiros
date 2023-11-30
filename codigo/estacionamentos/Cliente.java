@@ -246,5 +246,22 @@ public class Cliente {
 		return total;
 	}
 
+	/**
+	 * Gera um histórico consolidado de todos os usos de vaga dos veículos associados a este cliente,
+	 * no intervalo de datas especificado.
+	 *
+	 * @param dataInicio Data de início do período desejado.
+	 * @param dataFim    Data de fim do período desejado.
+	 * @return String contendo o histórico consolidado de todos os usos de vaga no intervalo de datas,
+	 *         formatado de maneira legível.
+	 */
+	public String historico(LocalDateTime dataInicio, LocalDateTime dataFim){
+		String historico = "**********************\n"+this.nome+"\n\n";
+		for(Veiculo veiculo : veiculos){
+			historico += veiculo.historico(dataInicio, dataFim);
+		}
+		return historico;	
+	}
+
 	
 }
