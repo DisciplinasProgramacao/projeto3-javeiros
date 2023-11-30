@@ -409,7 +409,7 @@ public class App {
 
     public static void gerarVagas(Estacionamento  estacionamento){
         int vagas;
-        System.out.println("Digite o numero de vagas os qual deseja gerar?");
+        Systemx.out.println("Digite o numero de vagas os qual deseja gerar?");
         vagas = Integer.parseInt(teclado.nextLine());
         estacionamento.gerarVagas(vagas);; 
     }
@@ -432,7 +432,7 @@ public class App {
 
     public static void historicoCliente(Estacionamento estacionamento) throws ExcecaoOpicaoInvalida, ExcecaoClienteNaoCadastrado{
         String idCliente;
-        String dataIncio = "";
+        String dataInicio = "";
         String dataFim = "";
 
         System.out.println("Digite o Id do Cliente");
@@ -444,7 +444,7 @@ public class App {
 
         switch (option) {
             case 0:
-                dataIncio = "1/1/1900";
+                dataInicio = "1/1/1900";
                 dataFim = "30/12/2100";
                 break;
 
@@ -452,7 +452,7 @@ public class App {
                 System.out.println("|  Digite a data de início e fim da pesquisa  |");
                 System.out.println("Utilize o seguinte formato d/m/aaaa");
                 System.out.println("Data inicio: ");
-                dataIncio = teclado.nextLine();
+                dataInicio = teclado.nextLine();
                 System.out.println("Data Fim: ");
                 dataFim = teclado.nextLine();
                 break;    
@@ -468,7 +468,7 @@ public class App {
 
         try {
             // Convertendo a string para um objeto LocalDate
-            dataIncioLocalDateTime = LocalDateTime.parse(dataIncio, formato);
+            dataIncioLocalDateTime = LocalDateTime.parse(dataInicio, formato);
             dataFimLocalDateTime = LocalDateTime.parse(dataFim, formato);
             System.out.println(estacionamento.historicoCliente(idCliente, dataIncioLocalDateTime, dataFimLocalDateTime));
         } catch (DateTimeParseException e) {
