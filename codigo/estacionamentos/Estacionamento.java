@@ -7,6 +7,7 @@ import estacionamentos.interfaces.UsoDeVagaFactory;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -370,6 +371,18 @@ public class Estacionamento {
 		else
 			throw new ExcecaoClienteNaoCadastrado("Nao ha clientes cadastrados com o id informado");
 	}
+
+	 // Comparator personalizado para comparar estacionamentos por arrecadação total em um mês específico
+	public static class ArrecadacaoComparator implements Comparator<Estacionamento> {
+        private int mes;
+        public ArrecadacaoComparator(int mes) {
+            this.mes = mes;
+        }
+        @Override
+        public int compare(Estacionamento estacionamento1, Estacionamento estacionamento2) {
+            return Double.compare(estacionamento1.arrecadacaoNoMes(mes), estacionamento2.arrecadacaoNoMes(mes));
+        }
+    }
 
 
 

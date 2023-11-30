@@ -24,6 +24,7 @@ import excecoes.ExcecaoVeiculoJaEstacionado;
 import excecoes.ExcecaoVeiculoNaoCadastrado;
 import excecoes.ExcecaoEstacionamentoNaoCadastrado;
 import excecoes.ExcecaoOpicaoInvalida;
+import excecoes.ExcecaoRelatorioVazio;
 
 public class App {
 
@@ -104,38 +105,48 @@ public class App {
 
     public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
             ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoEstacionamentoNaoCadastrado, ExcecaoOpicaoInvalida {
-
+            
         int i = 0;
-        do {
-            System.out.println("|-------------------------------|");
-            System.out.println("|        Menu Principal         |");
-            System.out.println("|-------------------------------|");
-            System.out.println("| 1. Criar um Estacionamento    |");
-            System.out.println("| 2. Acessar um Estacionamento  |");
-            System.out.println("| 3. Sair                       |");
-            System.out.println("|-------------------------------|");
-            System.out.print("Digite uma das opções acima: ");
+
+            do {
+                try{
+                    System.out.println("|----------------------------------------------------|");
+                    System.out.println("|                    Menu Principal                  |");
+                    System.out.println("|----------------------------------------------------|");
+                    System.out.println("| 1. Criar um Estacionamento                         |");
+                    System.out.println("| 2. Acessar um Estacionamento                       |");
+                    System.out.println("| 3. Relatorio Arrecadacao Estacionamentos por Mes   |");
+                    System.out.println("| 4. Sair                                            |");
+                    System.out.println("|----------------------------------------------------|");
+                    System.out.print("Digite uma das opções acima: ");
 
 
 
-            i = Integer.parseInt(teclado.nextLine());
+                    i = Integer.parseInt(teclado.nextLine());
 
-            switch (i) {
-                case 1:
-                    addEstacionamento();
-                    break;
-                case 2:
-                    Estacionamento estc = selecionarEstacionamentos();
-                    App.switchMenuEstacionameto(estc);
-                    break;
-                case 3:
-                    System.out.println("Encerrando...");
-                    break;
-                default:
-                    throw new ExcecaoOpicaoInvalida("Opicao digitada invalida");
-            }
+                    switch (i) {
+                        case 1:
+                            addEstacionamento();
+                            break;
+                        case 2:
+                            Estacionamento estc = selecionarEstacionamentos();
+                            App.switchMenuEstacionameto(estc);
+                            break;
+                        case 3:
+                            exibirArrecadacaoTotalPorEstacionamento();
+                            System.out.println("Encerrando...");
+                            break;
+                        case 4:
+                            exibirArrecadacaoTotalPorEstacionamento();
+                            break;    
+                        default:
+                            throw new ExcecaoOpicaoInvalida("Opicao digitada invalida");
+                    }
+                }catch(ExcecaoOpicaoInvalida e){
+                    System.out.println(e);
+                }
+            } while (i != 3);
 
-        } while (i != 3);
 
     }
 
@@ -200,18 +211,17 @@ public class App {
                 System.out.println("| 2. Adicionar Veiculo                                                      |");
                 System.out.println("| 3. Estacionar                                                             |");
                 System.out.println("| 4. Sair da vaga                                                           |");
-                System.out.println("| 5. Gerar vagas                                                           |");
+                System.out.println("| 5. Gerar vagas                                                            |");
                 System.out.println("| --------------------------------------------------------------------------|");
                 System.out.println("| RELATORIOS:                                                               |");
                 System.out.println("| 6. Total Arrecadado                                                       |");
                 System.out.println("| 7. Arracadação no Mes                                                     |");
                 System.out.println("| 8. Valor Médio por Uso                                                    |");
                 System.out.println("| 9. Top 5 clientes                                                         |");
-                System.out.println("| 10. Arrecadação total de cada um dos estacionamentos, em ordem decrescente");
-                System.out.println("| 11. Média de utilização dos clientes mensalistas                          |");
-                System.out.println("| 12. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
-                System.out.println("| 13. Relatório do Veiculo                                                  |");
-                System.out.println("| 14. Histórico do Cliente                                                  |");
+                System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");
+                System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
+                System.out.println("| 12. Relatório do Veiculo                                                  |");
+                System.out.println("| 13. Histórico do Cliente                                                  |");
                 System.out.println("| 0 . Sair                                                                  |");
                 System.out.println("|---------------------------------------------------------------------------|");
                 option = Integer.parseInt(teclado.nextLine());
@@ -230,19 +240,19 @@ public class App {
                         sair(estacionamento);
                         break;
                     case 5:
-                        totalArrecadado(estacionamento);
+                        gerarVagas(estacionamento);
                         break;
                     case 6:
-                        arrecadadoNoMes(estacionamento);
+                        totalArrecadado(estacionamento);
                         break;
                     case 7:
-                        valorMedioUso(estacionamento);
+                        arrecadadoNoMes(estacionamento);
                         break;
                     case 8:
-                        topClientes(estacionamento);
+                        valorMedioUso(estacionamento);
                         break;
                     case 9:
-                        exibirArrecadacaoTotalPorEstacionamento();
+                        topClientes(estacionamento);
                         break;
                     case 10:
                         mediaUsosMensalistasMesCorrente(estacionamento);
@@ -251,16 +261,15 @@ public class App {
                         arrecadacaoMediaClientesHoristasNoMesCorrente(estacionamento);
                         break;
                     case 12:
-                        gerarVagas(estacionamento);
-                        break;
-                    case 13:
                         relatorioDoVeiculo(estacionamento);
                         break;
-                    case 14:
+                    case 13:
                         historicoCliente(estacionamento);
                         break;
                     case 0:
                         break;
+                    default:
+                        throw new ExcecaoOpicaoInvalida("A opicao digitada e invalida");
                 }
             } catch (Exception e) {
                 System.out.println(e);
@@ -329,6 +338,10 @@ public class App {
         }
     }
 
+
+
+
+
     public static void totalArrecadado(Estacionamento estacionamento) {
         System.out.println("Valor total: " + estacionamento.totalArrecadado());
     }
@@ -340,6 +353,9 @@ public class App {
             System.out.println("| Mês " + i + " -  Valor arrecadado:  " + estacionamento.arrecadacaoNoMes(i) + " |");
         }
     }
+
+
+
 
     public static void valorMedioUso(Estacionamento estacionamento) {
         int mesAtual = LocalDate.now().getMonthValue();
@@ -368,20 +384,19 @@ public class App {
      *         decrescente.
      */
     public static void exibirArrecadacaoTotalPorEstacionamento() {
-        // ! implementar ordenação decrescente
         System.out.println("Digite o mes de arrecadação:");
+
         int mes = Integer.parseInt(teclado.nextLine());
 
-        Map<String, Double> listaArrecadado = new TreeMap<>();
+        List<Estacionamento> estacionametosOrdenados = new ArrayList<>();
 
-        for (Estacionamento estac : estacionamentos) {
-            if (estac != null) {
-                listaArrecadado.put(estac.getNome(), estac.arrecadacaoNoMes(mes));
-            }
-        }
+        estacionametosOrdenados = todosEstacionamentos;
 
-        for (String nome : listaArrecadado.keySet()) {
-            System.out.println(nome + ": " + listaArrecadado.get(nome));
+        estacionametosOrdenados.sort(new Estacionamento.ArrecadacaoComparator(mes));
+
+        for (int i = estacionametosOrdenados.size() - 1; i >= 0; i--){
+            Estacionamento estacionamento = estacionametosOrdenados.get(i);
+            System.out.println(i + "- "+ estacionamento.getNome()+": "+ estacionamento.arrecadacaoNoMes(mes));
         }
 
     }
