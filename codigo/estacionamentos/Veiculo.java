@@ -77,7 +77,7 @@ public class Veiculo {
 	 * @param vaga Vaga a ser utilizada.
 	 * @return Uso de vaga criado.
 	 */
-	public UsoDeVaga criarUsoDeVaga(Vaga vaga) {
+	private UsoDeVaga criarUsoDeVaga(Vaga vaga) {
 		return usoDeVagaFactory.criarUsoDeVaga(vaga);
 	}
 

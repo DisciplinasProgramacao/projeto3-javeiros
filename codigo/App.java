@@ -13,6 +13,7 @@ import excecoes.ExcecaoNenhumClienteCadastrado;
 import excecoes.ExcecaoSaidaJaFinalizada;
 import estacionamentos.*;
 import estacionamentos.Enums.TipoUso;
+import estacionamentos.interfaces.UsoDeVagaFactory;
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoClienteNaoCadastrado;
 import excecoes.ExcecaoEstacionamentoNaoCadastrado;
@@ -30,6 +31,7 @@ public class App {
     private static Estacionamento[] estacionamentos = new Estacionamento[40];
     private static Estacionamento estacionamentoHelper;
     private static List<Estacionamento> todosEstacionamentos = new ArrayList<Estacionamento>();
+    private static UsoDeVagaFactory usoDeVagaFactory;
 
     // Carrega dados iniciais
     private static void carregarDadosIniciais() {
@@ -38,40 +40,54 @@ public class App {
         } catch (IOException | ClassNotFoundException e) {
             // Arquivo de dados não encontrado
             // Cria dados iniciais manualmente
-            //criarDadosIniciais();
+            // criarDadosIniciais();
         }
     }
 
+    /**
+     * Cria um novo uso de vaga de acordo com o tipo de uso do veículo.
+     * 
+     * @param vaga Vaga a ser utilizada.
+     * @return Uso de vaga criado.
+     */
+    private UsoDeVaga criarUsoDeVaga(Vaga vaga) {
+        return usoDeVagaFactory.criarUsoDeVaga(vaga);
+    }
+
     // Cria dados iniciais manualmente
-    public static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
+    public static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
+            ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
         // Criação dos estacionamentos
         Estacionamento estacionamento1 = new Estacionamento("Estacionamento A");
         Estacionamento estacionamento2 = new Estacionamento("Estacionamento B");
         Estacionamento estacionamento3 = new Estacionamento("Estacionamento C");
-    
+
         todosEstacionamentos.add(estacionamento1);
         todosEstacionamentos.add(estacionamento2);
         todosEstacionamentos.add(estacionamento3);
-    
+
         // Criação dos clientes e veículos
         for (Estacionamento estacionamento : todosEstacionamentos) {
             for (int i = 0; i < 2; i++) {
                 Cliente cliente = new Cliente("Cliente" + (i + 1), "ID" + (i + 1));
-                cliente.addVeiculo(new Veiculo("PlacaH" + (i + 1), TipoUso.HORISTA));
-                cliente.addVeiculo(new Veiculo("PlacaM" + (i + 1), TipoUso.MENSALISTA));
-                cliente.addVeiculo(new Veiculo("PlacaT" + (i + 1), TipoUso.TURNO));
+                cliente.addVeiculo(
+                        new Veiculo("PlacaH" + (i + 1), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory()));
+                cliente.addVeiculo(
+                        new Veiculo("PlacaM" + (i + 1), TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory()));
+                cliente.addVeiculo(
+                        new Veiculo("PlacaT" + (i + 1), TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory()));
                 estacionamento.addCliente(cliente);
             }
         }
-    
+
         // Criação de usos de vagas
         for (int i = 0; i < 50; i++) {
             int estacionamentoIndex = i % 3;
             Estacionamento estacionamento = todosEstacionamentos.get(estacionamentoIndex);
-    
-            int clienteIndex = i % 2;  // 2 clientes por estacionamento
+
+            int clienteIndex = i % 2; // 2 clientes por estacionamento
             Cliente cliente = estacionamento.id.values().toArray(new Cliente[0])[clienteIndex];
-    
+
             estacionamento.estacionar(cliente.getVeiculos().get(0).getPlaca());
             estacionamento.sair(cliente.getVeiculos().get(0).getPlaca());
         }
@@ -86,7 +102,8 @@ public class App {
         }
     }
 
-    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado, ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis,  ExcecaoEstacionamentoNaoCadastrado {
+    public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
+            ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoEstacionamentoNaoCadastrado {
 
         int i = 0;
         do {
@@ -108,7 +125,6 @@ public class App {
 
             i = teclado.nextInt();
 
-        
             switch (i) {
                 case 1:
                     addEstacionamento();
@@ -144,20 +160,19 @@ public class App {
 
     }
 
-
     public static Estacionamento selecionarEstacionamentos() throws ExcecaoEstacionamentoNaoCadastrado {
         Estacionamento estacionamentoSelecionado = null;
 
         // if(estacionamentos.length < 1){
-        //     throw Alguma coisa
+        // throw Alguma coisa
         // }
 
-        while(estacionamentoSelecionado == null) {
+        while (estacionamentoSelecionado == null) {
             System.out.println("Digite o nome do estacionamento que você quer acessar:");
             int i = 0;
             for (Estacionamento estacionamento : todosEstacionamentos) {
                 i++;
-                System.out.println(i + "- "+ estacionamento.getNome());
+                System.out.println(i + "- " + estacionamento.getNome());
             }
 
             String nometmp = teclado.next();
@@ -168,21 +183,22 @@ public class App {
                     estacionamentoSelecionado = estacionamento;
                 }
             }
-            if(estacionamentoSelecionado == null){
+            if (estacionamentoSelecionado == null) {
                 throw new ExcecaoEstacionamentoNaoCadastrado("O estacionamento escrito não está cadastrado no sistema");
             }
-        } ;
+        }
+        ;
 
         return estacionamentoSelecionado;
-        
+
     }
 
-    public static void switchMenuEstacionameto(Estacionamento estacionamento){
+    public static void switchMenuEstacionameto(Estacionamento estacionamento) {
         Estacionamento estAtual = estacionamento;
         int option = 0;
-        while(option != 9){
-            try{
-                System.out.println("\nEstacionamento: "+ estacionamento.getNome().toUpperCase());
+        while (option != 9) {
+            try {
+                System.out.println("\nEstacionamento: " + estacionamento.getNome().toUpperCase());
                 System.out.println("|---------------------------------------------------------------------------|");
                 System.out.println("|    Selecione uma das Opcões                                               |");
                 System.out.println("|---------------------------------------------------------------------------|");
@@ -197,7 +213,7 @@ public class App {
                 System.out.println("| 7. Valor Médio por Uso                                                    |");
                 System.out.println("| 8. Top 5 clientes                                                         |");
                 System.out.println("| 9. Arrecadação total de cada um dos estacionamentos, em ordem decrescente |");
-                System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");  
+                System.out.println("| 10. Média de utilização dos clientes mensalistas                          |");
                 System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
                 System.out.println("| 12. Gerar vagas                                                           |");
                 System.out.println("| 13. Relatório do Veiculo                                                  |");
@@ -211,7 +227,7 @@ public class App {
                         addCliente(estacionamento);
                         break;
                     case 2:
-                        addVeiculo(estacionamento); 
+                        addVeiculo(estacionamento);
                         break;
                     case 3:
                         estacionar(estacionamento);
@@ -248,15 +264,16 @@ public class App {
                         break;
                     case 14:
                         historicoCliente(estacionamento);
-                        break;                   
+                        break;
                     case 15:
                         break;
                 }
 
-                System.out.println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
+                System.out
+                        .println("Digite 9 para sair do menu do estacionamento ou outro valor para acessar as opções:");
                 option = Integer.parseInt(teclado.nextLine());
-            }catch(Exception e){
-                System.out.println( e);
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
     }
@@ -275,7 +292,7 @@ public class App {
 
     }
 
-     public static void addVeiculo(Estacionamento estacionamento) throws ExcecaoVeiculoJaCadastrado {
+    public static void addVeiculo(Estacionamento estacionamento) throws ExcecaoVeiculoJaCadastrado {
 
         System.out.println("Digite o id do cliente no qual deseja cadastrar o veiculo: ");
         String idCli = teclado.nextLine();
@@ -283,10 +300,26 @@ public class App {
         String placa = teclado.nextLine();
         System.out.println("Digite o tipo de uso (HORISTA, MENSALISTA OU TURNO): ");
         TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
-                estacionamento.addVeiculo(placa, idCli, tipoUso);
+
+
+        UsoDeVagaFactory usoDeVagaFactory;
+        switch (tipoUso) {
+            case HORISTA:
+                usoDeVagaFactory = UsoDeVagaFactory.criarHoristaFactory();
+                break;
+            case MENSALISTA:
+                usoDeVagaFactory = UsoDeVagaFactory.criarMensalistaFactory();
+                break;
+            case TURNO:
+                usoDeVagaFactory = UsoDeVagaFactory.criarTurnoFactory();
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de uso inválido");
+        }
+        estacionamento.addVeiculo(placa, idCli, tipoUso, usoDeVagaFactory);
     }
 
-    public static void estacionar(Estacionamento estacionamento) throws ExcecaoNaoPossuiVagasDisponiveis{
+    public static void estacionar(Estacionamento estacionamento) throws ExcecaoNaoPossuiVagasDisponiveis {
         System.out.println("Digite a placa do veiculos: ");
         try {
             String placa = teclado.nextLine();
@@ -295,13 +328,13 @@ public class App {
             System.out.println("Esse veiculo não está cadastrado, deseja cadastrar? 1 - Sim | 2 - Não");
             String resposta = teclado.nextLine();
 
-            if(resposta.equals("1")){
+            if (resposta.equals("1")) {
                 App.addVeiculo(estacionamento);
             }
-        } catch (ExcecaoVeiculoJaEstacionado veiculoJaEstacionado){
+        } catch (ExcecaoVeiculoJaEstacionado veiculoJaEstacionado) {
             System.out.println(veiculoJaEstacionado.getMessage());
         }
- 
+
     }
 
     public static void sair(Estacionamento estacionamento) {
@@ -309,8 +342,8 @@ public class App {
         try {
             String placa = teclado.nextLine();
             Double valor = estacionamento.sair(placa);
-            if(valor != 0.0){
-                System.out.println("Veículo retirado. Valor pago = "+ valor);
+            if (valor != 0.0) {
+                System.out.println("Veículo retirado. Valor pago = " + valor);
             }
         } catch (ExcecaoSaidaJaFinalizada e) {
             System.out.println("Esse veículo não está estacionado.");
@@ -319,7 +352,7 @@ public class App {
 
     public static void totalArrecadado(Estacionamento estacionamento) {
         System.out.println("Valor total: " + estacionamento.totalArrecadado());
-    }    
+    }
 
     public static void arrecadadoNoMes(Estacionamento estacionamento) {
         int mesAtual = LocalDate.now().getMonthValue();
@@ -338,10 +371,9 @@ public class App {
             cont++;
         }
 
-        System.out.println("Valor medio uso: " + (soma/cont));
+        System.out.println("Valor medio uso: " + (soma / cont));
     }
 
-    
     public static void topClientes(Estacionamento estacionamento) {
         System.out.println("Digite o número do mes, para saber quais foram os top 5 clientes em determinado mês:\n");
         int mes = Integer.parseInt(teclado.nextLine());
@@ -349,94 +381,100 @@ public class App {
 
     }
 
-    
     /**
-	 * Função para exibir o arrecadado total do estacionamento em ordem decrescente de valores
-	 * 
-	 * @return seu retorno é uma saida no console com os valores em ordem decrescente.
-	 */
+     * Função para exibir o arrecadado total do estacionamento em ordem decrescente
+     * de valores
+     * 
+     * @return seu retorno é uma saida no console com os valores em ordem
+     *         decrescente.
+     */
     public static void exibirArrecadacaoTotalPorEstacionamento() {
-        //! implementar ordenação decrescente
+        // ! implementar ordenação decrescente
         System.out.println("Digite o mes de arrecadação:");
         int mes = Integer.parseInt(teclado.nextLine());
 
         Map<String, Double> listaArrecadado = new TreeMap<>();
 
-        for(Estacionamento estac : estacionamentos){
-            if(estac != null){
+        for (Estacionamento estac : estacionamentos) {
+            if (estac != null) {
                 listaArrecadado.put(estac.getNome(), estac.arrecadacaoNoMes(mes));
             }
         }
 
-        for(String nome : listaArrecadado.keySet()){
+        for (String nome : listaArrecadado.keySet()) {
             System.out.println(nome + ": " + listaArrecadado.get(nome));
         }
 
     }
 
     /**
-     * Calcula e imprime a média de usos mensais para clientes mensalistas no mês corrente.
+     * Calcula e imprime a média de usos mensais para clientes mensalistas no mês
+     * corrente.
      *
-     * Este método recebe um objeto Estacionamento e utiliza o método mediaUsosClientesMensalistas()
-     * desse objeto para calcular a média de usos mensaxis para clientes mensalistas no mês corrente.
+     * Este método recebe um objeto Estacionamento e utiliza o método
+     * mediaUsosClientesMensalistas()
+     * desse objeto para calcular a média de usos mensaxis para clientes mensalistas
+     * no mês corrente.
      * A média calculada é então impressa no console.
      *
-     * @param estacionamento O objeto Estacionamento que contém as informações sobre os clientes e seus usos.
+     * @param estacionamento O objeto Estacionamento que contém as informações sobre
+     *                       os clientes e seus usos.
      */
-    public static void mediaUsosMensalistasMesCorrente(Estacionamento estacionamento){
-        System.out.println("A média dos usuos dos cliente mensalistas no mes correte foi de: "+ estacionamento.mediaUsoClienteMensalista());
+    public static void mediaUsosMensalistasMesCorrente(Estacionamento estacionamento) {
+        System.out.println("A média dos usuos dos cliente mensalistas no mes correte foi de: "
+                + estacionamento.mediaUsoClienteMensalista());
     }
 
     public static void main(String args[]) {
-        try{
+        try {
             menu();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
-        
+
     }
 
+    public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento)
+            throws ExcecaoNenhumClienteCadastrado {
 
-    
-    public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento) throws ExcecaoNenhumClienteCadastrado {
-        
         double resultado = estacionamento.arrecadacaoClientesHoristas();
 
         System.out.println(
-            "O valor médio Arrecadado pelos clientes horistas do estacionamento \"" + estacionamento.getNome() + "\" no mês é: " + resultado
-        );
+                "O valor médio Arrecadado pelos clientes horistas do estacionamento \"" + estacionamento.getNome()
+                        + "\" no mês é: " + resultado);
     }
 
-    public static void gerarVagas(Estacionamento  estacionamento){
+    public static void gerarVagas(Estacionamento estacionamento) {
         int vagas;
-        Systemx.out.println("Digite o numero de vagas os qual deseja gerar?");
+        System.out.println("Digite o numero de vagas os qual deseja gerar?");
         vagas = Integer.parseInt(teclado.nextLine());
-        estacionamento.gerarVagas(vagas);; 
+        estacionamento.gerarVagas(vagas);
+        ;
     }
 
-    public static void relatorioDoVeiculo(Estacionamento estacionamento){
-        
-        //! implementar ordenação ordem crescente de data ou decrescente de valor
+    public static void relatorioDoVeiculo(Estacionamento estacionamento) {
+
+        // ! implementar ordenação ordem crescente de data ou decrescente de valor
         System.out.println("Digite a placa do veiculo");
-        String placa =  teclado.next();
+        String placa = teclado.next();
         System.out.println("Selecione o método de ordenação:");
         System.out.println("01: Ordem crescente de data");
         System.out.println("02: Ordem decrescente de valor");
-        int metodo =  Integer.parseInt(teclado.nextLine());
+        int metodo = Integer.parseInt(teclado.nextLine());
 
-        //! implementar mudança
-        String relatorio  = estacionamento.relatorioDoVeiculo(placa);
+        // ! implementar mudança
+        String relatorio = estacionamento.relatorioDoVeiculo(placa);
         System.out.println(relatorio);
     }
 
-
-    public static void historicoCliente(Estacionamento estacionamento) throws ExcecaoOpicaoInvalida, ExcecaoClienteNaoCadastrado{
+    public static void historicoCliente(Estacionamento estacionamento)
+            throws ExcecaoOpicaoInvalida, ExcecaoClienteNaoCadastrado {
         String idCliente;
         String dataInicio = "";
         String dataFim = "";
 
         System.out.println("Digite o Id do Cliente");
-        idCliente =  teclado.next();
+        idCliente = teclado.next();
         System.out.println("Deseja filtar por data?");
         System.out.println("0 - SIM");
         System.out.println("1 - NAO");
@@ -455,12 +493,11 @@ public class App {
                 dataInicio = teclado.nextLine();
                 System.out.println("Data Fim: ");
                 dataFim = teclado.nextLine();
-                break;    
-        
+                break;
+
             default:
                 throw new ExcecaoOpicaoInvalida("Opcao selecionada inválida");
         }
-
 
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDateTime dataIncioLocalDateTime;
@@ -470,16 +507,16 @@ public class App {
             // Convertendo a string para um objeto LocalDate
             dataIncioLocalDateTime = LocalDateTime.parse(dataInicio, formato);
             dataFimLocalDateTime = LocalDateTime.parse(dataFim, formato);
-            System.out.println(estacionamento.historicoCliente(idCliente, dataIncioLocalDateTime, dataFimLocalDateTime));
+            System.out
+                    .println(estacionamento.historicoCliente(idCliente, dataIncioLocalDateTime, dataFimLocalDateTime));
         } catch (DateTimeParseException e) {
             System.err.println("Erro ao converter a data: " + e.getMessage());
         }
-        
 
     }
 
-    public static void valorMedioUtilizacao(){
-        //!Implementar todos os métodos necessários
+    public static void valorMedioUtilizacao() {
+        // !Implementar todos os métodos necessários
     }
-    
+
 }
