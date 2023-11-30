@@ -260,6 +260,7 @@ public class Cliente {
 		for(Veiculo veiculo : veiculos){
 			historico += veiculo.historico(dataInicio, dataFim);
 		}
+		historico += "**********************\n";
 		return historico;	
 	}
 

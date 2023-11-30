@@ -5,6 +5,7 @@ import java.util.Scanner;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ import excecoes.ExcecaoNenhumClienteCadastrado;
 import excecoes.ExcecaoVeiculoJaCadastrado;
 import excecoes.ExcecaoVeiculoJaEstacionado;
 import excecoes.ExcecaoVeiculoNaoCadastrado;
-
+import excecoes.ExcecaoClienteNaoCadastrado;
 public class Estacionamento {
 
 	static Scanner teclado = new Scanner(System.in);
@@ -343,9 +344,33 @@ public class Estacionamento {
     	for (Cliente cliente : id.values()) {
         	for (Veiculo veiculo : cliente.getVeiculos()) {
             System.out.println(veiculo.gerarRelatorio());
-        }
-    }
-}
+        	}
+    	}
+	}
+
+
+	/**
+	* Retorna o histórico de um cliente específico no intervalo de datas fornecido.
+	*
+	* Este método recebe o identificador único de um cliente, a data de início e a data de fim
+	* e retorna o histórico correspondente. O histórico inclui informações relevantes sobre os
+	* veículos associados ao cliente durante o período especificado.
+	*
+	* @param idCliente Identificador único do cliente.
+	* @param dataInicio Data de início do período para o histórico (inclusive).
+	* @param dataFim Data de fim do período para o histórico (exclusive).
+	* @return Uma string contendo o histórico do cliente no intervalo de datas fornecido.
+	* @throws ExcecaoClienteNaoCadastrado Se não houver clientes cadastrados com o ID informado.
+	**/
 	
+	public String historicoCliente(String idCliente,  LocalDateTime dataInicio, LocalDateTime dataFim) throws ExcecaoClienteNaoCadastrado{
+		Cliente cliente = id.get(idCliente);
+		if(cliente != null)
+			return cliente.historico(dataInicio, dataFim);
+		else
+			throw new ExcecaoClienteNaoCadastrado("Nao ha clientes cadastrados com o id informado");
+	}
+
+
 
 }
