@@ -7,6 +7,7 @@ import java.util.List;
 
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
+import excecoes.ExcecaoOpicaoInvalida;
 import excecoes.ExcecaoRelatorioVazio;
 
 public class Veiculo {
@@ -169,16 +170,34 @@ public class Veiculo {
 	 * 
 	 * @return String contendo o relatório.
 	 */
-	public String gerarRelatorio() {
-		// ! implementar ordenação ordem crescente de data ou decrescente de valor
+	public String gerarRelatorio(int metodo) throws ExcecaoOpicaoInvalida {
+
+
 		if (usoDeVagas.isEmpty()) {
 			throw new ExcecaoRelatorioVazio();
 		}
 
+		List<UsoDeVaga> usoDeVagasOrdenado = usoDeVagas;
+		
+		switch (metodo) {
+			case 1:
+				usoDeVagasOrdenado.sort(new UsoDeVaga.DateComparator());
+				break;
+
+			case 2:
+				usoDeVagasOrdenado.sort(new UsoDeVaga.valorPagoComparator());
+				break;
+
+			default:
+				throw new ExcecaoOpicaoInvalida("Metodo solicitado para ordernar é invalido");
+		}
+
+
+		//! Criar metodo em UsoDeVaga para gerar relatorio "PRINCIPIO DA RESPONSABILIDADE UNICA"
 		StringBuilder relatorio = new StringBuilder();
 		relatorio.append("Relatório de Uso para Veículo com Placa: ").append(placa).append("\n");
 
-		for (UsoDeVaga uso : usoDeVagas) {
+		for (UsoDeVaga uso : usoDeVagasOrdenado) {
 			relatorio.append(" \n Vaga: ").append(uso.getVaga().toString())
 					.append(",\n Entrada: ").append(uso.getEntrada())
 					.append(",\n Saída: ").append(uso.getSaida())

@@ -3,6 +3,7 @@ package estacionamentos;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 import estacionamentos.Enums.TipoServico;
 import estacionamentos.interfaces.CalcularUsoDeVaga;
@@ -137,4 +138,20 @@ public class UsoDeVaga {
         return this.entrada.isAfter(dataInicio) && this.entrada.isBefore(dataFim);
     }
     
+
+    public static class valorPagoComparator implements Comparator<UsoDeVaga> {
+
+        @Override
+        public int compare(UsoDeVaga usoDeVAga1, UsoDeVaga usoDeVAga2) {
+            return Double.compare(usoDeVAga1.getValorPago(), usoDeVAga2.getValorPago());
+        }
+    }
+
+    public static class DateComparator implements Comparator<UsoDeVaga> {
+        @Override
+        public int compare(UsoDeVaga usoDeVaga1, UsoDeVaga usoDeVaga2) {
+            return usoDeVaga1.getEntrada().compareTo(usoDeVaga2.getEntrada());
+        }
+    }
+
 }

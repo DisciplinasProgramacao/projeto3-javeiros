@@ -389,7 +389,7 @@ public class App {
         int mes = Integer.parseInt(teclado.nextLine());
 
         List<Estacionamento> estacionametosOrdenados = new ArrayList<>();
-
+        //! Erro devido aos ponteiros do Java afetando diretamente a ordenaçao de todosEstacionamentos;
         estacionametosOrdenados = todosEstacionamentos;
 
         estacionametosOrdenados.sort(new Estacionamento.ArrecadacaoComparator(mes));
@@ -446,19 +446,22 @@ public class App {
         ;
     }
 
-    public static void relatorioDoVeiculo(Estacionamento estacionamento) {
+    public static void relatorioDoVeiculo(Estacionamento estacionamento) throws ExcecaoOpicaoInvalida{
 
-        // ! implementar ordenação ordem crescente de data ou decrescente de valor
+        // ! implementar ordenação crescente de data ou decrescente de valor
         System.out.println("Digite a placa do veiculo");
         String placa = teclado.nextLine();
-        System.out.println("Selecione o método de ordenação:");
-        System.out.println("01: Ordem crescente de data");
-        System.out.println("02: Ordem decrescente de valor");
-        int metodo = Integer.parseInt(teclado.nextLine());
+        System.out.println("|----------------------------------|");
+        System.out.println("| Selecione o método de ordenação: |");
+        System.out.println("| 1: Ordem crescente de data       |");
+        System.out.println("| 2: Ordem decrescente de valor    |");
+        System.out.println("|----------------------------------|");
 
-        // ! implementar mudança
-        String relatorio = estacionamento.relatorioDoVeiculo(placa);
+        int metodoOrdenar = Integer.parseInt(teclado.nextLine());
+
+        String relatorio = estacionamento.relatorioDoVeiculo(placa, metodoOrdenar);
         System.out.println(relatorio);
+
     }
 
     public static void historicoCliente(Estacionamento estacionamento)

@@ -16,10 +16,12 @@ import java.util.Map;
 import excecoes.ExcecaoClienteJaCadastrado;
 import excecoes.ExcecaoNaoPossuiVagasDisponiveis;
 import excecoes.ExcecaoNenhumClienteCadastrado;
+import excecoes.ExcecaoOpicaoInvalida;
 import excecoes.ExcecaoVeiculoJaCadastrado;
 import excecoes.ExcecaoVeiculoJaEstacionado;
 import excecoes.ExcecaoVeiculoNaoCadastrado;
 import excecoes.ExcecaoClienteNaoCadastrado;
+
 public class Estacionamento {
 
 	static Scanner teclado = new Scanner(System.in);
@@ -308,7 +310,12 @@ public class Estacionamento {
 	 * @param veiculo veículo a ser pesquisado seu relatório
 	 * @return relatório do veiculo inserido
 	 */
-	public  String relatorioDoVeiculo(String veiculo) {
+	public  String relatorioDoVeiculo(String veiculo, int metodoOrdenar) throws ExcecaoOpicaoInvalida{
+		
+		//!IMPLEMENTAR ORDENACAO
+		//! 1 - Ordernar por Data crescente;
+		//! 2 - Ordernar por Valor decrescente;
+
 		System.out.println("Digite a placa do veiculo");
 		String placa = teclado.nextLine();
 
@@ -324,7 +331,7 @@ public class Estacionamento {
 			if(v == null){
 				throw new ExcecaoVeiculoNaoCadastrado("A placa informada não pertece a nenhum veiculo em nosso sistema");
 			}else{
-				return v.gerarRelatorio();
+				return v.gerarRelatorio(metodoOrdenar);
 			}
 
 	}
@@ -336,7 +343,7 @@ public class Estacionamento {
  	* imprime o relatório de cada veículo. Se não houver clientes ou veículos,
  	* uma mensagem é exibida indicando que o estacionamento está vazio.
  	*/
-	public void gerarRelatoriosDeTodosVeiculos() {
+	public void gerarRelatoriosDeTodosVeiculos()throws ExcecaoOpicaoInvalida{
     	if (id.isEmpty()) {
         	System.out.println("Não há clientes ou veículos no estacionamento.");
         	return;
@@ -344,7 +351,7 @@ public class Estacionamento {
 
     	for (Cliente cliente : id.values()) {
         	for (Veiculo veiculo : cliente.getVeiculos()) {
-            System.out.println(veiculo.gerarRelatorio());
+            System.out.println(veiculo.gerarRelatorio(1));
         	}
     	}
 	}
