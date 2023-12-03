@@ -194,16 +194,11 @@ public class Veiculo {
 
 
 		//! Criar metodo em UsoDeVaga para gerar relatorio "PRINCIPIO DA RESPONSABILIDADE UNICA"
-		StringBuilder relatorio = new StringBuilder();
-		relatorio.append("Relatório de Uso para Veículo com Placa: ").append(placa).append("\n");
+		String relatorio = new String();
+		relatorio = "Relatório de Uso para Veículo com Placa: " + this.getPlaca() + "\n";
 
 		for (UsoDeVaga uso : usoDeVagasOrdenado) {
-			relatorio.append(" \n Vaga: ").append(uso.getVaga().toString())
-					.append(",\n Entrada: ").append(uso.getEntrada())
-					.append(",\n Saída: ").append(uso.getSaida())
-					.append(",\n Tipo de Uso: ").append(uso.getClass().getSimpleName())
-					.append(",\n Valor Pago: R$").append(uso.getValorPago())
-					.append("\n");
+			relatorio += uso.toString();
 		}
 
 		return relatorio.toString();

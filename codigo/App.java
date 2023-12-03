@@ -134,10 +134,9 @@ public class App {
                             break;
                         case 3:
                             exibirArrecadacaoTotalPorEstacionamento();
-                            System.out.println("Encerrando...");
                             break;
                         case 4:
-                            exibirArrecadacaoTotalPorEstacionamento();
+                            System.out.println("Encerrando...");
                             break;    
                         default:
                             throw new ExcecaoOpicaoInvalida("Opicao digitada invalida");
@@ -145,7 +144,7 @@ public class App {
                 }catch(ExcecaoOpicaoInvalida e){
                     System.out.println(e);
                 }
-            } while (i != 3);
+            } while (i != 4);
 
 
     }
@@ -358,6 +357,7 @@ public class App {
 
 
     public static void valorMedioUso(Estacionamento estacionamento) {
+        // !Implementar todos os métodos necessários
         int mesAtual = LocalDate.now().getMonthValue();
         double soma = 0;
         int cont = 0;
@@ -368,6 +368,7 @@ public class App {
 
         System.out.println("Valor medio uso: " + (soma / cont));
     }
+
 
     public static void topClientes(Estacionamento estacionamento) {
         System.out.println("Digite o número do mes, para saber quais foram os top 5 clientes em determinado mês:\n");
@@ -389,8 +390,10 @@ public class App {
         int mes = Integer.parseInt(teclado.nextLine());
 
         List<Estacionamento> estacionametosOrdenados = new ArrayList<>();
-        //! Erro devido aos ponteiros do Java afetando diretamente a ordenaçao de todosEstacionamentos;
-        estacionametosOrdenados = todosEstacionamentos;
+
+        for (int i = 0; i > todosEstacionamentos.size(); i++){
+            estacionametosOrdenados.add(todosEstacionamentos.get(i));
+        }
 
         estacionametosOrdenados.sort(new Estacionamento.ArrecadacaoComparator(mes));
 
@@ -448,7 +451,6 @@ public class App {
 
     public static void relatorioDoVeiculo(Estacionamento estacionamento) throws ExcecaoOpicaoInvalida{
 
-        // ! implementar ordenação crescente de data ou decrescente de valor
         System.out.println("Digite a placa do veiculo");
         String placa = teclado.nextLine();
         System.out.println("|----------------------------------|");
@@ -515,8 +517,5 @@ public class App {
 
     }
 
-    public static void valorMedioUtilizacao() {
-        // !Implementar todos os métodos necessários
-    }
 
 }
