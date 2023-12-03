@@ -389,7 +389,7 @@ public class App {
 
         int mes = Integer.parseInt(teclado.nextLine());
 
-        List<EstacionacionametosOrdenados = new ArrayList<>();
+        List<Estacionamento> estacionametosOrdenados = new ArrayList<>();
 
         for (int i = 0; i > todosEstacionamentos.size(); i++){
             estacionametosOrdenados.add(todosEstacionamentos.get(i));
