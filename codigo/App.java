@@ -34,6 +34,22 @@ public class App {
     private static List<Estacionamento> todosEstacionamentos = new ArrayList<Estacionamento>();
     private static UsoDeVagaFactory usoDeVagaFactory;
 
+
+    public static void main(String args[]) {
+        try {
+            menu();
+
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    //!CRIAÇÃO DE DADOS 
+    // todo: criar dados
+    // todo: salvar dados de Clientes em arquivos
+    // todo: salvar dados de Veículos em arquivos
     // Carrega dados iniciais
     private static void carregarDadosIniciais() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("dados.dat"))) {
@@ -55,20 +71,75 @@ public class App {
         return usoDeVagaFactory.criarUsoDeVaga(vaga);
     }
 
-    // Cria dados iniciais manualmente
+   /*3 estacionamentos;
+    10 clientes, utilizando todos os planos de uso disponíveis;
+    15 veículos;
+    50 usos de estacionamento, contratando os serviços disponíveis;
+    Salvamento de dados de Clientes e Veículos em arquivos */
     public static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
             ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
-        // Criação dos estacionamentos
-        Estacionamento estacionamento1 = new Estacionamento("Estacionamento A");
-        Estacionamento estacionamento2 = new Estacionamento("Estacionamento B");
-        Estacionamento estacionamento3 = new Estacionamento("Estacionamento C");
+        
+        // Criação de 3 estacionamentos
+        Estacionamento estacionamentoA = new Estacionamento("Estacionamento A");
+        Estacionamento estacionamentoB = new Estacionamento("Estacionamento B");
+        Estacionamento estacionamentoC = new Estacionamento("Estacionamento C");
 
-        todosEstacionamentos.add(estacionamento1);
-        todosEstacionamentos.add(estacionamento2);
-        todosEstacionamentos.add(estacionamento3);
+        todosEstacionamentos.add(estacionamentoA);
+        todosEstacionamentos.add(estacionamentoB);
+        todosEstacionamentos.add(estacionamentoC);
+
+        // Criação de 10 clientes com os diferentes tipos de uso disponíveis
+        Cliente cliente1 = new Cliente("Cliente1", "ID1", TipoUso.HORISTA);
+        Cliente cliente2 = new Cliente("Cliente2", "ID2", TipoUso.HORISTA);
+        Cliente cliente3 = new Cliente("Cliente3", "ID3", TipoUso.HORISTA);
+        Cliente cliente4 = new Cliente("Cliente4", "ID4", TipoUso.HORISTA);
+        Cliente cliente5 = new Cliente("Cliente5", "ID5", TipoUso.HORISTA);
+
+        Cliente cliente6 = new Cliente("Cliente6", "ID6", TipoUso.TURNO);
+        Cliente cliente7 = new Cliente("Cliente7", "ID7", TipoUso.TURNO);
+        Cliente cliente8 = new Cliente("Cliente8", "ID8", TipoUso.TURNO);
+
+        Cliente cliente9 = new Cliente("Cliente9", "ID9", TipoUso.MENSALISTA);
+        Cliente cliente10 = new Cliente("Cliente10", "ID10", TipoUso.MENSALISTA);
+
+        estacionamentoA.addCliente(cliente1);
+        estacionamentoA.addCliente(cliente2);
+        estacionamentoA.addCliente(cliente3);
+        estacionamentoA.addCliente(cliente4);
+        estacionamentoA.addCliente(cliente5);
+        estacionamentoB.addCliente(cliente6);
+        estacionamentoB.addCliente(cliente7);
+        estacionamentoB.addCliente(cliente8);
+        estacionamentoC.addCliente(cliente9);
+        estacionamentoC.addCliente(cliente10);
+
+
+
+        //Criação de 15 veículos
+        Veiculo veiculo1 = new Veiculo("PlacaH1", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        Veiculo veiculo2 = new Veiculo("PlacaH2", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        Veiculo veiculo3 = new Veiculo("PlacaH3", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        Veiculo veiculo4 = new Veiculo("PlacaH4", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        Veiculo veiculo5 = new Veiculo("PlacaH5", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+
+        Veiculo veiculo6 = new Veiculo("PlacaM1", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
+        Veiculo veiculo7 = new Veiculo("PlacaM2", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
+        Veiculo veiculo8 = new Veiculo("PlacaM3", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
+        Veiculo veiculo9 = new Veiculo("PlacaM4", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
+        Veiculo veiculo10 = new Veiculo("PlacaM5", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
+
+        Veiculo veiculo11 = new Veiculo("PlacaT1", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
+        Veiculo veiculo12 = new Veiculo("PlacaT2", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
+        Veiculo veiculo13 = new Veiculo("PlacaT3", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
+        Veiculo veiculo14 = new Veiculo("PlacaT4", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
+        Veiculo veiculo15 = new Veiculo("PlacaT5", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
+
+        // 50 usos de estacionamento contratando os serviços disponíveis, com base nos dados criados acima.
+
+
 
         // Criação dos clientes e veículos
-        for (Estacionamento estacionamento : todosEstacionamentos) {
+        /*for (Estacionamento estacionamento : todosEstacionamentos) {
             for (int i = 0; i < 2; i++) {
                 Cliente cliente = new Cliente("Cliente" + (i + 1), "ID" + (i + 1));
                 cliente.addVeiculo(
@@ -91,7 +162,8 @@ public class App {
 
             estacionamento.estacionar(cliente.getVeiculos().get(0).getPlaca());
             estacionamento.sair(cliente.getVeiculos().get(0).getPlaca());
-        }
+        }*/
+
     }
 
     // Método para salvar os dados
@@ -102,6 +174,11 @@ public class App {
             e.printStackTrace();
         }
     }
+
+
+    
+
+    
 
     public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
             ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoEstacionamentoNaoCadastrado, ExcecaoOpicaoInvalida {
@@ -422,14 +499,6 @@ public class App {
                 + estacionamento.mediaUsoClienteMensalista());
     }
 
-    public static void main(String args[]) {
-        try {
-            menu();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
 
     public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento)
             throws ExcecaoNenhumClienteCadastrado {
