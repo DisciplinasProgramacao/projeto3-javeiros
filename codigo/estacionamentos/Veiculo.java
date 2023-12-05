@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
+import estacionamentos.Enums.TipoOrdenacao;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
 import excecoes.ExcecaoOpicaoInvalida;
@@ -170,7 +171,7 @@ public class Veiculo {
 	 * 
 	 * @return String contendo o relatório.
 	 */
-	public String gerarRelatorio(int metodo) throws ExcecaoOpicaoInvalida {
+	public String relatorio(TipoOrdenacao tipoOrdenacao) throws ExcecaoOpicaoInvalida {
 
 
 		if (usoDeVagas.isEmpty()) {
@@ -179,21 +180,20 @@ public class Veiculo {
 
 		List<UsoDeVaga> usoDeVagasOrdenado = usoDeVagas;
 		
-		switch (metodo) {
-			case 1:
+		switch (tipoOrdenacao) {
+			case DATA :
 				usoDeVagasOrdenado.sort(new UsoDeVaga.DateComparator());
 				break;
 
-			case 2:
+			case VALOR :
 				usoDeVagasOrdenado.sort(new UsoDeVaga.valorPagoComparator());
 				break;
-
+				
 			default:
 				throw new ExcecaoOpicaoInvalida("Metodo solicitado para ordernar é invalido");
 		}
 
 
-		//! Criar metodo em UsoDeVaga para gerar relatorio "PRINCIPIO DA RESPONSABILIDADE UNICA"
 		String relatorio = new String();
 		relatorio = "Relatório de Uso para Veículo com Placa: " + this.getPlaca() + "\n";
 

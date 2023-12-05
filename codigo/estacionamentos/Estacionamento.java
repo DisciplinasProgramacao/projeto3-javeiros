@@ -2,6 +2,7 @@ package estacionamentos;
 
 import java.util.Scanner;
 
+import estacionamentos.Enums.TipoOrdenacao;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
 
@@ -310,14 +311,13 @@ public class Estacionamento {
 	 * @param veiculo veículo a ser pesquisado seu relatório
 	 * @return relatório do veiculo inserido
 	 */
-	public  String relatorioDoVeiculo(String veiculo, int metodoOrdenar) throws ExcecaoOpicaoInvalida{
+
+	//! IMPLEMENTAR ORDENACAO
+	public  String relatorioVeiculo(String placa, int metodoOrdenar) throws ExcecaoOpicaoInvalida{
 		
 		//!IMPLEMENTAR ORDENACAO
 		//! 1 - Ordernar por Data crescente;
 		//! 2 - Ordernar por Valor decrescente;
-
-		System.out.println("Digite a placa do veiculo");
-		String placa = teclado.nextLine();
 
 		Veiculo v = null;
 
@@ -331,10 +331,20 @@ public class Estacionamento {
 			if(v == null){
 				throw new ExcecaoVeiculoNaoCadastrado("A placa informada não pertece a nenhum veiculo em nosso sistema");
 			}else{
-				return v.gerarRelatorio(metodoOrdenar);
+				switch(metodoOrdenar){
+					case 1:
+						return v.relatorio(TipoOrdenacao.VALOR);
+
+					case 2:
+						return v.relatorio(TipoOrdenacao.VALOR);
+
+					default:
+						throw new ExcecaoOpicaoInvalida("A opção digitada é inválida");
+				}
 			}
 
 	}
+	
 	/**
  	* Gera relatórios para todos os veículos no estacionamento.
  	* 
@@ -351,7 +361,7 @@ public class Estacionamento {
 
     	for (Cliente cliente : id.values()) {
         	for (Veiculo veiculo : cliente.getVeiculos()) {
-            System.out.println(veiculo.gerarRelatorio(1));
+            System.out.println(veiculo.relatorio(TipoOrdenacao.DATA));
         	}
     	}
 	}

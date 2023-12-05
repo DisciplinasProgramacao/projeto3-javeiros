@@ -530,7 +530,7 @@ public class App {
 
         int metodoOrdenar = Integer.parseInt(teclado.nextLine());
 
-        String relatorio = estacionamento.relatorioDoVeiculo(placa, metodoOrdenar);
+        String relatorio = estacionamento.relatorioVeiculo(placa, metodoOrdenar);
         System.out.println(relatorio);
 
     }
