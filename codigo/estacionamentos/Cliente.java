@@ -168,7 +168,10 @@ public class Cliente {
 	}
 
 
-
+	/**
+	 * Esse método analisa as informações de um Cliente e gera um relatório com essas informações 
+	 * @return retorna um String contendo todas as informações do histórico do cliente.
+	 */
 	public String historicoCompleto() {
 		String historico = "";
 
@@ -182,13 +185,18 @@ public class Cliente {
 				historico = historico + "\n" + 
 				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
 				"Vaga utilizada: " + vaga.toString() + " | " +
-				"Uso de Vaga: " + u.toString();
+				"Uso de Vaga: " + u.toString() + " | " +
+				"Tipo de Uso: " + this.tipoUso.toString();
 			}
 		}
 		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
 	}
 
-	
+	/**
+	 * Esse método analisa as informações de um Cliente a partir de uma data de inicio especificada e gera um relatório com essas informações
+	 * @param filtro uma data para ser usada como filtro de data de inicio
+	 * @return retorna um String contendo todas as informações do histórico do cliente.
+	 */
 	public String historicoDataInicio(LocalDateTime filtro) {
 		String historico = "";
 
@@ -203,7 +211,8 @@ public class Cliente {
 					historico = historico + "\n" + 
 					"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
 					"Vaga utilizada: " + vaga.toString() + " | " +
-					"Uso de Vaga: " + u.toString();
+					"Uso de Vaga: " + u.toString() + " | " +
+					"Tipo de Uso: " + this.tipoUso.toString();
 				}
 			}
 		}
@@ -211,6 +220,11 @@ public class Cliente {
 		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
 	}
 
+	/**
+	 * Esse método analisa as informações de um Cliente que possuem uma data de término especificado e gera um relatório com essas informações
+	 * @param filtro uma data para ser usada como filtro de data de término
+	 * @return retorna um String contendo todas as informações do histórico do cliente.
+	 */
 	public String historicoDataFim(LocalDateTime filtro) {
 		String historico = "";
 
@@ -224,7 +238,8 @@ public class Cliente {
 					historico = historico + "\n" + 
 					"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
 					"Vaga utilizada: " + vaga.toString() + " | " +
-					"Uso de Vaga: " + u.toString();
+					"Uso de Vaga: " + u.toString() + " | " +
+					"Tipo de Uso: " + this.tipoUso.toString();
 				}
 			}
 		}
@@ -238,6 +253,7 @@ public class Cliente {
 		return "Nome: " + nome + "\nVeículos: " + veiculos;
 	}
 
+	
 	public int usoMensalCorrente(){
 		int total = 0;
 		for(Veiculo veiculo: veiculos){
