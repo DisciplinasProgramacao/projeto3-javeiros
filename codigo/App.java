@@ -472,7 +472,11 @@ public class App {
             estacionametosOrdenados.add(todosEstacionamentos.get(i));
         }
 
-        estacionametosOrdenados.sort(new Estacionamento.ArrecadacaoComparator(mes));
+        Comparator<Estacionamento> c = (e1, e2) -> {
+            return Double.compare(e1.arrecadacaoNoMes(mes), e2.arrecadacaoNoMes(mes));
+        };
+
+        estacionametosOrdenados.sort(c);
 
         for (int i = estacionametosOrdenados.size() - 1; i >= 0; i--){
             Estacionamento estacionamento = estacionametosOrdenados.get(i);
