@@ -12,7 +12,7 @@ import excecoes.ExcecaoSaidaJaFinalizada;
 import excecoes.ExcecaoServicoJaContratado;
 import excecoes.ExcecaoTempoMinimoNaoAtingido;
 
-public class UsoDeVaga {
+public class UsoDeVaga implements CalcularUsoDeVaga{
 
     public final double FRACAO_USO = 0.25;
     public final double VALOR_FRACAO = 4.0;
@@ -119,6 +119,7 @@ public class UsoDeVaga {
         }
     }
 
+    @Override
     /**
      * Calcula o valor a ser pago pelo uso da vaga.
      * @return Valor a ser pago pelo uso da vaga.
