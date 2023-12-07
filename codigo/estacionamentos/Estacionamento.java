@@ -25,6 +25,14 @@ import excecoes.ExcecaoClienteNaoCadastrado;
 
 public class Estacionamento {
 
+	Comparator<UsoDeVaga> compValor= 
+		(u1, u2) -> u1.valorPago()>u2.valorPago()?1:-1;
+
+
+	Comparator<UsoDeVaga> compData =  (u1,u2) -> {
+		return u1.getEntrada().compareTo(u1.getEntrada());
+	};
+
 	static Scanner teclado = new Scanner(System.in);
 	// private int contClientes = 1;
 	private String nome;
@@ -314,7 +322,9 @@ public class Estacionamento {
 
 	//! IMPLEMENTAR ORDENACAO
 	public  String relatorioVeiculo(String placa, int metodoOrdenar) throws ExcecaoOpicaoInvalida{
-		
+
+        
+
 		//!IMPLEMENTAR ORDENACAO
 		//! 1 - Ordernar por Data crescente;
 		//! 2 - Ordernar por Valor decrescente;
@@ -333,10 +343,10 @@ public class Estacionamento {
 			}else{
 				switch(metodoOrdenar){
 					case 1:
-						return v.relatorio(TipoOrdenacao.VALOR);
+						return v.relatorio(compValor);
 
 					case 2:
-						return v.relatorio(TipoOrdenacao.VALOR);
+						return v.relatorio(compData);
 
 					default:
 						throw new ExcecaoOpicaoInvalida("A opção digitada é inválida");
@@ -361,7 +371,7 @@ public class Estacionamento {
 
     	for (Cliente cliente : id.values()) {
         	for (Veiculo veiculo : cliente.getVeiculos()) {
-            System.out.println(veiculo.relatorio(TipoOrdenacao.DATA));
+            System.out.println(veiculo.relatorio(compData));
         	}
     	}
 	}

@@ -2,6 +2,7 @@ package estacionamentos;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -171,38 +172,25 @@ public class Veiculo {
 	 * 
 	 * @return String contendo o relatório.
 	 */
-	public String relatorio(TipoOrdenacao tipoOrdenacao) throws ExcecaoOpicaoInvalida {
+
+	public String relatorio(Comparator<UsoDeVaga> comp) throws ExcecaoOpicaoInvalida {
 
 
-		if (usoDeVagas.isEmpty()) {
-			throw new ExcecaoRelatorioVazio();
-		}
+			if (usoDeVagas.isEmpty()) {
+				throw new ExcecaoRelatorioVazio();
+			}
 
-		List<UsoDeVaga> usoDeVagasOrdenado = usoDeVagas;
-		
-		switch (tipoOrdenacao) {
-			case DATA :
-				usoDeVagasOrdenado.sort(new UsoDeVaga.DateComparator());
-				break;
+			List<UsoDeVaga> usoDeVagasOrdenado = usoDeVagas;
+			usoDeVagasOrdenado.sort(comp);
 
-			case VALOR :
-				usoDeVagasOrdenado.sort(new UsoDeVaga.valorPagoComparator());
-				break;
-				
-			default:
-				throw new ExcecaoOpicaoInvalida("Metodo solicitado para ordernar é invalido");
-		}
+			String relatorio = "";
+			for (UsoDeVaga uso : usoDeVagasOrdenado) {
+				relatorio += uso.toString();
+			}
 
-
-		String relatorio = new String();
-		relatorio = "Relatório de Uso para Veículo com Placa: " + this.getPlaca() + "\n";
-
-		for (UsoDeVaga uso : usoDeVagasOrdenado) {
-			relatorio += uso.toString();
-		}
-
-		return relatorio.toString();
+			return relatorio;
 	}
+
 
 	@Override
 	public String toString() {
@@ -226,5 +214,10 @@ public class Veiculo {
 		historico += "-------------------\n\n";
 		return historico;
 	}
+
+
+
+
+
 
 }
