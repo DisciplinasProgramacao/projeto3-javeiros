@@ -31,6 +31,7 @@
     - Uso Mensal ✔️
   - Johnata ❌ vaga sem doc
     - estacionar no veiculo ✔️
+    - diagrama ✔️
     - Uso hora ❌
   - Kimberly
     - Cliente com plano de uso ➕➖
@@ -38,7 +39,7 @@
     - enum tipo uso ✔️
     - mexeu em estrutura map tornando pública sem necessidade ❌
   - Pedro
-    - Estruturas de armazenamento eficientes; ✔️
+    - Estruturas de armazenamento eficientes; ➕➖ (apenas criou o mapa)
     - App arrecadacao decresc ⚠️
     - Uso turno ⚠️
   - Talisson
