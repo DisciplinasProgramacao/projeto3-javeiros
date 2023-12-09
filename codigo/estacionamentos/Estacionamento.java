@@ -2,7 +2,7 @@ package estacionamentos;
 
 import java.util.Scanner;
 
-import estacionamentos.Enums.TipoOrdenacao;
+// import estacionamentos.Enums.TipoOrdenacao;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
 
@@ -29,9 +29,8 @@ public class Estacionamento {
 		(u1, u2) -> u1.valorPago()>u2.valorPago()?1:-1;
 
 
-	Comparator<UsoDeVaga> compData =  (u1,u2) -> {
-		return u1.getEntrada().compareTo(u1.getEntrada());
-	};
+	Comparator<UsoDeVaga> compData = (u1, u2) -> u1.getEntrada().compareTo(u2.getEntrada());
+
 
 	static Scanner teclado = new Scanner(System.in);
 	// private int contClientes = 1;

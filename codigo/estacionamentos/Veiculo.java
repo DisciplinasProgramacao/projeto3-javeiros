@@ -173,22 +173,23 @@ public class Veiculo {
 	 * @return String contendo o relatório.
 	 */
 
-	public String relatorio(Comparator<UsoDeVaga> comp) throws ExcecaoOpicaoInvalida {
-
-
-			if (usoDeVagas.isEmpty()) {
-				throw new ExcecaoRelatorioVazio();
-			}
-
-			List<UsoDeVaga> usoDeVagasOrdenado = usoDeVagas;
-			usoDeVagasOrdenado.sort(comp);
-
-			String relatorio = "";
-			for (UsoDeVaga uso : usoDeVagasOrdenado) {
-				relatorio += uso.toString();
-			}
-
-			return relatorio;
+	 public String relatorio(Comparator<UsoDeVaga> comp) throws ExcecaoOpicaoInvalida {
+		if (usoDeVagas.isEmpty()) {
+			throw new ExcecaoRelatorioVazio();
+		}
+	
+		usoDeVagas.sort(comp);
+	
+		StringBuilder relatorio = new StringBuilder();
+		relatorio.append("Relatório do Veículo - Placa: ").append(placa).append("\n");
+		double totalCusto = 0.0;
+		for (UsoDeVaga uso : usoDeVagas) {
+			relatorio.append(uso.toString()).append("\n");
+			totalCusto += uso.getValorPago();
+		}
+		relatorio.append("Total Estacionado: ").append(usoDeVagas.size()).append(" vezes\n");
+		relatorio.append("Custo Total: ").append(totalCusto).append("\n");
+		return relatorio.toString();
 	}
 
 
