@@ -25,11 +25,9 @@ import excecoes.ExcecaoClienteNaoCadastrado;
 
 public class Estacionamento {
 
-	Comparator<UsoDeVaga> compValor= 
-		(u1, u2) -> u1.valorPago()>u2.valorPago()?1:-1;
+	Comparator<UsoDeVaga> compData = Comparator.comparing(UsoDeVaga::getEntrada);
+    Comparator<UsoDeVaga> compValor = (u1, u2) -> Double.compare(u2.getValorPago(), u1.getValorPago());
 
-
-	Comparator<UsoDeVaga> compData = (u1, u2) -> u1.getEntrada().compareTo(u2.getEntrada());
 
 
 	static Scanner teclado = new Scanner(System.in);
@@ -328,31 +326,30 @@ public class Estacionamento {
 		//! 1 - Ordernar por Data crescente;
 		//! 2 - Ordernar por Valor decrescente;
 
-		Veiculo v = null;
+        Veiculo veiculo = null;
 
-			for (Cliente cliente : id.values()) {
-				if (cliente.possuiVeiculo(placa) != null) {
-					v = cliente.possuiVeiculo(placa);
-					break;
-				}
-			}
+        for (Cliente cliente : id.values()) {
+            veiculo = cliente.possuiVeiculo(placa);
+            if (veiculo != null) {
+                break;
+            }
+        }
 
-			if(v == null){
-				throw new ExcecaoVeiculoNaoCadastrado("A placa informada não pertece a nenhum veiculo em nosso sistema");
-			}else{
-				switch(metodoOrdenar){
-					case 1:
-						return v.relatorio(compValor);
+        if (veiculo == null) {
+            throw new ExcecaoVeiculoNaoCadastrado("A placa informada não pertence a nenhum veículo em nosso sistema.");
+        }
 
-					case 2:
-						return v.relatorio(compData);
+        Comparator<UsoDeVaga> comparator;
+        if (metodoOrdenar == 1) {
+            comparator = compData; // Ordenação por data crescente
+        } else if (metodoOrdenar == 2) {
+            comparator = compValor; // Ordenação por valor decrescente
+        } else {
+            throw new ExcecaoOpicaoInvalida("A opção digitada é inválida.");
+        }
 
-					default:
-						throw new ExcecaoOpicaoInvalida("A opção digitada é inválida");
-				}
-			}
-
-	}
+        return veiculo.relatorio(comparator);
+    }
 	
 	/**
  	* Gera relatórios para todos os veículos no estacionamento.
@@ -362,18 +359,18 @@ public class Estacionamento {
  	* imprime o relatório de cada veículo. Se não houver clientes ou veículos,
  	* uma mensagem é exibida indicando que o estacionamento está vazio.
  	*/
-	public void gerarRelatoriosDeTodosVeiculos()throws ExcecaoOpicaoInvalida{
-    	if (id.isEmpty()) {
-        	System.out.println("Não há clientes ou veículos no estacionamento.");
-        	return;
-    	}	
+	 public void gerarRelatoriosDeTodosVeiculos() throws ExcecaoOpicaoInvalida {
+        if (id.isEmpty()) {
+            System.out.println("Não há clientes ou veículos no estacionamento.");
+            return;
+        }   
 
-    	for (Cliente cliente : id.values()) {
-        	for (Veiculo veiculo : cliente.getVeiculos()) {
-            System.out.println(veiculo.relatorio(compData));
-        	}
-    	}
-	}
+        for (Cliente cliente : id.values()) {
+            for (Veiculo veiculo : cliente.getVeiculos()) {
+                System.out.println(veiculo.relatorio(compData)); // Uso do comparador compData
+            }
+        }
+    }
 
 
 	/**
@@ -397,8 +394,4 @@ public class Estacionamento {
 		else
 			throw new ExcecaoClienteNaoCadastrado("Nao ha clientes cadastrados com o id informado");
 	}
-	
-
-
-
 }

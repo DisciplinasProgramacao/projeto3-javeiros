@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import excecoes.ExcecaoNenhumClienteCadastrado;
@@ -34,11 +35,9 @@ public class App {
     private static List<Estacionamento> todosEstacionamentos = new ArrayList<Estacionamento>();
     private static UsoDeVagaFactory usoDeVagaFactory;
 
-
     public static void main(String args[]) {
         try {
             menu();
-
 
         } catch (Exception e) {
             System.out.println(e);
@@ -46,7 +45,7 @@ public class App {
 
     }
 
-    //!CRIAÇÃO DE DADOS 
+    // !CRIAÇÃO DE DADOS
     // todo: criar dados
     // todo: salvar dados de Clientes em arquivos
     // todo: salvar dados de Veículos em arquivos
@@ -71,14 +70,31 @@ public class App {
         return usoDeVagaFactory.criarUsoDeVaga(vaga);
     }
 
-   /*3 estacionamentos;
-    10 clientes, utilizando todos os planos de uso disponíveis;
-    15 veículos;
-    50 usos de estacionamento, contratando os serviços disponíveis;
-    Salvamento de dados de Clientes e Veículos em arquivos */
+    /**
+     * Inicializa os dados do aplicativo com a criação de estacionamentos, clientes
+     * e veículos, além de simular usos de estacionamento.
+     * Este método configura o ambiente inicial do aplicativo, incluindo:
+     * - A criação de 3 estacionamentos.
+     * - A adição de 10 clientes, utilizando todos os planos de uso disponíveis
+     * (Horista, Mensalista, Turno).
+     * - A inclusão de 15 veículos, distribuídos entre os clientes.
+     * - A simulação de 50 usos de estacionamento, contratando os serviços
+     * disponíveis.
+     * Além disso, prepara o sistema para o salvamento de dados de Clientes e
+     * Veículos em arquivos.
+     * 
+     * @throws ExcecaoClienteJaCadastrado       Se um cliente já está cadastrado no
+     *                                          estacionamento.
+     * @throws ExcecaoVeiculoJaCadastrado       Se um veículo já está cadastrado
+     *                                          para um cliente.
+     * @throws ExcecaoVeiculoNaoCadastrado      Se um veículo não está cadastrado no
+     *                                          estacionamento.
+     * @throws ExcecaoNaoPossuiVagasDisponiveis Se não há vagas disponíveis no
+     *                                          estacionamento.
+     */
     public static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
             ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
-        
+
         // Criação de 3 estacionamentos
         Estacionamento estacionamentoA = new Estacionamento("Estacionamento A");
         Estacionamento estacionamentoB = new Estacionamento("Estacionamento B");
@@ -113,9 +129,7 @@ public class App {
         estacionamentoC.addCliente(cliente9);
         estacionamentoC.addCliente(cliente10);
 
-
-
-        //Criação de 15 veículos
+        // Criação de 15 veículos
         Veiculo veiculo1 = new Veiculo("PlacaH1", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
         Veiculo veiculo2 = new Veiculo("PlacaH2", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
         Veiculo veiculo3 = new Veiculo("PlacaH3", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
@@ -134,37 +148,99 @@ public class App {
         Veiculo veiculo14 = new Veiculo("PlacaT4", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
         Veiculo veiculo15 = new Veiculo("PlacaT5", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
 
-        // 50 usos de estacionamento contratando os serviços disponíveis, com base nos dados criados acima.
+        // 50 usos de estacionamento contratando os serviços disponíveis, com base nos
+        // dados criados acima.
+        for (int i = 0; i < 50; i++) {
+            Estacionamento estacionamentoEscolhido = todosEstacionamentos
+                    .get(new Random().nextInt(todosEstacionamentos.size()));
+            List<Cliente> clientes = new ArrayList<>(estacionamentoEscolhido.getId().values());
+            Cliente clienteEscolhido = clientes.get(new Random().nextInt(clientes.size()));
+            Veiculo veiculoEscolhido = escolherVeiculoAleatorio(clienteEscolhido);
 
+            if (veiculoEscolhido != null) {
+                try {
+                    // Vai simular a entrada de um veículo
+                    estacionamentoEscolhido.estacionar(veiculoEscolhido.getPlaca());
 
-
-        // Criação dos clientes e veículos
-        /*for (Estacionamento estacionamento : todosEstacionamentos) {
-            for (int i = 0; i < 2; i++) {
-                Cliente cliente = new Cliente("Cliente" + (i + 1), "ID" + (i + 1));
-                cliente.addVeiculo(
-                        new Veiculo("PlacaH" + (i + 1), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory()));
-                cliente.addVeiculo(
-                        new Veiculo("PlacaM" + (i + 1), TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory()));
-                cliente.addVeiculo(
-                        new Veiculo("PlacaT" + (i + 1), TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory()));
-                estacionamento.addCliente(cliente);
+                    // Simula a saída do veículo após algumas horas
+                    Thread.sleep(1000); // Uma pausa breve para simular o tempo de estacionamento
+                    estacionamentoEscolhido.sair(veiculoEscolhido.getPlaca());
+                } catch (ExcecaoVeiculoJaEstacionado | ExcecaoVeiculoNaoCadastrado
+                        | ExcecaoNaoPossuiVagasDisponiveis e) {
+                    System.out.println("Erro ao estacionar/sair: " + e.getMessage());
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.out.println("Interrupção durante a simulação de estacionamento.");
+                }
             }
         }
-
-        // Criação de usos de vagas
-        for (int i = 0; i < 50; i++) {
-            int estacionamentoIndex = i % 3;
-            Estacionamento estacionamento = todosEstacionamentos.get(estacionamentoIndex);
-
-            int clienteIndex = i % 2; // 2 clientes por estacionamento
-            Cliente cliente = estacionamento.id.values().toArray(new Cliente[0])[clienteIndex];
-
-            estacionamento.estacionar(cliente.getVeiculos().get(0).getPlaca());
-            estacionamento.sair(cliente.getVeiculos().get(0).getPlaca());
-        }*/
-
     }
+
+    /**
+     * Gera um horário aleatório dentro dos últimos 30 dias e 24 horas.
+     * Este método é utilizado para simular horários de entrada e saída dos veículos
+     * no estacionamento.
+     *
+     * @return LocalDateTime representando um horário aleatório.
+     */
+    private static LocalDateTime gerarHorarioAleatorio() {
+        LocalDateTime agora = LocalDateTime.now();
+        long diasAleatorios = new Random().nextInt(30);
+        long horasAleatorias = new Random().nextInt(24);
+        return agora.minus(diasAleatorios, ChronoUnit.DAYS).minus(horasAleatorias, ChronoUnit.HOURS);
+    }
+
+    /**
+     * Escolhe aleatoriamente um veículo de um cliente específico.
+     * Este método é utilizado para selecionar um veículo aleatório de um cliente
+     * para simular o uso do estacionamento.
+     *
+     * @param cliente O cliente do qual um veículo será escolhido aleatoriamente.
+     * @return Veiculo escolhido aleatoriamente ou null se o cliente não tiver
+     *         veículos.
+     */
+    private static Veiculo escolherVeiculoAleatorio(Cliente cliente) {
+        List<Veiculo> veiculos = cliente.getVeiculos();
+        if (veiculos.isEmpty()) {
+            return null;
+        }
+        return veiculos.get(new Random().nextInt(veiculos.size()));
+    }
+
+    // Criação dos clientes e veículos
+    /*
+     * for (Estacionamento estacionamento : todosEstacionamentos) {
+     * for (int i = 0; i < 2; i++) {
+     * Cliente cliente = new Cliente("Cliente" + (i + 1), "ID" + (i + 1));
+     * cliente.addVeiculo(
+     * new Veiculo("PlacaH" + (i + 1), TipoUso.HORISTA,
+     * UsoDeVagaFactory.criarHoristaFactory()));
+     * cliente.addVeiculo(
+     * new Veiculo("PlacaM" + (i + 1), TipoUso.MENSALISTA,
+     * UsoDeVagaFactory.criarMensalistaFactory()));
+     * cliente.addVeiculo(
+     * new Veiculo("PlacaT" + (i + 1), TipoUso.TURNO,
+     * UsoDeVagaFactory.criarTurnoFactory()));
+     * estacionamento.addCliente(cliente);
+     * }
+     * }
+     * 
+     * // Criação de usos de vagas
+     * for (int i = 0; i < 50; i++) {
+     * int estacionamentoIndex = i % 3;
+     * Estacionamento estacionamento =
+     * todosEstacionamentos.get(estacionamentoIndex);
+     * 
+     * int clienteIndex = i % 2; // 2 clientes por estacionamento
+     * Cliente cliente = estacionamento.id.values().toArray(new
+     * Cliente[0])[clienteIndex];
+     * 
+     * estacionamento.estacionar(cliente.getVeiculos().get(0).getPlaca());
+     * estacionamento.sair(cliente.getVeiculos().get(0).getPlaca());
+     * }
+     */
+
+    
 
     // Método para salvar os dados
     private static void salvarDados() {
@@ -175,54 +251,47 @@ public class App {
         }
     }
 
-
-    
-
-    
-
     public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
-            ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoEstacionamentoNaoCadastrado, ExcecaoOpicaoInvalida {
-            
+            ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoEstacionamentoNaoCadastrado,
+            ExcecaoOpicaoInvalida {
+
         int i = 0;
 
-            do {
-                try{
-                    System.out.println("|----------------------------------------------------|");
-                    System.out.println("|                    Menu Principal                  |");
-                    System.out.println("|----------------------------------------------------|");
-                    System.out.println("| 1. Criar um Estacionamento                         |");
-                    System.out.println("| 2. Acessar um Estacionamento                       |");
-                    System.out.println("| 3. Relatorio Arrecadacao Estacionamentos por Mes   |");
-                    System.out.println("| 4. Sair                                            |");
-                    System.out.println("|----------------------------------------------------|");
-                    System.out.print("Digite uma das opções acima: ");
+        do {
+            try {
+                System.out.println("|----------------------------------------------------|");
+                System.out.println("|                    Menu Principal                  |");
+                System.out.println("|----------------------------------------------------|");
+                System.out.println("| 1. Criar um Estacionamento                         |");
+                System.out.println("| 2. Acessar um Estacionamento                       |");
+                System.out.println("| 3. Relatorio Arrecadacao Estacionamentos por Mes   |");
+                System.out.println("| 4. Sair                                            |");
+                System.out.println("|----------------------------------------------------|");
+                System.out.print("Digite uma das opções acima: ");
 
+                i = Integer.parseInt(teclado.nextLine());
 
-
-                    i = Integer.parseInt(teclado.nextLine());
-
-                    switch (i) {
-                        case 1:
-                            addEstacionamento();
-                            break;
-                        case 2:
-                            Estacionamento estc = selecionarEstacionamentos();
-                            App.switchMenuEstacionameto(estc);
-                            break;
-                        case 3:
-                            exibirArrecadacaoTotalPorEstacionamento();
-                            break;
-                        case 4:
-                            System.out.println("Encerrando...");
-                            break;    
-                        default:
-                            throw new ExcecaoOpicaoInvalida("Opicao digitada invalida");
-                    }
-                }catch(ExcecaoOpicaoInvalida e){
-                    System.out.println(e);
+                switch (i) {
+                    case 1:
+                        addEstacionamento();
+                        break;
+                    case 2:
+                        Estacionamento estc = selecionarEstacionamentos();
+                        App.switchMenuEstacionameto(estc);
+                        break;
+                    case 3:
+                        exibirArrecadacaoTotalPorEstacionamento();
+                        break;
+                    case 4:
+                        System.out.println("Encerrando...");
+                        break;
+                    default:
+                        throw new ExcecaoOpicaoInvalida("Opicao digitada invalida");
                 }
-            } while (i != 4);
-
+            } catch (ExcecaoOpicaoInvalida e) {
+                System.out.println(e);
+            }
+        } while (i != 4);
 
     }
 
@@ -376,7 +445,6 @@ public class App {
         System.out.println("Digite o tipo de uso (HORISTA, MENSALISTA OU TURNO): ");
         TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
 
-
         UsoDeVagaFactory usoDeVagaFactory;
         switch (tipoUso) {
             case HORISTA:
@@ -396,9 +464,9 @@ public class App {
 
     public static void estacionar(Estacionamento estacionamento) throws ExcecaoNaoPossuiVagasDisponiveis {
         System.out.println("Digite a placa do veiculo: ");
-            String placa = teclado.nextLine();
-            estacionamento.estacionar(placa);
-            System.out.println("Veiculo estacionado com sucesso!");
+        String placa = teclado.nextLine();
+        estacionamento.estacionar(placa);
+        System.out.println("Veiculo estacionado com sucesso!");
     }
 
     public static void sair(Estacionamento estacionamento) {
@@ -414,10 +482,6 @@ public class App {
         }
     }
 
-
-
-
-
     public static void totalArrecadado(Estacionamento estacionamento) {
         System.out.println("Valor total: " + estacionamento.totalArrecadado());
     }
@@ -429,9 +493,6 @@ public class App {
             System.out.println("| Mês " + i + " -  Valor arrecadado:  " + estacionamento.arrecadacaoNoMes(i) + " |");
         }
     }
-
-
-
 
     public static void valorMedioUso(Estacionamento estacionamento) {
         // !Implementar todos os métodos necessários
@@ -445,7 +506,6 @@ public class App {
 
         System.out.println("Valor medio uso: " + (soma / cont));
     }
-
 
     public static void topClientes(Estacionamento estacionamento) {
         System.out.println("Digite o número do mes, para saber quais foram os top 5 clientes em determinado mês:\n");
@@ -468,7 +528,7 @@ public class App {
 
         List<Estacionamento> estacionametosOrdenados = new ArrayList<>();
 
-        for (int i = 0; i > todosEstacionamentos.size(); i++){
+        for (int i = 0; i > todosEstacionamentos.size(); i++) {
             estacionametosOrdenados.add(todosEstacionamentos.get(i));
         }
 
@@ -478,9 +538,9 @@ public class App {
 
         estacionametosOrdenados.sort(c);
 
-        for (int i = estacionametosOrdenados.size() - 1; i >= 0; i--){
+        for (int i = estacionametosOrdenados.size() - 1; i >= 0; i--) {
             Estacionamento estacionamento = estacionametosOrdenados.get(i);
-            System.out.println(i + "- "+ estacionamento.getNome()+": "+ estacionamento.arrecadacaoNoMes(mes));
+            System.out.println(i + "- " + estacionamento.getNome() + ": " + estacionamento.arrecadacaoNoMes(mes));
         }
 
     }
@@ -503,7 +563,6 @@ public class App {
                 + estacionamento.mediaUsoClienteMensalista());
     }
 
-
     public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento)
             throws ExcecaoNenhumClienteCadastrado {
 
@@ -522,7 +581,7 @@ public class App {
         ;
     }
 
-    public static void relatorioDoVeiculo(Estacionamento estacionamento) throws ExcecaoOpicaoInvalida{
+    public static void relatorioDoVeiculo(Estacionamento estacionamento) throws ExcecaoOpicaoInvalida {
 
         System.out.println("Digite a placa do veiculo");
         String placa = teclado.nextLine();
@@ -534,9 +593,12 @@ public class App {
 
         int metodoOrdenar = Integer.parseInt(teclado.nextLine());
 
+        try{
         String relatorio = estacionamento.relatorioVeiculo(placa, metodoOrdenar);
         System.out.println(relatorio);
-
+        } catch (ExcecaoVeiculoNaoCadastrado | ExcecaoRelatorioVazio e) {
+        System.out.println("Erro: " + e.getMessage());
+        }
     }
 
     public static void historicoCliente(Estacionamento estacionamento)
@@ -589,6 +651,5 @@ public class App {
         }
 
     }
-
 
 }
