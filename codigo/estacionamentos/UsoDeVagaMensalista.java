@@ -6,7 +6,7 @@ import estacionamentos.interfaces.CalcularUsoDeVaga;
 
 public class UsoDeVagaMensalista implements CalcularUsoDeVaga {
 
-    public final double MENSALIDADE = 500.0;
+    private static final double MENSALIDADE = 500.0;
 
     @Override
     public double valorPago(LocalDateTime getEntrada, LocalDateTime getSaida) {

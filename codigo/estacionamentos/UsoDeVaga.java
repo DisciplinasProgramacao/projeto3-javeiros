@@ -20,11 +20,10 @@ public class UsoDeVaga implements CalcularUsoDeVaga{
     public final double MENSALIDADE = 500.0;
 
     private final CalcularUsoDeVaga calcularUsoDeVaga;
-
     private Vaga vaga;
     private LocalDateTime entrada;
     private LocalDateTime saida;
-    public double valorPago;
+    private double valorPago;
     private TipoServico servico;
 
     /**
@@ -119,7 +118,6 @@ public class UsoDeVaga implements CalcularUsoDeVaga{
         }
     }
 
-    @Override
     /**
      * Calcula o valor a ser pago pelo uso da vaga.
      * @return Valor a ser pago pelo uso da vaga.
