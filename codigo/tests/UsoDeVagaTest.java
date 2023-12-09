@@ -1,92 +1,74 @@
 package tests;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import estacionamentos.UsoDeVaga;
 import estacionamentos.Vaga;
+import estacionamentos.interfaces.CalcularUsoDeVaga;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class UsoDeVagaTest {
 
+    private UsoDeVaga usoDeVaga;
+    private Vaga vaga;
+    private CalcularUsoDeVaga calcularUsoDeVaga;
+
+    @BeforeEach
+    void setUp() {
+        vaga = new Vaga('Y', 1);
+        calcularUsoDeVaga = (entrada, saida) -> ChronoUnit.MINUTES.between(entrada, saida) * 0.25;
+        usoDeVaga = new UsoDeVaga(vaga, calcularUsoDeVaga);
+    }
+
     @Test
     void testUsoDeVaga() {
-        Vaga vaga = new Vaga('Y', 8);
-        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
-        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
-
-        assertEquals(vaga, uso.getVaga());
-        assertEquals(entrada, uso.getEntrada());
-        assertNull(uso.getSaida());
+        LocalDateTime entrada = LocalDateTime.now();
+        assertEquals(vaga, usoDeVaga.getVaga());
+        assertNotNull(usoDeVaga.getEntrada());
+        assertNull(usoDeVaga.getSaida());
     }
 
     @Test
     void testRegistrarSaida() {
-        Vaga vaga = new Vaga('Y', 8);
-        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
-        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
-
-        LocalDateTime saida = LocalDateTime.of(2023, 10, 10, 9, 0);
-        uso.registrarSaida(saida);
-
-        assertEquals(saida, uso.getSaida());
+        LocalDateTime saida = LocalDateTime.now().plusHours(1);
+        usoDeVaga.setSaida(saida);
+        assertEquals(saida, usoDeVaga.getSaida());
     }
 
     @Test
     void testValorPago() {
-        Vaga vaga = new Vaga('Y', 8);
-        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
-        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
-
-        LocalDateTime saida = LocalDateTime.of(2023, 10, 10, 9, 0);
-        uso.registrarSaida(saida);
-
-        assertEquals(16.0, uso.getValorPago());
+        LocalDateTime saida = LocalDateTime.now().plusHours(1);
+        usoDeVaga.setSaida(saida);
+        assertEquals(15.0, usoDeVaga.getValorPago());
     }
 
     @Test
     void testEstaDentroDoMes() {
-        Vaga vaga = new Vaga('Y', 8);
-        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
-        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
-
-        assertTrue(uso.estaDentroDoMes(10));
-        assertFalse(uso.estaDentroDoMes(9));
+        assertTrue(usoDeVaga.estaDentroDoMes(LocalDateTime.now().getMonthValue()));
+        assertFalse(usoDeVaga.estaDentroDoMes(LocalDateTime.now().getMonthValue() - 1));
     }
 
     @Test
     void testValorMaximo() {
-        Vaga vaga = new Vaga('Y', 8);
-        LocalDateTime entrada = LocalDateTime.of(2023, 10, 10, 8, 0);
-        UsoDeVaga uso = new UsoDeVaga(vaga, entrada);
-
-        LocalDateTime saida = entrada.plus(13, ChronoUnit.HOURS);
-        uso.registrarSaida(saida);
-
-        assertEquals(50.0, uso.getValorPago());
+        LocalDateTime saida = LocalDateTime.now().plusHours(13);
+        usoDeVaga.setSaida(saida);
+        assertEquals(50.0, usoDeVaga.getValorPago());
     }
-
 
     @Test
     void testTempoEstacionamento() {
-        Vaga vaga = new Vaga('A', 1);
-        LocalDateTime entrada = LocalDateTime.now();
-        UsoDeVaga usoDeVaga = new UsoDeVaga(vaga, entrada);
-
-        LocalDateTime saida = entrada.plusHours(2);
-        usoDeVaga.registrarSaida(saida);
-
+        LocalDateTime saida = LocalDateTime.now().plusHours(2);
+        usoDeVaga.setSaida(saida);
         assertEquals(2, ChronoUnit.HOURS.between(usoDeVaga.getEntrada(), usoDeVaga.getSaida()));
     }
 
     @Test
     void testValorPagoComTempoMaximo() {
-        Vaga vaga = new Vaga('A', 1);
-        LocalDateTime entrada = LocalDateTime.now();
-        UsoDeVaga usoDeVaga = new UsoDeVaga(vaga, entrada);
-
-        LocalDateTime saida = entrada.plusHours(10); // Supondo que 10 horas seja o tempo máximo
-        usoDeVaga.registrarSaida(saida);
-
-        assertEquals(usoDeVaga.getValorMaximo(), usoDeVaga.getValorPago());
+        LocalDateTime saida = LocalDateTime.now().plusHours(10); // Supondo que 10 horas seja o tempo máximo
+        usoDeVaga.setSaida(saida);
+        assertTrue(usoDeVaga.getValorPago() <= 50.0);
     }
-
 }

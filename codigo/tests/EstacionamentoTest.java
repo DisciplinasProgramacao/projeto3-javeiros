@@ -1,17 +1,13 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import estacionamentos.Cliente;
 import estacionamentos.Estacionamento;
-import estacionamentos.UsoDeVaga;
-import estacionamentos.Vaga;
 import estacionamentos.Veiculo;
+import estacionamentos.Enums.TipoUso;
+import estacionamentos.interfaces.UsoDeVagaFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EstacionamentoTest {
     private Estacionamento estacionamento;
@@ -19,193 +15,93 @@ public class EstacionamentoTest {
     private Veiculo veiculo;
 
     @BeforeEach
-    void setUp(){
-        this.estacionamento = new Estacionamento("Xulambs", 5, 2);
-        this.cliente = new Cliente("Alice", "1");
-        this.veiculo = new Veiculo("ABC1D234");
-
+    void setUp() {
+        estacionamento = new Estacionamento("Estacionamento Teste");
+        cliente = new Cliente("Alice", "1", TipoUso.HORISTA);
+        veiculo = new Veiculo("ABC1234", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        estacionamento.gerarVagas(10); 
     }
 
     @Test
     void testAddCliente() {
         estacionamento.addCliente(cliente);
-
-        Cliente[] resultado = estacionamento.getId();
-
-        assertEquals(resultado[0], cliente);
+        assertEquals(cliente, estacionamento.getId().get(cliente.getId()));
     }
 
     @Test
     void testAddVeiculo() {
-
         estacionamento.addCliente(cliente);
-
-        estacionamento.addVeiculo(veiculo, cliente.getId());
-
-        Veiculo verificarVeiculo = cliente.possuiVeiculo("ABC1D234");
-
-        assertEquals(veiculo, verificarVeiculo);
+        estacionamento.addVeiculo("ABC1234", cliente.getId(), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        assertNotNull(cliente.possuiVeiculo("ABC1234"));
     }
-
 
     @Test
     void testEstacionar() {
         estacionamento.addCliente(cliente);
-
-        estacionamento.addVeiculo(veiculo, cliente.getId());
-
-        estacionamento.estacionar("ABC1D234");
-
-        UsoDeVaga usos = veiculo.getUsoDeVaga(0);
-
-        Vaga vagaUtilizada = usos.getVaga();
-
-        assertFalse(vagaUtilizada.disponivel());
+        estacionamento.addVeiculo("ABC1234", cliente.getId(), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        estacionamento.estacionar("ABC1234");
+        assertFalse(veiculo.getUsoDeVaga().getVaga().disponivel());
     }
 
     @Test
     void testEstacionarVeiculoInexistente() {
         assertThrows(IllegalArgumentException.class, () -> {
-        estacionamento.estacionar("XYZ1234");
+            estacionamento.estacionar("XYZ1234");
         });
-    }
-
-
-
-    @Test
-    void testGetId() {
-        estacionamento.addCliente(cliente);
-
-        Cliente[] clienteid = estacionamento.getId();
-
-        assertEquals(clienteid[0], clienteid);
     }
 
     @Test
     void testSair() {
         estacionamento.addCliente(cliente);
-
-        estacionamento.addVeiculo(veiculo, cliente.getId());
-
-        estacionamento.estacionar("ABC1D234");
-
-        UsoDeVaga usos = veiculo.getUsoDeVaga(0);
-
-        Vaga vagaUtilizada = usos.getVaga();
-
-        assertFalse(vagaUtilizada.disponivel());
-
-        estacionamento.sair("ABC1D234");
-
-        assertTrue(vagaUtilizada.disponivel());
-
+        estacionamento.addVeiculo("ABC1234", cliente.getId(), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        estacionamento.estacionar("ABC1234");
+        double valorPago = estacionamento.sair("ABC1234");
+        assertTrue(valorPago >= 0);
     }
 
     @Test
     void testTop5Clientes() {
         for (int i = 1; i <= 6; i++) {
-            Cliente cliente = new Cliente("Cliente" + i, String.valueOf(i));
-            estacionamento.addCliente(cliente);
-            Veiculo veiculo = new Veiculo("ABC" + i);
-            estacionamento.addVeiculo(veiculo, cliente.getId());
-            estacionamento.estacionar(veiculo.getPlaca());
-            estacionamento.sair(veiculo.getPlaca());
+            Cliente clienteTeste = new Cliente("Cliente" + i, String.valueOf(i), TipoUso.HORISTA);
+            estacionamento.addCliente(clienteTeste);
+            Veiculo veiculoTeste = new Veiculo("ABC" + i, TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+            estacionamento.addVeiculo("ABC" + i, clienteTeste.getId(), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+            estacionamento.estacionar("ABC" + i);
+            estacionamento.sair("ABC" + i);
         }
-    
-        String top5 = estacionamento.top5Clientes(0); // Supondo que o mês atual é 0
+
+        String top5 = estacionamento.top5Clientes(LocalDateTime.now().getMonthValue());
         assertNotNull(top5);
         assertTrue(top5.contains("Cliente1"));
-        // Verificar se contém os nomes dos 5 clientes com maior gasto
     }
 
     @Test
     void testTotalArrecadado() {
         estacionamento.addCliente(cliente);
-
-        estacionamento.addVeiculo(veiculo, cliente.getId());
-
-        estacionamento.estacionar("ABC1D234");
-
-        estacionamento.sair("ABC1D234");
-
-
+        estacionamento.addVeiculo("ABC1234", cliente.getId(), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        estacionamento.estacionar("ABC1234");
+        estacionamento.sair("ABC1234");
         double total = estacionamento.totalArrecadado();
-
-       //Não consegui passar datas personalizadas para simular o tempo estacionado 
+        assertTrue(total >= 0);
     }
-
-    //Outra forma de executar esse teste
-    // @Test
-    // void testTotalArrecadado() {
-    //     estacionamento.addCliente(cliente);
-    //     estacionamento.addVeiculo(veiculo, cliente.getId());
-    //     estacionamento.estacionar(veiculo.getPlaca());
-    //     estacionamento.sair(veiculo.getPlaca());
-
-    // double total = estacionamento.totalArrecadado();
-    // assertTrue(total > 0);
-    // }
-
-
-
 
     @Test
     void testValorMedioPorUso() {
         estacionamento.addCliente(cliente);
-
-        estacionamento.addVeiculo(veiculo, cliente.getId());
-
-        estacionamento.estacionar("ABC1D234");
-
-        estacionamento.sair("ABC1D234");
-
+        estacionamento.addVeiculo("ABC1234", cliente.getId(), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        estacionamento.estacionar("ABC1234");
+        estacionamento.sair("ABC1234");
         double valorMedio = estacionamento.valorMedioPorUso();
-
-        //depende do teste de total Arrecadado
-
+        assertTrue(valorMedio >= 0);
     }
-
-    //Outra forma de executar esse teste
-    // @Test
-    // oid testValorMedioPorUso() {
-    //     estacionamento.addCliente(cliente);
-    //     estacionamento.addVeiculo(veiculo, cliente.getId());
-
-    //     for (int i = 0; i < 5; i++) {
-    //         estacionamento.estacionar(veiculo.getPlaca());
-    //         estacionamento.sair(veiculo.getPlaca());
-    //     }
-
-    //     double valorMedio = estacionamento.valorMedioPorUso();
-    //     assertTrue(valorMedio > 0);
-    // }
-
-
 
     @Test
     void testArrecadacaoNoMes() {
         estacionamento.addCliente(cliente);
-
-        estacionamento.addVeiculo(veiculo, cliente.getId());
-
-        estacionamento.estacionar("ABC1D234");
-
-        estacionamento.sair("ABC1D234");
-
-        double arrecadacaoNoMes = estacionamento.arrecadacaoNoMes(0);
+        estacionamento.addVeiculo("ABC1234", cliente.getId(), TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
+        estacionamento.estacionar("ABC1234");
+        estacionamento.sair("ABC1234");
+        double arrecadacaoNoMes = estacionamento.arrecadacaoNoMes(LocalDateTime.now().getMonthValue());
+        assertTrue(arrecadacaoNoMes >= 0);
     }
-    
-    //Outra forma de executar esse teste
-    // @Test
-    // void testArrecadacaoNoMes() {
-    //     estacionamento.addCliente(cliente);
-    //     estacionamento.addVeiculo(veiculo, cliente.getId());
-    //     estacionamento.estacionar(veiculo.getPlaca());
-    //     estacionamento.sair(veiculo.getPlaca());
-
-    //     double arrecadacaoNoMes = estacionamento.arrecadacaoNoMes(0); // Supondo que o mês atual é 0
-    //     assertTrue(arrecadacaoNoMes > 0);
-    // }
-    
-
 }

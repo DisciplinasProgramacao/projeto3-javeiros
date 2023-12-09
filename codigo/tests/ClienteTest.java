@@ -1,14 +1,11 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
 import estacionamentos.Cliente;
 import estacionamentos.Veiculo;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import org.junit.jupiter.api.BeforeEach;
 
 public class ClienteTest {
 
@@ -31,17 +28,14 @@ public class ClienteTest {
     }
 
     @Test
-    public void testandoBuscarUmVeiculoNãoCadastrado() {
-        Veiculo result = malu.possuiVeiculo("2247");
-        assertNotEquals(volvo, result);
+    public void testandoBuscarUmVeiculoNaoCadastrado() {
+        assertNull(malu.possuiVeiculo("2247"));
     }
 
     @Test
     void testAdicionarVeiculoNull() {
         assertThrows(NullPointerException.class, () -> {
-        malu.addVeiculo(null);
+            malu.addVeiculo(null);
         });
     }
-
-
 }
