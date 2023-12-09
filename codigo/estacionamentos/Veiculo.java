@@ -214,10 +214,4 @@ public class Veiculo {
 		historico += "-------------------\n\n";
 		return historico;
 	}
-
-
-
-
-
-
 }
