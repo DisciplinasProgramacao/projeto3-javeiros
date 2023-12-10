@@ -45,7 +45,7 @@
       - Estacionamento p2 ✔️
       - Teste vaga ❌ testando outras classes
       - Excecoes estacionamento ✔️
-      - Vaga toString ❌
+      - ~~Vaga toString~~ ❌ (jogado para o P4)
     - Talisson
       - Uso ⚠️
       - Teste Uso ✔️
