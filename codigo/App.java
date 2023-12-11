@@ -565,7 +565,7 @@ public class App {
      */
     public static void mediaUsosMensalistasMesCorrente(Estacionamento estacionamento) {
         System.out.println("A média dos usuos dos cliente mensalistas no mes correte foi de: "
-                + estacionamento.mediaUsoClienteMensalista());
+                + estacionamento.mediaUsoClienteMensalista()+ "\n O valor coparado ao total de utilização representa: " + estacionamento.percentualUsoMesalistaMesCorrente() + "%");
     }
 
     public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento)

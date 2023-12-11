@@ -135,28 +135,7 @@ public class Veiculo implements Observer{
 		return total;
 	}
 
-	/**
-	 * Retorna o valor total arrecado em um determinado mes
-	 * 
-	 * @return retorna o valor do mes atual
-	 */
-	public int usoMensalCorrente() {
 
-		int total = 0;
-
-		if (tipoUso != TipoUso.MENSALISTA) {
-			return total;
-		}
-
-		for (UsoDeVaga uso : usoDeVagas) {
-			if (uso.getEntrada().getMonthValue() == LocalDateTime.now().getMonthValue()
-					&& uso.getEntrada().getYear() == LocalDateTime.now().getYear()) {
-				total++;
-			}
-		}
-
-		return total;
-	}
 
 	/**
 	 * Total de usos pelo veiculo
@@ -221,6 +200,11 @@ public class Veiculo implements Observer{
 	@Override
 	public void update(TipoUso tipoUso) {
 		this.setTipoUso(tipoUso);
+	}
+
+
+	public long usoMensalCorrente(){
+		return usoDeVagas.stream().filter( uso -> uso.getEntrada().getMonthValue() == LocalDateTime.now().getMonthValue() && uso.getEntrada().getYear() == LocalDateTime.now().getYear()).count();
 	}
 
 }

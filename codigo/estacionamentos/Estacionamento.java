@@ -400,6 +400,21 @@ public class Estacionamento {
 		cliente.setTipoUso(tipoUso);
 	};
 
+	//Calcula o pernctual de UsoMensalCorrente o qual foi relizado pelos mensalistas
+	public double percentualUsoMesalistaMesCorrente(){
+
+		double total = 1;
+		double usos = mediaUsoClienteMensalista();
+
+		for (Cliente cliente : id.values()) {
+			total = (double)cliente.usoMensalCorrente();
+		}
+
+		
+		return usos/total * 100;
+	}
+
+
 	
 
 }
