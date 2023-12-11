@@ -652,4 +652,13 @@ public class App {
 
     }
 
+
+    public static void mudarTipoUsoCliente(Estacionamento estacionamento){
+        String id;
+        System.out.println("Digite o id do cliente: ");
+        id = teclado.nextLine();
+        System.out.println("Digite o tipo de uso (HORISTA, MENSALISTA OU TURNO): ");
+        TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
+    }
+
 }
