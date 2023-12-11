@@ -664,7 +664,7 @@ public class App {
         id = teclado.nextLine();
         System.out.println("Digite o tipo de uso (HORISTA, MENSALISTA OU TURNO): ");
         TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
-        estacionamento.alterarTipoUsoCliente(tipoUso, id);
+        estacionamento.alteraTipoUsoCliente(tipoUso, id);
     }
 
 
