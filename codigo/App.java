@@ -367,6 +367,8 @@ public class App {
                 System.out.println("| 11. Arrecadação média gerada pelos clientes horistas no mês corrente      |");
                 System.out.println("| 12. Relatório do Veiculo                                                  |");
                 System.out.println("| 13. Histórico do Cliente                                                  |");
+                System.out.println("| --------------------------------------------------------------------------|");
+                System.out.println("| 14. Alterar plano do Cliente                                              |");
                 System.out.println("| 0 . Sair                                                                  |");
                 System.out.println("|---------------------------------------------------------------------------|");
                 option = Integer.parseInt(teclado.nextLine());
@@ -410,6 +412,9 @@ public class App {
                         break;
                     case 13:
                         historicoCliente(estacionamento);
+                        break;
+                    case 14:
+                        mudarTipoUsoCliente(estacionamento);
                         break;
                     case 0:
                         break;
@@ -659,6 +664,9 @@ public class App {
         id = teclado.nextLine();
         System.out.println("Digite o tipo de uso (HORISTA, MENSALISTA OU TURNO): ");
         TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
+        estacionamento.alterarTipoUsoCliente(tipoUso, id);
     }
+
+
 
 }

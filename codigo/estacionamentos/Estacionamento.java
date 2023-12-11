@@ -395,8 +395,9 @@ public class Estacionamento {
 			throw new ExcecaoClienteNaoCadastrado("Nao ha clientes cadastrados com o id informado");
 	}
 
-	public void mudarTipoUsoCliente(TipoUso tipoUso, String idCliente){
+	public void alteraTipoUsoCliente(TipoUso tipoUso, String idCliente){
 		Cliente cliente = id.get(idCliente);
 		cliente.setTipoUso(tipoUso);
 	};
+
 }
