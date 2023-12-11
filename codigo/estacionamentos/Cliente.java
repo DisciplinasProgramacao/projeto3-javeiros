@@ -48,6 +48,7 @@ public class Cliente {
 
     public void setTipoUso(TipoUso tipoUso) {
         this.tipoUso = tipoUso;
+		notifyTipoUsoVeiculo();
     }
 
 	public String getNome() {
@@ -278,6 +279,11 @@ public class Cliente {
 		}
 		historico += "**********************\n";
 		return historico;	
+	}
+
+
+	public void notifyTipoUsoVeiculo(){
+		veiculos.stream().forEach(c -> c.update(this.tipoUso));
 	}
 
 	

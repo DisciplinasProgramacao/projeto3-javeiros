@@ -8,11 +8,12 @@ import java.util.List;
 
 import estacionamentos.Enums.TipoOrdenacao;
 import estacionamentos.Enums.TipoUso;
+import estacionamentos.interfaces.Observer;
 import estacionamentos.interfaces.UsoDeVagaFactory;
 import excecoes.ExcecaoOpicaoInvalida;
 import excecoes.ExcecaoRelatorioVazio;
 
-public class Veiculo {
+public class Veiculo implements Observer{
 	private int count;
 	private String placa;
 	private LinkedList<UsoDeVaga> usoDeVagas;
@@ -215,4 +216,11 @@ public class Veiculo {
 		historico += "-------------------\n\n";
 		return historico;
 	}
+
+	//Implementação alteração do TipoUso via Observer
+	@Override
+	public void update(TipoUso tipoUso) {
+		this.setTipoUso(tipoUso);
+	}
+
 }
