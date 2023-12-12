@@ -37,26 +37,11 @@ public class App {
 
     public static void main(String args[]) {
         try {
+            criarDadosIniciais();
+            salvarDados();
             menu();
-
         } catch (Exception e) {
             System.out.println(e);
-        }
-
-    }
-
-    // !CRIAÇÃO DE DADOS
-    // todo: criar dados
-    // todo: salvar dados de Clientes em arquivos
-    // todo: salvar dados de Veículos em arquivos
-    // Carrega dados iniciais
-    private static void carregarDadosIniciais() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("dados.dat"))) {
-            todosEstacionamentos = (List<Estacionamento>) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            // Arquivo de dados não encontrado
-            // Cria dados iniciais manualmente
-            // criarDadosIniciais();
         }
     }
 
@@ -80,8 +65,6 @@ public class App {
      * - A inclusão de 15 veículos, distribuídos entre os clientes.
      * - A simulação de 50 usos de estacionamento, contratando os serviços
      * disponíveis.
-     * Além disso, prepara o sistema para o salvamento de dados de Clientes e
-     * Veículos em arquivos.
      * 
      * @throws ExcecaoClienteJaCadastrado       Se um cliente já está cadastrado no
      *                                          estacionamento.
@@ -92,7 +75,7 @@ public class App {
      * @throws ExcecaoNaoPossuiVagasDisponiveis Se não há vagas disponíveis no
      *                                          estacionamento.
      */
-    public static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
+    private static void criarDadosIniciais() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
             ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
 
         // Criação de 3 estacionamentos
@@ -207,47 +190,26 @@ public class App {
         return veiculos.get(new Random().nextInt(veiculos.size()));
     }
 
-    // Criação dos clientes e veículos
-    /*
-     * for (Estacionamento estacionamento : todosEstacionamentos) {
-     * for (int i = 0; i < 2; i++) {
-     * Cliente cliente = new Cliente("Cliente" + (i + 1), "ID" + (i + 1));
-     * cliente.addVeiculo(
-     * new Veiculo("PlacaH" + (i + 1), TipoUso.HORISTA,
-     * UsoDeVagaFactory.criarHoristaFactory()));
-     * cliente.addVeiculo(
-     * new Veiculo("PlacaM" + (i + 1), TipoUso.MENSALISTA,
-     * UsoDeVagaFactory.criarMensalistaFactory()));
-     * cliente.addVeiculo(
-     * new Veiculo("PlacaT" + (i + 1), TipoUso.TURNO,
-     * UsoDeVagaFactory.criarTurnoFactory()));
-     * estacionamento.addCliente(cliente);
-     * }
-     * }
-     * 
-     * // Criação de usos de vagas
-     * for (int i = 0; i < 50; i++) {
-     * int estacionamentoIndex = i % 3;
-     * Estacionamento estacionamento =
-     * todosEstacionamentos.get(estacionamentoIndex);
-     * 
-     * int clienteIndex = i % 2; // 2 clientes por estacionamento
-     * Cliente cliente = estacionamento.id.values().toArray(new
-     * Cliente[0])[clienteIndex];
-     * 
-     * estacionamento.estacionar(cliente.getVeiculos().get(0).getPlaca());
-     * estacionamento.sair(cliente.getVeiculos().get(0).getPlaca());
-     * }
-     */
-
-    
-
-    // Método para salvar os dados
-    private static void salvarDados() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("dados.dat"))) {
-            out.writeObject(todosEstacionamentos);
+    //Método para salvar os dados
+    public static void salvarDados() {
+        try (ObjectOutputStream outClientes = new ObjectOutputStream(new FileOutputStream("arquivos/clientes.dat"));
+                ObjectOutputStream outVeiculos = new ObjectOutputStream(new FileOutputStream("arquivos/veiculos.dat"))) {
+            //dados clientes
+            for (Estacionamento estacionamento : todosEstacionamentos) {
+                for (Cliente cliente : estacionamento.getId().values()) {
+                    outClientes.writeObject(cliente);
+                }
+            }
+            //dados veículos
+            for (Estacionamento estacionamento : todosEstacionamentos) {
+                for (Cliente cliente : estacionamento.getId().values()) {
+                    for (Veiculo veiculo : cliente.getVeiculos()) {
+                        outVeiculos.writeObject(veiculo);
+                    }
+                }
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
