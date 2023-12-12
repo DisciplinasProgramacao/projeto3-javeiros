@@ -1,7 +1,6 @@
 package estacionamentos;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
@@ -12,7 +11,7 @@ import excecoes.ExcecaoSaidaJaFinalizada;
 import excecoes.ExcecaoServicoJaContratado;
 import excecoes.ExcecaoTempoMinimoNaoAtingido;
 
-public class UsoDeVaga implements CalcularUsoDeVaga{
+public class UsoDeVaga {
 
     public final double FRACAO_USO = 0.25;
     public final double VALOR_FRACAO = 4.0;
