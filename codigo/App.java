@@ -441,7 +441,7 @@ public class App {
 
     }
 
-    public static void addVeiculo(Estacionamento estacionamento) throws ExcecaoVeiculoJaCadastrado {
+    public static void addVeiculo(Estacionamento estacionamento) throws ExcecaoVeiculoJaCadastrado, ExcecaoOpicaoInvalida {
 
         System.out.println("Digite o id do cliente no qual deseja cadastrar o veiculo: ");
         String idCli = teclado.nextLine();
@@ -450,7 +450,14 @@ public class App {
         System.out.println("Digite o tipo de uso (HORISTA, MENSALISTA OU TURNO): ");
         TipoUso tipoUso = TipoUso.valueOf(teclado.nextLine().toUpperCase());
 
+        Cliente cliente = estacionamento.possuiCliente(idCli);
+
         UsoDeVagaFactory usoDeVagaFactory;
+
+        if (cliente.getTipoUso() != tipoUso) {
+            throw new ExcecaoOpicaoInvalida("Tipo de uso do veiculo diferente do cliente cadastrado.");
+        }
+
         switch (tipoUso) {
             case HORISTA:
                 usoDeVagaFactory = UsoDeVagaFactory.criarHoristaFactory();

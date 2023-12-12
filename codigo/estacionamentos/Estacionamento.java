@@ -438,6 +438,10 @@ public class Estacionamento {
 		return usos/total * 100;
 	}
 
+	public Cliente possuiCliente(String id){
+		return this.id.get(id);
+	}
+
 
 	
 
