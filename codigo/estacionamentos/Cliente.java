@@ -284,5 +284,22 @@ public class Cliente {
 		return veiculos.stream().mapToLong( v -> v.usoMensalCorrente()).sum();
 	}
 
+	/**
+	 * Total de usos de todos os veiculos do cliente
+	 * @param mes valor do mes que foi usado.
+	 * @param ano valor do ano que foi usado.
+	 * @return quantidade de usos
+	 * */
+	public int totalDeUsoNoMesAnoCliente(int mes, int ano){
+
+		int total = 0;
+
+		for (Veiculo veiculo : veiculos) {
+			total += veiculo.totalDeUsoNoMesAno(mes, ano);
+		}
+
+		return total;
+	}
+
 
 }

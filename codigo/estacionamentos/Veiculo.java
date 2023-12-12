@@ -148,6 +148,25 @@ public class Veiculo implements Observer{
 	}
 
 	/**
+	 * Contar quantos usos de vaga ocorreu em um determinado periodo.
+	 * @param mes valor do mes que foi usado.
+	 * @param ano valor do ano que foi usado.
+	 * @return quantidade do uso de vaga
+	 * */
+	public int totalDeUsoNoMesAno(int mes, int ano){
+
+		int cont = 0;
+
+		for( UsoDeVaga usoDeVaga : usoDeVagas ) {
+			if (usoDeVaga.getEntrada().getMonthValue() == mes && usoDeVaga.getEntrada().getYear() == ano) {
+				cont++;
+			}
+		}
+
+		return cont;
+	}
+
+	/**
 	 * Método para gerar um relatório detalhado de todos os usos de vaga do veículo.
 	 * 
 	 * @return String contendo o relatório.

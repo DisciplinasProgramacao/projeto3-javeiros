@@ -443,6 +443,21 @@ public class Estacionamento {
 	}
 
 
-	
+	/**
+	 *
+	 * @param mes
+	 * @param ano
+	 * @return
+	 * */
+	public int totalDeUsoNoMesAnoEstacionamento(int mes, int ano){
+
+		int total = 0;
+
+		for (Cliente cliente : id.values()) {
+			total += cliente.totalDeUsoNoMesAnoCliente(mes, ano);
+		}
+
+		return total;
+	}
 
 }

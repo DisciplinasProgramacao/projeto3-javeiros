@@ -119,11 +119,15 @@ public class App {
         Veiculo veiculo4 = new Veiculo("PlacaH4", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
         Veiculo veiculo5 = new Veiculo("PlacaH5", TipoUso.HORISTA, UsoDeVagaFactory.criarHoristaFactory());
 
+        cliente1.addVeiculo(veiculo1);
+
         Veiculo veiculo6 = new Veiculo("PlacaM1", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
         Veiculo veiculo7 = new Veiculo("PlacaM2", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
         Veiculo veiculo8 = new Veiculo("PlacaM3", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
         Veiculo veiculo9 = new Veiculo("PlacaM4", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
         Veiculo veiculo10 = new Veiculo("PlacaM5", TipoUso.MENSALISTA, UsoDeVagaFactory.criarMensalistaFactory());
+
+
 
         Veiculo veiculo11 = new Veiculo("PlacaT1", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
         Veiculo veiculo12 = new Veiculo("PlacaT2", TipoUso.TURNO, UsoDeVagaFactory.criarTurnoFactory());
@@ -459,17 +463,18 @@ public class App {
     }
 
     public static void valorMedioUso(Estacionamento estacionamento) {
-        // !Implementar todos os métodos necessários
-        int mesAtual = LocalDate.now().getMonthValue();
-        int ano = LocalDate.now().getYear();
-        double soma = 0;
-        int cont = 0;
-        for (int i = mesAtual; i > 0; i--) {
-            soma += estacionamento.arrecadacaoNoMes(i, ano);
-            cont++;
-        }
+        //! Implementar todos os métodos necessários
 
-        System.out.println("Valor medio uso: " + (soma / cont));
+        System.out.println("Digite o ano desejado: (aaaa)");
+        int ano = Integer.parseInt(teclado.nextLine());
+        System.out.println("Digite o mes desejado: (mm)");
+        int mes = Integer.parseInt(teclado.nextLine());
+
+        double arrecadacao = estacionamento.arrecadacaoNoMes(mes, ano);
+
+        int quantidadeUso = estacionamento.totalDeUsoNoMesAnoEstacionamento(mes, ano);
+
+        System.out.println("Valor medio uso: " + (arrecadacao / quantidadeUso));
     }
 
     public static void topClientes(Estacionamento estacionamento) {
