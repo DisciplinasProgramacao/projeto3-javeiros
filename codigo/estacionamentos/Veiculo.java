@@ -215,18 +215,31 @@ public class Veiculo implements Observer{
 		return historico;
 	}
 
-	//Implementação alteração do TipoUso via Observer
+	/**
+	 * Atualiza o TipoUso do veiculo com o novo TipoUso fornecido pelo Observer.
+	 *
+	 * Este método é chamado quando ocorre uma alteração no TipoUso do cliente,
+	 * recebendo o novo TipoUso como parâmetro e atualizando o TipoUso do veiculo.
+	 *
+	 * @param tipoUso O novo TipoUso a ser atribuído ao veiculo.
+	 */
 	@Override
 	public void update(TipoUso tipoUso) {
 		this.setTipoUso(tipoUso);
 	}
 
-
 	/**
-	 * 
+	 * Obtém a quantidade total de usos mensais realizados pelo veiculo no mês corrente.
+	 *
+	 * Este método utiliza o stream para filtrar os usos de vaga associados ao veiculo,
+	 * contando apenas aqueles que ocorreram no mês corrente. Retorna o total de usos mensais.
+	 *
+	 * @return A quantidade total de usos mensais do veiculo no mês corrente.
 	 */
 	public long usoMensalCorrente(){
-		return usoDeVagas.stream().filter( uso -> uso.getEntrada().getMonthValue() == LocalDateTime.now().getMonthValue() && uso.getEntrada().getYear() == LocalDateTime.now().getYear()).count();
+		if(usoDeVagas != null)
+			return usoDeVagas.stream().filter( uso -> uso.getEntrada().getMonthValue() == LocalDateTime.now().getMonthValue() && uso.getEntrada().getYear() == LocalDateTime.now().getYear()).count();
+		else return 0;
 	}
 
 }

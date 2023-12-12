@@ -419,12 +419,30 @@ public class Estacionamento {
 			throw new ExcecaoClienteNaoCadastrado("Nao ha clientes cadastrados com o id informado");
 	}
 
+
+	/**
+ 	* Altera o tipo de uso de um cliente no estacionamento.
+ 	*
+ 	* Este método recebe o tipo de uso desejado e o ID do cliente e altera o tipo de uso
+ 	* correspondente no estacionamento.
+ 	*
+ 	* @param tipoUso O novo tipo de uso a ser atribuído ao cliente.
+ 	* @param idCliente O identificador único do cliente.
+ 	*/
+
 	public void alteraTipoUsoCliente(TipoUso tipoUso, String idCliente){
 		Cliente cliente = id.get(idCliente);
 		cliente.setTipoUso(tipoUso);
 	};
 
-	//Calcula o pernctual de UsoMensalCorrente o qual foi relizado pelos mensalistas
+	/**
+ 	* Calcula o percentual de uso mensalista no mês corrente em relação ao total de usos.
+ 	*
+ 	* Este método calcula o percentual de uso mensalista no mês corrente em relação à total de usos
+ 	* mensais de todos os clientes  no estacionamento. Retorna o resultado como um valor percentual.
+ 	*
+ 	* @return O percentual de uso mensalista no mês corrente em relação ao toal de usos.
+ 	*/
 	public double percentualUsoMesalistaMesCorrente(){
 
 		double total = 1;
@@ -437,6 +455,16 @@ public class Estacionamento {
 		
 		return usos/total * 100;
 	}
+
+	/**
+	 * Verifica a existência de um cliente com o ID fornecido no estacionamento.
+	 *
+	 * Este método verifica se há um cliente no estacionamento com o ID fornecido.
+	 * Retorna o cliente correspondente ou null se nenhum cliente for encontrado.
+	 *
+	 * @param id O identificador único do cliente.
+	 * @return O cliente correspondente ao ID fornecido ou null se não encontrado.
+	 */
 
 	public Cliente possuiCliente(String id){
 		return this.id.get(id);

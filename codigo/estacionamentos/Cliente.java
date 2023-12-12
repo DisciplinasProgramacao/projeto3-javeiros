@@ -281,11 +281,17 @@ public class Cliente {
 	}
 
 	/**
-	 * 
-	 * @return 
-	 */
+ 	* Obtém a quantidade total de usos mensais de todos os veículos associados ao cliente no mês corrente.
+ 	*
+ 	* Este método calcula a soma total dos usos mensais de todos os veículos associados ao cliente
+ 	* que ocorreram no mês corrente. Retorna o resultado.
+ 	*
+ 	* @return A quantidade total de usos mensais de todos os veículos no mês corrente.
+ 	*/
 	public long usoMensalCorrente(){
+		if(veiculos != null)
 		return veiculos.stream().mapToLong( v -> v.usoMensalCorrente()).sum();
+		else return 0;
 	}
 
 	/**
