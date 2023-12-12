@@ -280,6 +280,10 @@ public class Cliente {
 			
 	}
 
+	/**
+	 * 
+	 * @return 
+	 */
 	public long usoMensalCorrente(){
 		return veiculos.stream().mapToLong( v -> v.usoMensalCorrente()).sum();
 	}

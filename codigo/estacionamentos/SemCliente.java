@@ -2,6 +2,9 @@ package estacionamentos;
 
 import estacionamentos.Enums.TipoUso;
 
+/**
+ * Classe representa quando não há cliente classificado
+ */
 public class SemCliente extends Cliente{
 
     public SemCliente(String nome, String id) {

@@ -222,6 +222,9 @@ public class Veiculo implements Observer{
 	}
 
 
+	/**
+	 * 
+	 */
 	public long usoMensalCorrente(){
 		return usoDeVagas.stream().filter( uso -> uso.getEntrada().getMonthValue() == LocalDateTime.now().getMonthValue() && uso.getEntrada().getYear() == LocalDateTime.now().getYear()).count();
 	}

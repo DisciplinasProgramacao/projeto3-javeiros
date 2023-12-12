@@ -281,7 +281,7 @@ public class Estacionamento {
 	}
 
 	/**
-	 * 
+	 * Mostrar disponibilidades de vagas
 	 */
 	public void mostrarVagas() {
 		for (Vaga v : vagas) {
@@ -444,10 +444,10 @@ public class Estacionamento {
 
 
 	/**
-	 *
-	 * @param mes
-	 * @param ano
-	 * @return
+	 * Total de usos de todos os clientes
+	 * @param mes valor do mes que foi usado.
+	 * @param ano valor do ano que foi usado.
+	 * @return quantidade de usos
 	 * */
 	public int totalDeUsoNoMesAnoEstacionamento(int mes, int ano){
 

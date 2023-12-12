@@ -1,9 +1,7 @@
 package estacionamentos;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
-import estacionamentos.Enums.TipoTurno;
 import estacionamentos.interfaces.CalcularUsoDeVaga;
 
 public class UsoDeVagaMensalista implements CalcularUsoDeVaga {

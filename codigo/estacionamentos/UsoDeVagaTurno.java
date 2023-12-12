@@ -27,7 +27,6 @@ public class UsoDeVagaTurno implements CalcularUsoDeVaga {
     public double valorPago(LocalDateTime getEntrada, LocalDateTime getSaida) {
 
         LocalTime tempoEntrada = getEntrada.toLocalTime();
-        LocalTime tempoSaida = getSaida.toLocalTime();
 
         // Verifica se o veículo está estacionado durante um turno específico
         if (tipoTurno.estaNoTurno(tempoEntrada)) {

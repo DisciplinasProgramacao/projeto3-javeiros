@@ -154,6 +154,9 @@ public class UsoDeVaga {
     }
     
 
+    /**
+     * 
+     */
     public static class valorPagoComparator implements Comparator<UsoDeVaga> {
 
         @Override
@@ -162,6 +165,9 @@ public class UsoDeVaga {
         }
     }
 
+    /**
+     * 
+     */
     public static class DateComparator implements Comparator<UsoDeVaga> {
         @Override
         public int compare(UsoDeVaga usoDeVaga1, UsoDeVaga usoDeVaga2) {
