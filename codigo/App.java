@@ -492,20 +492,24 @@ public class App {
     }
 
     public static void arrecadadoNoMes(Estacionamento estacionamento) {
-        int mesAtual = LocalDate.now().getMonthValue();
+        
+        System.out.println("Digite o ano desejado: (aaaa)");
+        int ano = Integer.parseInt(teclado.nextLine());
+        System.out.println("Digite o mes desejado: (mm)");
+        int mes = Integer.parseInt(teclado.nextLine());
 
-        for (int i = mesAtual; i > 0; i--) {
-            System.out.println("| Mês " + i + " -  Valor arrecadado:  " + estacionamento.arrecadacaoNoMes(i) + " |");
-        }
+        System.out.println("| Mês " + mes + " | Ano " + ano + " | " +  "-  Valor arrecadado:  " + estacionamento.arrecadacaoNoMes(mes, ano) + " |");
+
     }
 
     public static void valorMedioUso(Estacionamento estacionamento) {
         // !Implementar todos os métodos necessários
         int mesAtual = LocalDate.now().getMonthValue();
+        int ano = LocalDate.now().getYear();
         double soma = 0;
         int cont = 0;
         for (int i = mesAtual; i > 0; i--) {
-            soma += estacionamento.arrecadacaoNoMes(i);
+            soma += estacionamento.arrecadacaoNoMes(i, ano);
             cont++;
         }
 
@@ -527,6 +531,8 @@ public class App {
      *         decrescente.
      */
     public static void exibirArrecadacaoTotalPorEstacionamento() {
+        int ano = LocalDate.now().getYear();
+        
         System.out.println("Digite o mes de arrecadação:");
 
         int mes = Integer.parseInt(teclado.nextLine());
@@ -538,14 +544,14 @@ public class App {
         }
 
         Comparator<Estacionamento> c = (e1, e2) -> {
-            return Double.compare(e1.arrecadacaoNoMes(mes), e2.arrecadacaoNoMes(mes));
+            return Double.compare(e1.arrecadacaoNoMes(mes, ano), e2.arrecadacaoNoMes(mes, ano));
         };
 
         estacionametosOrdenados.sort(c);
 
         for (int i = estacionametosOrdenados.size() - 1; i >= 0; i--) {
             Estacionamento estacionamento = estacionametosOrdenados.get(i);
-            System.out.println(i + "- " + estacionamento.getNome() + ": " + estacionamento.arrecadacaoNoMes(mes));
+            System.out.println(i + "- " + estacionamento.getNome() + ": " + estacionamento.arrecadacaoNoMes(mes, ano));
         }
 
     }
@@ -621,8 +627,8 @@ public class App {
 
         switch (option) {
             case 0:
-                dataInicio = "01/01/1900";
-                dataFim = "30/12/2100";
+                dataInicio = "01/01/1990 00:00:00";
+                dataFim = "30/12/2100 00:00:00";
                 break;
 
             case 1:

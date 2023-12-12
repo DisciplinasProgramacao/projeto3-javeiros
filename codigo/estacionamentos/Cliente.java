@@ -158,11 +158,11 @@ public class Cliente {
 	 * @param mes do tipo int
 	 * @return soma do tipo double com o resultado das somas
 	 */
-	public double arrecadadoNoMes(int mes) {
+	public double arrecadadoNoMes(int mes, int ano) {
 		double soma = 0;
 		for (int i = 0; i < veiculos.size(); i++) {
-			if ((veiculos.get(i).arrecadadoNoMes(mes)) != 0) {
-				soma += this.veiculos.get(i).arrecadadoNoMes(mes);
+			if ((veiculos.get(i).arrecadadoNoMes(mes, ano)) != 0) {
+				soma += this.veiculos.get(i).arrecadadoNoMes(mes, ano);
 			}
 		}
 		return soma;
@@ -271,10 +271,13 @@ public class Cliente {
 		return historico;	
 	}
 
-
 	public void notifyTipoUsoVeiculo(){
-		if(veiculos != null)
-			veiculos.stream().forEach(c -> c.update(this.tipoUso));
+		if(veiculos != null){
+			for (Veiculo veiculo : veiculos){
+				veiculo.setTipoUso(this.tipoUso);
+			}
+		}
+			
 	}
 
 	public long usoMensalCorrente(){

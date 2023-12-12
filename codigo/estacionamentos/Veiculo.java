@@ -94,7 +94,7 @@ public class Veiculo implements Observer{
 
 		for (UsoDeVaga usoDeVaga : usoDeVagas) {
 			if (usoDeVaga.getSaida() == null) {
-				return usoDeVaga.sair();
+				return usoDeVaga.sair(this.tipoUso);
 			}
 		}
 		return 0.0;
@@ -122,12 +122,12 @@ public class Veiculo implements Observer{
 	 * @param mes recebe o mês como parametro entre 1 e 12.
 	 * @return
 	 */
-	public double arrecadadoNoMes(int mes) {
+	public double arrecadadoNoMes(int mes, int ano) {
 
 		double total = 0;
 
 		for (UsoDeVaga uso : usoDeVagas) {
-			if (uso.getEntrada().getMonthValue() == mes) {
+			if (uso.getEntrada().getMonthValue() == mes && uso.getEntrada().getYear() == ano) {
 				total += uso.getValorPago();
 			}
 		}

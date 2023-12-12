@@ -128,13 +128,14 @@ public class Estacionamento {
 	 */
 	public String top5Clientes(int mes) {
 		Cliente[] topClientes = new Cliente[5];
+		int ano = LocalDateTime.now().getYear();
 
 		for (Map.Entry<String, Cliente> c : id.entrySet()) {
 			if (c != null) {
-				double valorDoCliente = c.getValue().arrecadadoNoMes(mes);
+				double valorDoCliente = c.getValue().arrecadadoNoMes(mes, ano);
 
 				for (int i = 0; i < 5; i++) {
-					if (topClientes[i] == null || valorDoCliente > topClientes[i].arrecadadoNoMes(mes)) {
+					if (topClientes[i] == null || valorDoCliente > topClientes[i].arrecadadoNoMes(mes, ano)) {
 						for (int j = 4; j > i; j--) {
 							topClientes[j] = topClientes[j - 1];
 						}
@@ -230,10 +231,21 @@ public class Estacionamento {
 	 */
 	public double totalArrecadado() {
 		double total = 0.0;
+		int ano = LocalDateTime.now().getYear();
 
-		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
-			total = total + cliente.getValue().arrecadadoTotal();
+		for (int i = 2000; i <= ano; i++) {
+			for (int j = 1; j <= 12;  j++) {
+				total += arrecadacaoNoMes(j, i);
+			}
 		}
+
+		// for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
+		// 	if (cliente.getValue().getTipoUso() != TipoUso.MENSALISTA) {
+		// 		total = total + cliente.getValue().arrecadadoTotal();
+		// 	} else {
+				
+		// 	}
+		// }
 		return total;
 	}
 
@@ -243,12 +255,24 @@ public class Estacionamento {
 	 * @param mes parâmetro do mês em específico
 	 * @return retorna um valor double total arrecadado no mês
 	 */
-	public double arrecadacaoNoMes(int mes) {
+	public double arrecadacaoNoMes(int mes, int ano) {
 		double total = 0.0;
+		int cont = 0;
 
+		// Horista e Turno
 		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
-			total = total + cliente.getValue().arrecadadoNoMes(mes);
+			if (cliente.getValue().getTipoUso() != TipoUso.MENSALISTA) {
+				total = total + cliente.getValue().arrecadadoNoMes(mes, ano);	
+			} else {
+				if(cliente.getValue().arrecadadoNoMes(mes, ano) != 0){
+					cont++;
+				}
+			}
 		}
+		// Mensalista
+		if(cont > 0)
+			total += 500;
+
 		return total;
 	}
 

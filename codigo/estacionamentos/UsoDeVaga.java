@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 
 import estacionamentos.Enums.TipoServico;
+import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.CalcularUsoDeVaga;
 import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
 import excecoes.ExcecaoSaidaJaFinalizada;
@@ -104,14 +105,14 @@ public class UsoDeVaga {
      * sair da vaga
      * @return valor pago pelo uso da vaga
      */
-    public double sair() {
+    public double sair(TipoUso tipoUso) {
         if (getSaida() != null) {
             throw new ExcecaoSaidaJaFinalizada();
         }
 
         if (getVaga().sair()) {
             setSaida(LocalDateTime.now());
-            return this.valorPago = valorPago();
+            return this.valorPago = valorPago(tipoUso);
         } else {
             throw new ExcecaoNaoEhPossivelSairDaVaga();
         }
@@ -121,8 +122,24 @@ public class UsoDeVaga {
      * Calcula o valor a ser pago pelo uso da vaga.
      * @return Valor a ser pago pelo uso da vaga.
      */
-    public double valorPago(){
-        return calcularUsoDeVaga.valorPago(getEntrada(), getSaida());
+    public double valorPago(TipoUso tipoUso){
+
+        CalcularUsoDeVaga calcularUsoDeVaga;
+
+        switch (tipoUso) {
+            case HORISTA:
+                calcularUsoDeVaga = new UsoDeVagaHorista();
+                return calcularUsoDeVaga.valorPago(entrada, saida);
+            case TURNO:
+                calcularUsoDeVaga = new UsoDeVagaTurno();
+                return calcularUsoDeVaga.valorPago(entrada, saida);
+            case MENSALISTA:
+                calcularUsoDeVaga = new UsoDeVagaMensalista();
+                return calcularUsoDeVaga.valorPago(entrada, saida);
+            default:
+                return 0.0;
+        }
+
     }
 
     /**
