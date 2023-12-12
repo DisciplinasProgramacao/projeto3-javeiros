@@ -168,10 +168,11 @@ public class App {
      */
     private static LocalDateTime gerarHorarioAleatorio() {
         LocalDateTime agora = LocalDateTime.now();
-        long diasAleatorios = new Random().nextInt(30);
-        long horasAleatorias = new Random().nextInt(24);
-        return agora.minus(diasAleatorios, ChronoUnit.DAYS).minus(horasAleatorias, ChronoUnit.HOURS);
+        int diasAleatorios = new Random().nextInt(30);
+        int horasAleatorias = new Random().nextInt(24);
+        return agora.minusDays(diasAleatorios).minusHours(horasAleatorias);
     }
+    
 
     /**
      * Escolhe aleatoriamente um veículo de um cliente específico.
