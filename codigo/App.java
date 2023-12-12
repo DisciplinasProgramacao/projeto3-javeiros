@@ -159,21 +159,7 @@ public class App {
         }
     }
 
-    /**
-     * Gera um horário aleatório dentro dos últimos 30 dias e 24 horas.
-     * Este método é utilizado para simular horários de entrada e saída dos veículos
-     * no estacionamento.
-     *
-     * @return LocalDateTime representando um horário aleatório.
-     */
-    private static LocalDateTime gerarHorarioAleatorio() {
-        LocalDateTime agora = LocalDateTime.now();
-        int diasAleatorios = new Random().nextInt(30);
-        int horasAleatorias = new Random().nextInt(24);
-        return agora.minusDays(diasAleatorios).minusHours(horasAleatorias);
-    }
     
-
     /**
      * Escolhe aleatoriamente um veículo de um cliente específico.
      * Este método é utilizado para selecionar um veículo aleatório de um cliente
