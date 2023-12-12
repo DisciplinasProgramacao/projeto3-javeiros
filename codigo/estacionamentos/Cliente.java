@@ -273,7 +273,8 @@ public class Cliente {
 
 
 	public void notifyTipoUsoVeiculo(){
-		veiculos.stream().forEach(c -> c.update(this.tipoUso));
+		if(veiculos != null)
+			veiculos.stream().forEach(c -> c.update(this.tipoUso));
 	}
 
 	public long usoMensalCorrente(){
