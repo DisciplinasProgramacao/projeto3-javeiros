@@ -137,30 +137,306 @@ public class App {
 
         // 50 usos de estacionamento contratando os serviços disponíveis, com base nos
         // dados criados acima.
-        for (int i = 0; i < 50; i++) {
-            Estacionamento estacionamentoEscolhido = todosEstacionamentos
-                    .get(new Random().nextInt(todosEstacionamentos.size()));
-            List<Cliente> clientes = new ArrayList<>(estacionamentoEscolhido.getId().values());
-            Cliente clienteEscolhido = clientes.get(new Random().nextInt(clientes.size()));
-            Veiculo veiculoEscolhido = escolherVeiculoAleatorio(clienteEscolhido);
+        // Uso de Vaga 1 - Javeiros
+        UsoDeVaga uso1Veiculo1 = new UsoDeVaga(new Vaga('A', 1), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 1));
+        uso1Veiculo1.setSaida(LocalDateTime.now().plusHours(2));
+        veiculo1.sair();
 
-            if (veiculoEscolhido != null) {
-                try {
-                    // Vai simular a entrada de um veículo
-                    estacionamentoEscolhido.estacionar(veiculoEscolhido.getPlaca());
+        // Uso de Vaga 2 - Javeiros 
+        UsoDeVaga uso2Veiculo1 = new UsoDeVaga(new Vaga('A', 2), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 2));
+        uso2Veiculo1.setSaida(LocalDateTime.now().plusHours(1).plusMinutes(30));
+        veiculo1.sair();
 
-                    // Simula a saída do veículo após algumas horas
-                    Thread.sleep(1000); // Uma pausa breve para simular o tempo de estacionamento
-                    estacionamentoEscolhido.sair(veiculoEscolhido.getPlaca());
-                } catch (ExcecaoVeiculoJaEstacionado | ExcecaoVeiculoNaoCadastrado
-                        | ExcecaoNaoPossuiVagasDisponiveis e) {
-                    System.out.println("Erro ao estacionar/sair: " + e.getMessage());
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println("Interrupção durante a simulação de estacionamento.");
-                }
-            }
-        }
+        // Uso de Vaga 3 - Javeiros
+        UsoDeVaga uso1Veiculo6 = new UsoDeVaga(new Vaga('B', 1), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 1));
+        uso1Veiculo6.setSaida(LocalDateTime.now().plusDays(1));
+        veiculo6.sair();
+
+        // Uso de Vaga 4 - Javeiros
+        UsoDeVaga uso1Veiculo11 = new UsoDeVaga(new Vaga('C', 1), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 1));
+        uso1Veiculo11.setSaida(LocalDateTime.now().plusHours(4));
+        veiculo11.sair();
+
+        // Uso de Vaga 5 - Javeiros
+        UsoDeVaga uso2Veiculo6 = new UsoDeVaga(new Vaga('B', 2), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 2));
+        uso2Veiculo6.setSaida(LocalDateTime.now().plusDays(2));
+        veiculo6.sair();
+
+        // Uso de Vaga 6 - Javeiros
+        UsoDeVaga uso2Veiculo11 = new UsoDeVaga(new Vaga('C', 2), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 2));
+        uso2Veiculo11.setSaida(LocalDateTime.now().plusHours(3));
+        veiculo11.sair();
+
+        // Uso de Vaga 7 - Javeiros
+        UsoDeVaga uso3Veiculo1 = new UsoDeVaga(new Vaga('A', 3), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 3));
+        uso3Veiculo1.setSaida(LocalDateTime.now().plusHours(2).plusMinutes(15));
+        veiculo1.sair();
+
+        // Uso de Vaga 8 - Javeiros
+        UsoDeVaga uso3Veiculo6 = new UsoDeVaga(new Vaga('B', 3), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 3));
+        uso3Veiculo6.setSaida(LocalDateTime.now().plusDays(1).plusHours(5));
+        veiculo6.sair();
+
+        // Uso de Vaga 9 - Javeiros
+        UsoDeVaga uso3Veiculo11 = new UsoDeVaga(new Vaga('C', 3), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 3));
+        uso3Veiculo11.setSaida(LocalDateTime.now().plusHours(6));
+        veiculo11.sair();
+
+        // Uso de Vaga 10 - Javeiros
+        UsoDeVaga uso4Veiculo1 = new UsoDeVaga(new Vaga('A', 4), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 4));
+        uso4Veiculo1.setSaida(LocalDateTime.now().plusHours(1).plusMinutes(45));
+        veiculo1.sair();
+
+        // Uso de Vaga 11 - Javeiros
+        UsoDeVaga uso1Veiculo2 = new UsoDeVaga(new Vaga('A', 5), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 5));
+        uso1Veiculo2.setSaida(LocalDateTime.now().plusHours(3));
+        veiculo2.sair();
+
+        // Uso de Vaga 12 - Javeiros
+        UsoDeVaga uso2Veiculo2 = new UsoDeVaga(new Vaga('A', 6), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 6));
+        uso2Veiculo2.setSaida(LocalDateTime.now().plusHours(2).plusMinutes(30));
+        veiculo2.sair();
+
+        // Uso de Vaga 13 - Javeiros
+        UsoDeVaga uso4Veiculo6 = new UsoDeVaga(new Vaga('B', 4), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 4));
+        uso4Veiculo6.setSaida(LocalDateTime.now().plusDays(3));
+        veiculo6.sair();
+
+        // Uso de Vaga 14 - Javeiros
+        UsoDeVaga uso4Veiculo11 = new UsoDeVaga(new Vaga('C', 4), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 4));
+        uso4Veiculo11.setSaida(LocalDateTime.now().plusHours(5));
+        veiculo11.sair();
+
+        // Uso de Vaga 15 - Javeiros
+        UsoDeVaga uso5Veiculo1 = new UsoDeVaga(new Vaga('A', 7), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 7));
+        uso5Veiculo1.setSaida(LocalDateTime.now().plusHours(1).plusMinutes(15));
+        veiculo1.sair();
+
+        // Uso de Vaga 16 - Javeiros
+        UsoDeVaga uso5Veiculo6 = new UsoDeVaga(new Vaga('B', 5), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 5));
+        uso5Veiculo6.setSaida(LocalDateTime.now().plusDays(1).plusHours(4));
+        veiculo6.sair();
+
+        // Uso de Vaga 17 - Javeiros
+        UsoDeVaga uso5Veiculo11 = new UsoDeVaga(new Vaga('C', 5), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 5));
+        uso5Veiculo11.setSaida(LocalDateTime.now().plusHours(4));
+        veiculo11.sair();
+
+        // Uso de Vaga 18 - Javeiros
+        UsoDeVaga uso3Veiculo2 = new UsoDeVaga(new Vaga('A', 8), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 8));
+        uso3Veiculo2.setSaida(LocalDateTime.now().plusHours(2));
+        veiculo2.sair();
+
+        // Uso de Vaga 19 - Javeiros
+        UsoDeVaga uso6Veiculo1 = new UsoDeVaga(new Vaga('A', 9), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 9));
+        uso6Veiculo1.setSaida(LocalDateTime.now().plusHours(3).plusMinutes(30));
+        veiculo1.sair();
+
+        // Uso de Vaga 20 - Javeiros
+        UsoDeVaga uso6Veiculo6 = new UsoDeVaga(new Vaga('B', 6), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 6));
+        uso6Veiculo6.setSaida(LocalDateTime.now().plusDays(2));
+        veiculo6.sair();
+
+        // Uso de Vaga 21 - Javeiros
+        UsoDeVaga uso6Veiculo11 = new UsoDeVaga(new Vaga('C', 6), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 6));
+        uso6Veiculo11.setSaida(LocalDateTime.now().plusHours(3));
+        veiculo11.sair();
+
+        // Uso de Vaga 22 - Javeiros
+        UsoDeVaga uso4Veiculo2 = new UsoDeVaga(new Vaga('A', 10), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 10));
+        uso4Veiculo2.setSaida(LocalDateTime.now().plusHours(1).plusMinutes(45));
+        veiculo2.sair();
+
+        // Uso de Vaga 23 - Javeiros
+        UsoDeVaga uso7Veiculo1 = new UsoDeVaga(new Vaga('A', 11), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 11));
+        uso7Veiculo1.setSaida(LocalDateTime.now().plusHours(2));
+        veiculo1.sair();
+
+        // Uso de Vaga 24 - Javeiros
+        UsoDeVaga uso7Veiculo6 = new UsoDeVaga(new Vaga('B', 7), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 7));
+        uso7Veiculo6.setSaida(LocalDateTime.now().plusDays(1));
+        veiculo6.sair();
+
+        // Uso de Vaga 25 - Javeiros
+        UsoDeVaga uso7Veiculo11 = new UsoDeVaga(new Vaga('C', 7), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 7));
+        uso7Veiculo11.setSaida(LocalDateTime.now().plusHours(4));
+        veiculo11.sair();
+
+        // Uso de Vaga 26 - Javeiros
+        UsoDeVaga uso5Veiculo2 = new UsoDeVaga(new Vaga('A', 12), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 12));
+        uso5Veiculo2.setSaida(LocalDateTime.now().plusHours(3));
+        veiculo2.sair();
+
+        // Uso de Vaga 27 - Javeiros
+        UsoDeVaga uso8Veiculo1 = new UsoDeVaga(new Vaga('A', 13), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 13));
+        uso8Veiculo1.setSaida(LocalDateTime.now().plusHours(1).plusMinutes(30));
+        veiculo1.sair();
+
+        // Uso de Vaga 28 - Javeiros
+        UsoDeVaga uso8Veiculo6 = new UsoDeVaga(new Vaga('B', 8), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 8));
+        uso8Veiculo6.setSaida(LocalDateTime.now().plusDays(2).plusHours(5));
+        veiculo6.sair();
+
+        // Uso de Vaga 29 - Javeiros
+        UsoDeVaga uso8Veiculo11 = new UsoDeVaga(new Vaga('C', 8), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 8));
+        uso8Veiculo11.setSaida(LocalDateTime.now().plusHours(6));
+        veiculo11.sair();
+
+        // Uso de Vaga 30 - Javeiros
+        UsoDeVaga uso6Veiculo2 = new UsoDeVaga(new Vaga('A', 14), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 14));
+        uso6Veiculo2.setSaida(LocalDateTime.now().plusHours(2).plusMinutes(15));
+        veiculo2.sair();
+
+        // Uso de Vaga 31 - Javeiros
+        UsoDeVaga uso9Veiculo1 = new UsoDeVaga(new Vaga('A', 15), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 15));
+        uso9Veiculo1.setSaida(LocalDateTime.now().plusHours(3));
+        veiculo1.sair();
+
+        // Uso de Vaga 32 - Javeiros
+        UsoDeVaga uso9Veiculo6 = new UsoDeVaga(new Vaga('B', 9), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 9));
+        uso9Veiculo6.setSaida(LocalDateTime.now().plusDays(1).plusHours(4));
+        veiculo6.sair();
+
+        // Uso de Vaga 33 - Javeiros
+        UsoDeVaga uso9Veiculo11 = new UsoDeVaga(new Vaga('C', 9), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 9));
+        uso9Veiculo11.setSaida(LocalDateTime.now().plusHours(5));
+        veiculo11.sair();
+
+        // Uso de Vaga 34 - Javeiros
+        UsoDeVaga uso7Veiculo2 = new UsoDeVaga(new Vaga('A', 16), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 16));
+        uso7Veiculo2.setSaida(LocalDateTime.now().plusHours(1).plusMinutes(45));
+        veiculo2.sair();
+
+        // Uso de Vaga 35 - Javeiros
+        UsoDeVaga uso10Veiculo1 = new UsoDeVaga(new Vaga('A', 17), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 17));
+        uso10Veiculo1.setSaida(LocalDateTime.now().plusHours(2));
+        veiculo1.sair();
+
+        // Uso de Vaga 36 - Javeiros
+        UsoDeVaga uso10Veiculo6 = new UsoDeVaga(new Vaga('B', 10), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 10));
+        uso10Veiculo6.setSaida(LocalDateTime.now().plusDays(2));
+        veiculo6.sair();
+
+        // Uso de Vaga 37 - Javeiros
+        UsoDeVaga uso10Veiculo11 = new UsoDeVaga(new Vaga('C', 10), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 10));
+        uso10Veiculo11.setSaida(LocalDateTime.now().plusHours(4));
+        veiculo11.sair();
+
+        // Uso de Vaga 38 - Javeiros
+        UsoDeVaga uso8Veiculo2 = new UsoDeVaga(new Vaga('A', 18), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 18));
+        uso8Veiculo2.setSaida(LocalDateTime.now().plusHours(3));
+        veiculo2.sair();
+
+        // Uso de Vaga 39 - Javeiros
+        UsoDeVaga uso11Veiculo1 = new UsoDeVaga(new Vaga('A', 19), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 19));
+        uso11Veiculo1.setSaida(LocalDateTime.now().plusHours(1).plusMinutes(30));
+        veiculo1.sair();
+
+        // Uso de Vaga 40 - Javeiros
+        UsoDeVaga uso11Veiculo6 = new UsoDeVaga(new Vaga('B', 11), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 11));
+        uso11Veiculo6.setSaida(LocalDateTime.now().plusDays(1).plusHours(5));
+        veiculo6.sair();
+
+        // Uso de Vaga 41 - Javeiros
+        UsoDeVaga uso11Veiculo11 = new UsoDeVaga(new Vaga('C', 11), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 11));
+        uso11Veiculo11.setSaida(LocalDateTime.now().plusHours(6));
+        veiculo11.sair();
+
+        // Uso de Vaga 42 - Javeiros
+        UsoDeVaga uso9Veiculo2 = new UsoDeVaga(new Vaga('A', 20), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 20));
+        uso9Veiculo2.setSaida(LocalDateTime.now().plusHours(2).plusMinutes(15));
+        veiculo2.sair();
+
+        // Uso de Vaga 43 - Javeiros
+        UsoDeVaga uso12Veiculo1 = new UsoDeVaga(new Vaga('A', 21), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 21));
+        uso12Veiculo1.setSaida(LocalDateTime.now().plusHours(3));
+        veiculo1.sair();
+
+        // Uso de Vaga 44 - Javeiros
+        UsoDeVaga uso12Veiculo6 = new UsoDeVaga(new Vaga('B', 12), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 12));
+        uso12Veiculo6.setSaida(LocalDateTime.now().plusDays(2).plusHours(4));
+        veiculo6.sair();
+
+        // Uso de Vaga 45 - Javeiros
+        UsoDeVaga uso12Veiculo11 = new UsoDeVaga(new Vaga('C', 12), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 12));
+        uso12Veiculo11.setSaida(LocalDateTime.now().plusHours(5));
+        veiculo11.sair();
+
+        // Uso de Vaga 46 - Javeiros
+        UsoDeVaga uso10Veiculo2 = new UsoDeVaga(new Vaga('A', 22), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 22));
+        uso10Veiculo2.setSaida(LocalDateTime.now().plusHours(1).plusMinutes(45));
+        veiculo2.sair();
+
+        // Uso de Vaga 47 - Javeiros
+        UsoDeVaga uso13Veiculo1 = new UsoDeVaga(new Vaga('A', 23), new UsoDeVagaHorista());
+        veiculo1.estacionar(new Vaga('A', 23));
+        uso13Veiculo1.setSaida(LocalDateTime.now().plusHours(2));
+        veiculo1.sair();
+
+        // Uso de Vaga 48 - Javeiros
+        UsoDeVaga uso13Veiculo6 = new UsoDeVaga(new Vaga('B', 13), new UsoDeVagaMensalista());
+        veiculo6.estacionar(new Vaga('B', 13));
+        uso13Veiculo6.setSaida(LocalDateTime.now().plusDays(1));
+        veiculo6.sair();
+
+        // Uso de Vaga 49 - Javeiros
+        UsoDeVaga uso13Veiculo11 = new UsoDeVaga(new Vaga('C', 13), new UsoDeVagaTurno());
+        veiculo11.estacionar(new Vaga('C', 13));
+        uso13Veiculo11.setSaida(LocalDateTime.now().plusHours(4));
+        veiculo11.sair();
+
+        // Uso de Vaga 50 - Javeiros
+        UsoDeVaga uso11Veiculo2 = new UsoDeVaga(new Vaga('A', 24), new UsoDeVagaHorista());
+        veiculo2.estacionar(new Vaga('A', 24));
+        uso11Veiculo2.setSaida(LocalDateTime.now().plusHours(3));
+        veiculo2.sair();
+
     }
 
     
