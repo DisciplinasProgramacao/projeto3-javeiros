@@ -476,7 +476,10 @@ public class App {
         System.out.println("Veiculo estacionado com sucesso!");
     }
 
-    
+    /**
+     * método para retirar um carro de um estacionamento a partir da placa do carro
+     * @param estacionamento estacionamento no qual o carro está e será retirado
+     */
     public static void sair(Estacionamento estacionamento) {
         System.out.println("Digite a placa da vaga na qual o veiculo irá sair");
         try {
@@ -491,10 +494,18 @@ public class App {
     }
 
 
+    /**
+     * Método para mostrar ao usuário o total arrecado por um estacionamento até o momento
+     * @param estacionamento estacionamento que será analisado o total de arrecadação.
+     */
     public static void totalArrecadado(Estacionamento estacionamento) {
         System.out.println("Valor total: " + estacionamento.totalArrecadado());
     }
 
+    /**
+     * Método para mostrar ao usuário o total arrecado por um estacionamento em um determinado mês informado pelo usuário
+     * @param estacionamento estacionamento que será analisado o total de arrecadação.
+     */
     public static void arrecadadoNoMes(Estacionamento estacionamento) {
         
         System.out.println("Digite o ano desejado: (aaaa)");
@@ -507,6 +518,11 @@ public class App {
     }
 
 
+    /**
+     * Método responsável por mostrar ao usuário uma média feita com o total arrecadado em um Mês com a quantidade
+     * de vagas que foram utilizadas nesse mês. O mês é informado pelo usuário no decorrer desse método
+     * @param estacionamento estacionamento que será analisado o total de arrecadação e a quantidade de usos de vaga.
+     */
     public static void valorMedioUso(Estacionamento estacionamento) {
         //! Implementar todos os métodos necessários
 
@@ -581,6 +597,13 @@ public class App {
                 + estacionamento.mediaUsoClienteMensalista()+ "\n O valor coparado ao total de utilização representa: " + estacionamento.percentualUsoMesalistaMesCorrente() + "%");
     }
 
+    /**
+     * Método responsável por mostrar ao usuário a arrecadação média do estacionamento em um mês por clientes
+     * que são horistas
+     * @param estacionamento estacionamento que será analisado o total de arrecadação por clientes horistas.
+     * @throws ExcecaoNenhumClienteCadastrado excecao lançada caso não haja nenhum cliente cadastrado pois iria resultar em uma
+     * divisão com zero no denominador quando a média fosse calculada.
+     */
     public static void arrecadacaoMediaClientesHoristasNoMesCorrente(Estacionamento estacionamento)
             throws ExcecaoNenhumClienteCadastrado {
 
@@ -591,6 +614,10 @@ public class App {
                         + "\" no mês é: " + resultado);
     }
 
+    /**
+     * método responsável por ler do usuário uma quantidade de vagas e adicionar estas vagas a um estacionamento especificado
+     * @param estacionamento estacionamento que irá receber as novas espaços de vagas que forem geradas.
+     */
     public static void gerarVagas(Estacionamento estacionamento) {
         int vagas;
         System.out.println("Digite o numero de vagas os qual deseja gerar?");
@@ -599,6 +626,11 @@ public class App {
         ;
     }
 
+    /**
+     * Método responsável por mostrar ao cliente um Menu de opções relacionadas a funções de relatório de um veículo específico.
+     * @param estacionamento estacionamento no qual será buscado o veículo com a placa informada pelo usuário.
+     * @throws ExcecaoOpicaoInvalida exceção lançada caso o usuário selecione uma opção que não seja válida.
+     */
     public static void relatorioDoVeiculo(Estacionamento estacionamento) throws ExcecaoOpicaoInvalida {
 
         System.out.println("Digite a placa do veiculo");
@@ -670,7 +702,10 @@ public class App {
 
     }
 
-
+    /**
+     * Método responsável por alterar o tipo de um cliente que pode ser HORISTA, MENSALISTA ou TURNO
+     * @param estacionamento estacionamento no qual será buscado o cliente informado pelo seu ID para que seu tipo seja alterado.
+     */
     public static void mudarTipoUsoCliente(Estacionamento estacionamento){
         String id;
         System.out.println("Digite o id do cliente: ");
