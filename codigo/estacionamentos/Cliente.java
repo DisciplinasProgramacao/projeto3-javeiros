@@ -169,87 +169,10 @@ public class Cliente {
 	}
 
 
-	/**
-	 * Esse método analisa as informações de um Cliente e gera um relatório com essas informações 
-	 * @return retorna um String contendo todas as informações do histórico do cliente.
-	 */
-	public String historicoCompleto() {
-		String historico = "";
-
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
-
-			for(UsoDeVaga u : totalDeUsos){
-				Vaga vaga = u.getVaga();
-
-				historico = historico + "\n" + 
-				"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-				"Vaga utilizada: " + vaga.toString() + " | " +
-				"Uso de Vaga: " + u.toString() + " | " +
-				"Tipo de Uso: " + this.tipoUso.toString();
-			}
-		}
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
-	}
-
-	/**
-	 * Esse método analisa as informações de um Cliente a partir de uma data de inicio especificada e gera um relatório com essas informações
-	 * @param filtro uma data para ser usada como filtro de data de inicio
-	 * @return retorna um String contendo todas as informações do histórico do cliente.
-
-
-
-	public String historicoDataInicio(LocalDateTime filtro) {
-		String historico = "";
-
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
-
-			for(UsoDeVaga u : totalDeUsos){
-				Vaga vaga = u.getVaga();
-
-				if(u.getEntrada().isEqual(filtro)){
-					historico = historico + "\n" + 
-					"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-					"Vaga utilizada: " + vaga.toString() + " | " +
-					"Uso de Vaga: " + u.toString() + " | " +
-					"Tipo de Uso: " + this.tipoUso.toString();
-				}
-			}
-		}
-
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
-	}
-	public String historicoDataFim(LocalDateTime filtro) {
-		String historico = "";
-
-		for (int i = 0; i < veiculos.size(); i++) {
-			Veiculo veiculo = veiculos.get(i);
-			Collection<UsoDeVaga> totalDeUsos = veiculo.getListUsoDeVaga();
-
-			for(UsoDeVaga u : totalDeUsos){
-				Vaga vaga = u.getVaga();
-				if(u.getSaida().isEqual(filtro)){
-					historico = historico + "\n" + 
-					"Placa do Veículo: " + veiculo.getPlaca() + " | " + 
-					"Vaga utilizada: " + vaga.toString() + " | " +
-					"Uso de Vaga: " + u.toString() + " | " +
-					"Tipo de Uso: " + this.tipoUso.toString();
-				}
-			}
-		}
-
-		return (!historico.equals("")) ? historico : "Nenhum histórico encontrado";
-	}
-	*/
-
 	@Override
 	public String toString(){
 		return "Nome: " + nome + "\nVeículos: " + veiculos;
 	}
-
 
 
 

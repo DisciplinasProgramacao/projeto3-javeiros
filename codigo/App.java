@@ -181,7 +181,11 @@ public class App {
         return veiculos.get(new Random().nextInt(veiculos.size()));
     }
 
-    //Método para salvar os dados
+    /**
+     * Método para salvar os dados do sistema em um arquivo.
+     *
+     * @return 
+     */
     public static void salvarDados() {
         try (ObjectOutputStream outClientes = new ObjectOutputStream(new FileOutputStream("arquivos/clientes.dat"));
                 ObjectOutputStream outVeiculos = new ObjectOutputStream(new FileOutputStream("arquivos/veiculos.dat"))) {
@@ -204,6 +208,16 @@ public class App {
         }
     }
 
+    /**
+     * método responsável por mostrar o menu princípal de opções para o usuário escolher seu caminho.
+     * 
+     * @throws ExcecaoClienteJaCadastrado exceção lançada caso um clinte já tenha sido cadastrado 
+     * @throws ExcecaoVeiculoJaCadastrado excção lançada caso um Veiculo já tenha sido cadastrado
+     * @throws ExcecaoVeiculoNaoCadastrado exceção lançada quando tenta encontrar um veículo que não existe no sistema
+     * @throws ExcecaoNaoPossuiVagasDisponiveis exceção lançada quando se tenta estacionar um veículo porém não há vagas livres
+     * @throws ExcecaoEstacionamentoNaoCadastrado exceção lançada quando se tenta fazer alguma ação em um estacionamento que não existe no sistema
+     * @throws ExcecaoOpicaoInvalida exceção lançada quando uma opção inválida é selecionada.
+     */
     public static void menu() throws ExcecaoClienteJaCadastrado, ExcecaoVeiculoJaCadastrado,
             ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoEstacionamentoNaoCadastrado,
             ExcecaoOpicaoInvalida {
@@ -248,6 +262,9 @@ public class App {
 
     }
 
+    /**
+     * método responsável por cadastrar um novo estacionamento no sistema.
+     */
     public static void addEstacionamento() {
 
         String nome;
@@ -264,6 +281,11 @@ public class App {
 
     }
 
+    /**
+     * Método responsável por selecionar um estacionamento para realizar ações no mesmo posteriormente através de seu nome.
+     * @return um objeto Estacionamento no qual foi selecionado.
+     * @throws ExcecaoEstacionamentoNaoCadastrado exceção lançada quando se tenta fazer alguma ação em um estacionamento que não existe no sistema
+     */
     public static Estacionamento selecionarEstacionamentos() throws ExcecaoEstacionamentoNaoCadastrado {
         Estacionamento estacionamentoSelecionado = null;
 
@@ -297,6 +319,10 @@ public class App {
 
     }
 
+    /**
+     * Método responsável por mostrar ao usuário um menu de ações que podem ser realizadas em um estacionamento
+     * @param estacionamento estacionamento que sofrerá as ações selecionadas pelo cliente
+     */
     public static void switchMenuEstacionameto(Estacionamento estacionamento) {
         int option = 1;
         while (option != 0) {
@@ -380,6 +406,11 @@ public class App {
         }
     }
 
+    /**
+     * método responsável por criar e adicionar um cliente à um estacionamento
+     * @param estacionamento estacionamento que receberá o novo cliente criado.
+     * @throws ExcecaoClienteJaCadastrado exceção lançada caso um clinte já tenha sido cadastrado 
+     */
     public static void addCliente(Estacionamento estacionamento) throws ExcecaoClienteJaCadastrado {
         String nome;
         String id;
@@ -394,6 +425,12 @@ public class App {
 
     }
 
+    /**
+     * método responsável por criar e adicionar um veículo à um estacionamento especifico.
+     * @param estacionamento estacionamento que irá receber o novo veículo criado.
+     * @throws ExcecaoVeiculoJaCadastrado excção lançada caso um Veiculo já tenha sido cadastrado
+     * @throws ExcecaoOpicaoInvalida exceção lançada quando uma opção inválida é selecionada.
+     */
     public static void addVeiculo(Estacionamento estacionamento) throws ExcecaoVeiculoJaCadastrado, ExcecaoOpicaoInvalida {
 
         System.out.println("Digite o id do cliente no qual deseja cadastrar o veiculo: ");
@@ -427,6 +464,11 @@ public class App {
         estacionamento.addVeiculo(placa, idCli, tipoUso, usoDeVagaFactory);
     }
 
+    /**
+     * Método responsável por adicionar um veículo a partir de sua placa à um estacionamento
+     * @param estacionamento estacionamento no qual irá receber a placa de um veículo para estacionar
+     * @throws ExcecaoNaoPossuiVagasDisponiveis exceção lançada quando se tenta estacionar um veículo porém não há vagas livres
+     */
     public static void estacionar(Estacionamento estacionamento) throws ExcecaoNaoPossuiVagasDisponiveis {
         System.out.println("Digite a placa do veiculo: ");
         String placa = teclado.nextLine();
@@ -434,6 +476,7 @@ public class App {
         System.out.println("Veiculo estacionado com sucesso!");
     }
 
+    
     public static void sair(Estacionamento estacionamento) {
         System.out.println("Digite a placa da vaga na qual o veiculo irá sair");
         try {
@@ -446,6 +489,7 @@ public class App {
             System.out.println("Esse veículo não está estacionado.");
         }
     }
+
 
     public static void totalArrecadado(Estacionamento estacionamento) {
         System.out.println("Valor total: " + estacionamento.totalArrecadado());
@@ -462,6 +506,7 @@ public class App {
 
     }
 
+
     public static void valorMedioUso(Estacionamento estacionamento) {
         //! Implementar todos os métodos necessários
 
@@ -476,6 +521,7 @@ public class App {
 
         System.out.println("Valor medio uso: " + (arrecadacao / quantidadeUso));
     }
+
 
     public static void topClientes(Estacionamento estacionamento) {
         System.out.println("Digite o número do mes, para saber quais foram os top 5 clientes em determinado mês:\n");

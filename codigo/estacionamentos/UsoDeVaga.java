@@ -87,15 +87,15 @@ public class UsoDeVaga {
         throw new ExcecaoTempoMinimoNaoAtingido();
     }
 
-        @Override
-        public String toString() {
-            return "UsoDeVaga \n" +
-                    "Vaga:" + vaga + ",\n"+
-                    "Entrada: " + entrada +",\n"+
-                    "Saida: " + saida +",\n"+
-                    "ValorPago: " + valorPago +",\n"+
-                    "Servico: " + servico + ",\n";
-        }
+    @Override
+    public String toString() {
+        return "UsoDeVaga \n" +
+                "Vaga:" + vaga + ",\n"+
+                "Entrada: " + entrada +",\n"+
+                "Saida: " + saida +",\n"+
+                "ValorPago: " + valorPago +",\n"+
+                "Servico: " + servico + ",\n";
+    }
 
     public LocalDateTime setSaida(LocalDateTime saida) {
         return this.saida = saida;
