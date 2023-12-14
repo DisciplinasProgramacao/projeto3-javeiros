@@ -15,16 +15,26 @@ public interface UsoDeVagaFactory {
      */
     public UsoDeVaga criarUsoDeVaga(Vaga vaga);
 
-    // Método estático para criar instâncias da fábrica
+    /**
+     * Método estático para criar instâncias da fábrica de Vagas para mensalistas
+     * @return uma instância da fabrica de uso de vaga para mensalista
+     */
     static UsoDeVagaFactory criarMensalistaFactory() {
         return new UsoDeVagaMensalistaFactory();
     }
 
-    // Método estático para criar instâncias da fábrica
+    /**
+     * Método estático para criar instâncias da fábrica de Vagas para Horistas
+     * @return uma instância da fabrica de uso de vaga para horista
+     */
     static UsoDeVagaFactory criarHoristaFactory() {
         return new UsoDeVagaHoristaFactory();
     }
     
+    /**
+     * Método estático para criar instâncias da fábrica de Vagas para Turnos
+     * @return uma instância da fabrica de uso de vaga para turnos
+     */
     static UsoDeVagaFactory criarTurnoFactory() {
         return new UsoDeVagaTurnoFactory();
     }

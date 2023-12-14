@@ -57,6 +57,10 @@ public class Estacionamento {
 		this.id = id;
 	}
 
+	/**
+	 * Método responsável por gerar uma quantidade determinada de novas vagas ao estacionamento
+	 * @param numeroVagas um inteiro que representa a quantidade de vagas que serão criadas e adicionadas a este estacionamento
+	 */
 	public void gerarVagas(int numeroVagas) {
 		vagas.clear();
 
@@ -410,7 +414,6 @@ public class Estacionamento {
 	* @return Uma string contendo o histórico do cliente no intervalo de datas fornecido.
 	* @throws ExcecaoClienteNaoCadastrado Se não houver clientes cadastrados com o ID informado.
 	**/
-	
 	public String historicoCliente(String idCliente,  LocalDateTime dataInicio, LocalDateTime dataFim) throws ExcecaoClienteNaoCadastrado{
 		Cliente cliente = id.get(idCliente);
 		if(cliente != null)
@@ -429,7 +432,6 @@ public class Estacionamento {
  	* @param tipoUso O novo tipo de uso a ser atribuído ao cliente.
  	* @param idCliente O identificador único do cliente.
  	*/
-
 	public void alteraTipoUsoCliente(TipoUso tipoUso, String idCliente){
 		Cliente cliente = id.get(idCliente);
 		cliente.setTipoUso(tipoUso);

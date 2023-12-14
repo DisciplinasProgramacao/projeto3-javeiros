@@ -815,6 +815,10 @@ public class App {
     }
 
 
+    /**
+     * método responsável por buscar os 5 clientes com mais usos no estacionamento em um determinado mês.
+     * @param estacionamento estacionamento no qual será buscado os 5 clientes com mais usos em um determinado mês.
+     */
     public static void topClientes(Estacionamento estacionamento) {
         System.out.println("Digite o número do mes, para saber quais foram os top 5 clientes em determinado mês:\n");
         int mes = Integer.parseInt(teclado.nextLine());
@@ -927,6 +931,12 @@ public class App {
         }
     }
 
+    /**
+     * Método responsável por buscar o histórico de um cliente especificado pelo seu ID e mostrar para o usuário no console do sistema
+     * @param estacionamento estacionamento no qual irá buscar pelo cliente especificado
+     * @throws ExcecaoOpicaoInvalida exceção lançada caso o usuário selecione uma opção que não seja válida.
+     * @throws ExcecaoClienteNaoCadastrado exceção lançada no caso do cliente buscado não existir.
+     */
     public static void historicoCliente(Estacionamento estacionamento)
             throws ExcecaoOpicaoInvalida, ExcecaoClienteNaoCadastrado {
         String idCliente;
