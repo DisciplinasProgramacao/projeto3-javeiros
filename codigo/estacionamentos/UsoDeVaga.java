@@ -124,22 +124,8 @@ public class UsoDeVaga {
      */
     public double valorPago(TipoUso tipoUso){
 
-        CalcularUsoDeVaga calcularUsoDeVaga;
-
-        switch (tipoUso) {
-            case HORISTA:
-                calcularUsoDeVaga = new UsoDeVagaHorista();
-                return calcularUsoDeVaga.valorPago(entrada, saida);
-            case TURNO:
-                calcularUsoDeVaga = new UsoDeVagaTurno();
-                return calcularUsoDeVaga.valorPago(entrada, saida);
-            case MENSALISTA:
-                calcularUsoDeVaga = new UsoDeVagaMensalista();
-                return calcularUsoDeVaga.valorPago(entrada, saida);
-            default:
-                return 0.0;
-        }
-
+        return calcularUsoDeVaga.valorPago(entrada, saida);
+      
     }
 
     /**
