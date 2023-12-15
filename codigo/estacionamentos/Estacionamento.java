@@ -280,7 +280,7 @@ public class Estacionamento {
 				case TURNO:
 					if(cliente.getValue().arrecadadoNoMes(mes, ano) != 0)
 						turnistas++;
-					total = cliente.arrecadadoNoMesForaDoTurno(mes, ano);
+					total = total + cliente.arrecadadoNoMesForaDoTurno(mes, ano);
 					break;
 			}
 
