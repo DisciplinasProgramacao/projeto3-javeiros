@@ -1,4 +1,5 @@
 package estacionamentos;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -16,8 +17,8 @@ public class Cliente {
 	/**
 	 * Construtor para a criação de um Cliente.
 	 * 
-	 * @param nome 	Nome do cliente
-	 * @param id    Identificador único do cliente.
+	 * @param nome Nome do cliente
+	 * @param id   Identificador único do cliente.
 	 */
 	public Cliente(String nome, String id) {
 		setNome(nome);
@@ -26,30 +27,31 @@ public class Cliente {
 		veiculos = new LinkedList<>();
 	}
 
-	public Cliente(){};
+	public Cliente() {
+	};
 
 	/**
-     * Construtor para a criação de um Cliente especificando o Enum tipo de uso.
-     *
-     * @param nome    Nome do cliente.
-     * @param id      Identificador único do cliente.
-     * @param tipoUso Tipo de uso associado ao cliente.
-     */
+	 * Construtor para a criação de um Cliente especificando o Enum tipo de uso.
+	 *
+	 * @param nome    Nome do cliente.
+	 * @param id      Identificador único do cliente.
+	 * @param tipoUso Tipo de uso associado ao cliente.
+	 */
 	public Cliente(String nome, String id, TipoUso tipoUso) {
-        setNome(nome);
-        setId(id);
-        setTipoUso(tipoUso);
-        veiculos = new LinkedList<>();
-    }
+		setNome(nome);
+		setId(id);
+		setTipoUso(tipoUso);
+		veiculos = new LinkedList<>();
+	}
 
 	public TipoUso getTipoUso() {
-        return tipoUso;
-    }
+		return tipoUso;
+	}
 
-    public void setTipoUso(TipoUso tipoUso) {
-        this.tipoUso = tipoUso;
+	public void setTipoUso(TipoUso tipoUso) {
+		this.tipoUso = tipoUso;
 		notifyTipoUsoVeiculo();
-    }
+	}
 
 	public String getNome() {
 		return this.nome;
@@ -86,8 +88,6 @@ public class Cliente {
 		return this.veiculos;
 	}
 
-
-
 	/**
 	 * Método que verifica se o Cliente possui um determinado carro a partir da
 	 * verificação da placa na lista de veículos do mesmo.
@@ -105,9 +105,9 @@ public class Cliente {
 		return null;
 	}
 
-
 	/**
 	 * Método que realiza a soma do total de usos de todos os veículos de um Cliente
+	 * 
 	 * @return usos do tipo int com a soma de usos dos veículos
 	 */
 	public int totalDeUsos() {
@@ -130,7 +130,7 @@ public class Cliente {
 	public double arrecadadoPorVeiculo(String placa) {
 		Veiculo veiculo = possuiVeiculo(placa);
 
-		if(veiculo != null){
+		if (veiculo != null) {
 			return veiculo.totalArrecadado();
 		}
 
@@ -168,62 +168,66 @@ public class Cliente {
 		return soma;
 	}
 
-
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Nome: " + nome + "\nVeículos: " + veiculos;
 	}
 
-
-
 	/**
-	 * Gera um histórico consolidado de todos os usos de vaga dos veículos associados a este cliente,
+	 * Gera um histórico consolidado de todos os usos de vaga dos veículos
+	 * associados a este cliente,
 	 * no intervalo de datas especificado.
 	 *
 	 * @param dataInicio Data de início do período desejado.
 	 * @param dataFim    Data de fim do período desejado.
-	 * @return String contendo o histórico consolidado de todos os usos de vaga no intervalo de datas,
+	 * @return String contendo o histórico consolidado de todos os usos de vaga no
+	 *         intervalo de datas,
 	 *         formatado de maneira legível.
 	 */
-	public String historico(LocalDateTime dataInicio, LocalDateTime dataFim){
-		String historico = "**********************\n"+this.nome+"\n\n";
-		for(Veiculo veiculo : veiculos){
+	public String historico(LocalDateTime dataInicio, LocalDateTime dataFim) {
+		String historico = "**********************\n" + this.nome + "\n\n";
+		for (Veiculo veiculo : veiculos) {
 			historico += veiculo.historico(dataInicio, dataFim);
 		}
 		historico += "**********************\n";
-		return historico;	
+		return historico;
 	}
 
-	public void notifyTipoUsoVeiculo(){
-		if(veiculos != null){
-			for (Veiculo veiculo : veiculos){
+	public void notifyTipoUsoVeiculo() {
+		if (veiculos != null) {
+			for (Veiculo veiculo : veiculos) {
 				veiculo.setTipoUso(this.tipoUso);
 			}
 		}
-			
+
 	}
 
 	/**
- 	* Obtém a quantidade total de usos mensais de todos os veículos associados ao cliente no mês corrente.
- 	*
- 	* Este método calcula a soma total dos usos mensais de todos os veículos associados ao cliente
- 	* que ocorreram no mês corrente. Retorna o resultado.
- 	*
- 	* @return A quantidade total de usos mensais de todos os veículos no mês corrente.
- 	*/
-	public long usoMensalCorrente(){
-		if(veiculos != null)
-		return veiculos.stream().mapToLong( v -> v.usoMensalCorrente()).sum();
-		else return 0;
+	 * Obtém a quantidade total de usos mensais de todos os veículos associados ao
+	 * cliente no mês corrente.
+	 *
+	 * Este método calcula a soma total dos usos mensais de todos os veículos
+	 * associados ao cliente
+	 * que ocorreram no mês corrente. Retorna o resultado.
+	 *
+	 * @return A quantidade total de usos mensais de todos os veículos no mês
+	 *         corrente.
+	 */
+	public long usoMensalCorrente() {
+		if (veiculos != null)
+			return veiculos.stream().mapToLong(v -> v.usoMensalCorrente()).sum();
+		else
+			return 0;
 	}
 
 	/**
 	 * Total de usos de todos os veiculos do cliente
+	 * 
 	 * @param mes valor do mes que foi usado.
 	 * @param ano valor do ano que foi usado.
 	 * @return quantidade de usos
-	 * */
-	public int totalDeUsoNoMesAnoCliente(int mes, int ano){
+	 */
+	public int totalDeUsoNoMesAnoCliente(int mes, int ano) {
 
 		int total = 0;
 
@@ -234,5 +238,28 @@ public class Cliente {
 		return total;
 	}
 
+	/**
+	 * Método que retorna o valor arrecadado com os usos fora do turno de um Cliente em um determinado mês e ano.
+	 *
+	 * @param mes valor do mes que foi usado.
+	 * @param ano valor do ano que foi usado.
+	 * @return valor arrecadado com usos fora do turno no mês e ano especificados.
+	 */
+	public double arrecadadoNoMesForaDoTurno(int mes, int ano) {
+		double soma = 0;
+		for (Veiculo veiculo : veiculos) {
+			for (UsoDeVaga uso : veiculo.getListUsoDeVaga()) {
+				if (uso.getEntrada().getMonthValue() == mes && uso.getEntrada().getYear() == ano) {
+					if (tipoUso == TipoUso.TURNO) {
+						soma += uso.getValorPago();
+					} else if (tipoUso != TipoUso.TURNO) {
+						soma += uso.getValorPago();
+					}
+				}
+			}
+		}
+		return soma;
+	}
+	
 
 }
