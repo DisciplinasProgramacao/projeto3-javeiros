@@ -741,6 +741,7 @@ public class App {
             default:
                 throw new IllegalArgumentException("Tipo de uso inválido");
         }
+            //! add veiculo tem que ser atualiado para poder aceitar os tipoTurno caso não seja Turnista
             estacionamento.addVeiculo(placa, idCli, tipoUso, usoDeVagaFactory, tipoTurno);
 
     }
@@ -755,6 +756,7 @@ public class App {
         String placa = teclado.nextLine();
         System.out.println("Veiculo estacionado com sucesso!");
         TipoServico servico = selecionarServico();
+        //! estacionar precisa ser atualizar para poder aceitar o servicos prestados pelo estacionamento
         estacionamento.estacionar(placa,servico);
     }
 

@@ -261,21 +261,36 @@ public class Estacionamento {
 	 */
 	public double arrecadacaoNoMes(int mes, int ano) {
 		double total = 0.0;
-		int cont = 0;
+		int mensalistas = 0;
+		int turnistas = 0;
 
 		// Horista e Turno
 		for (Map.Entry<String, Cliente> cliente : id.entrySet()) {
-			if (cliente.getValue().getTipoUso() != TipoUso.MENSALISTA) {
-				total = total + cliente.getValue().arrecadadoNoMes(mes, ano);	
-			} else {
-				if(cliente.getValue().arrecadadoNoMes(mes, ano) != 0){
-					cont++;
-				}
+
+			TipoUso tipoUso = cliente.getValue().getTipoUso();
+
+			switch (tipoUso) {
+				case HORISTA:
+					total = total + cliente.getValue().arrecadadoNoMes(mes, ano);	
+					break;
+				case MENSALISTA:
+					if(cliente.getValue().arrecadadoNoMes(mes, ano) != 0)
+						mensalistas++;
+					break;
+				case TURNO:
+					if(cliente.getValue().arrecadadoNoMes(mes, ano) != 0)
+						turnistas++;
+					break;
 			}
+
 		}
-		// Mensalista
-		if(cont > 0)
-			total += 500;
+		while ( mensalistas > 0) {
+			total = total + 500;
+		}
+
+		while ( turnistas > 0) {
+			total = total + 200;
+		}
 
 		return total;
 	}
