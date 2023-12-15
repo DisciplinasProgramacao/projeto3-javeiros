@@ -13,6 +13,8 @@ import java.util.*;
 import excecoes.ExcecaoNenhumClienteCadastrado;
 import excecoes.ExcecaoSaidaJaFinalizada;
 import estacionamentos.*;
+import estacionamentos.Enums.TipoServico;
+import estacionamentos.Enums.TipoTurno;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
 import excecoes.ExcecaoClienteJaCadastrado;
@@ -723,6 +725,7 @@ public class App {
         if (cliente.getTipoUso() != tipoUso) {
             throw new ExcecaoOpicaoInvalida("Tipo de uso do veiculo diferente do cliente cadastrado.");
         }
+        TipoTurno tipoTurno= null;
 
         switch (tipoUso) {
             case HORISTA:
@@ -732,12 +735,14 @@ public class App {
                 usoDeVagaFactory = UsoDeVagaFactory.criarMensalistaFactory();
                 break;
             case TURNO:
+                tipoTurno = selecionarTurno();
                 usoDeVagaFactory = UsoDeVagaFactory.criarTurnoFactory();
                 break;
             default:
                 throw new IllegalArgumentException("Tipo de uso inválido");
         }
-        estacionamento.addVeiculo(placa, idCli, tipoUso, usoDeVagaFactory);
+            estacionamento.addVeiculo(placa, idCli, tipoUso, usoDeVagaFactory, tipoTurno);
+
     }
 
     /**
@@ -745,11 +750,45 @@ public class App {
      * @param estacionamento estacionamento no qual irá receber a placa de um veículo para estacionar
      * @throws ExcecaoNaoPossuiVagasDisponiveis exceção lançada quando se tenta estacionar um veículo porém não há vagas livres
      */
-    public static void estacionar(Estacionamento estacionamento) throws ExcecaoNaoPossuiVagasDisponiveis {
+    public static void estacionar(Estacionamento estacionamento) throws ExcecaoNaoPossuiVagasDisponiveis, ExcecaoOpicaoInvalida  {
         System.out.println("Digite a placa do veiculo: ");
         String placa = teclado.nextLine();
-        estacionamento.estacionar(placa);
         System.out.println("Veiculo estacionado com sucesso!");
+        TipoServico servico = selecionarServico();
+        estacionamento.estacionar(placa,servico);
+    }
+
+    /**
+     * Este método solicita ao usuário a seleção de um tipo de serviço e retorna o TipoServico correspondente.
+     * Os tipos de serviço disponíveis são MANOBRISTA, LAVAGEM, POLIMENTO ou NENHUM.
+     *
+     * @return O TipoServico selecionado pelo usuário.
+     * @throws ExcecaoOpicaoInvalida Se o usuário inserir uma opção inválida.
+     */
+    public static TipoServico selecionarServico() throws ExcecaoOpicaoInvalida{
+        System.out.println("Selecione o serviço que deseja utiliar: ");
+        System.out.println("1: MANOBRISTA 5$");
+        System.out.println("2: LAVAGEM 20$");
+        System.out.println("3: POLIMENTO 25$");
+        System.out.println("4: NENHUM");
+        int tipoServicoInt = Integer.parseInt(teclado.nextLine());
+
+        switch (tipoServicoInt) {
+            case 1:
+                return TipoServico.MANOBRISTA;
+
+            case 2:
+                return TipoServico.LAVAGEM;
+
+            case 3:
+                return TipoServico.POLIMENTO;
+
+            case 4: 
+                return null;
+        
+            default:
+                throw new ExcecaoOpicaoInvalida("ERRO: servico digitado invalido");
+        }
     }
 
     /**
@@ -766,6 +805,17 @@ public class App {
             }
         } catch (ExcecaoSaidaJaFinalizada e) {
             System.out.println("Esse veículo não está estacionado.");
+        }
+    }
+
+    public static TipoTurno selecionarTurno() throws ExcecaoOpicaoInvalida{
+        System.out.println("Digite o turno:");
+        System.out.println("MANHA, TARDE, NOITE");
+        String turno = teclado.nextLine().toUpperCase();
+        if( TipoTurno.valueOf(turno) != null){
+                    return TipoTurno.valueOf(turno);
+        }else{
+            throw new ExcecaoOpicaoInvalida("Turno digitado inválido");
         }
     }
 
