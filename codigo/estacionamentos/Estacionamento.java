@@ -2,6 +2,8 @@ package estacionamentos;
 
 import java.util.Scanner;
 
+import estacionamentos.Enums.TipoServico;
+import estacionamentos.Enums.TipoTurno;
 // import estacionamentos.Enums.TipoOrdenacao;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
@@ -76,7 +78,7 @@ public class Estacionamento {
 	 * @param idCli
 	 * @throws ExcecaoVeiculoJaCadastrado
 	 */
-	public void addVeiculo(String placa, String idCli, TipoUso tipoUso, UsoDeVagaFactory usoDeVagaFactory) throws ExcecaoVeiculoJaCadastrado {
+	public void addVeiculo(String placa, String idCli, TipoUso tipoUso, UsoDeVagaFactory usoDeVagaFactory, TipoTurno tipoTurno) throws ExcecaoVeiculoJaCadastrado {
         Cliente clienteEncontrado = id.get(idCli);
 
         if (clienteEncontrado != null && clienteEncontrado.possuiVeiculo(placa) != null) {
@@ -170,7 +172,7 @@ public class Estacionamento {
 	 * 
 	 * @param placa placa do veículo do cliente
 	 */
-	public void estacionar(String placa) throws ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoVeiculoJaEstacionado {
+	public void estacionar(String placa, TipoServico tipoServico) throws ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis, ExcecaoVeiculoJaEstacionado {
 		Veiculo veiculo = null;
 		boolean vagaDisponivel = false;
 
@@ -280,7 +282,7 @@ public class Estacionamento {
 				case TURNO:
 					if(cliente.getValue().arrecadadoNoMes(mes, ano) != 0)
 						turnistas++;
-					total = total + cliente.arrecadadoNoMesForaDoTurno(mes, ano);
+					total = total + ((Cliente) cliente).arrecadadoNoMesForaDoTurno(mes, ano);
 					break;
 			}
 
