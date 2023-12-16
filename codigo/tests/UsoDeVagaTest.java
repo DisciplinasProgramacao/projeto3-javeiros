@@ -71,4 +71,41 @@ class UsoDeVagaTest {
         usoDeVaga.setSaida(saida);
         assertTrue(usoDeVaga.getValorPago() <= 50.0);
     }
+
+    @Test
+    void testValorPagoComSaidaAntesDaEntrada() {
+        LocalDateTime saida = LocalDateTime.now().minusHours(1);
+        assertThrows(IllegalArgumentException.class, () -> {
+            usoDeVaga.setSaida(saida);
+        });
+    }
+
+    @Test
+    void testValorPagoSemSaida() {
+        assertThrows(IllegalStateException.class, () -> {
+            usoDeVaga.getValorPago();
+        });
+    }
+
+    @Test
+    void testValorPagoComValorNegativo() {
+        LocalDateTime saida = LocalDateTime.now().plusMinutes(-30);
+        usoDeVaga.setSaida(saida);
+        assertTrue(usoDeVaga.getValorPago() >= 0);
+    }
+
+    @Test
+    void testTempoEstacionamentoComSaidaAntesDaEntrada() {
+        LocalDateTime saida = LocalDateTime.now().minusHours(1);
+        assertThrows(IllegalArgumentException.class, () -> {
+            usoDeVaga.setSaida(saida);
+        });
+    }
+
+    @Test
+    void testTempoEstacionamentoSemSaida() {
+        assertThrows(IllegalStateException.class, () -> {
+            usoDeVaga.getTempoEstacionamento();
+        });
+    }
 }

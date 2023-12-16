@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import estacionamentos.Cliente;
 import estacionamentos.Veiculo;
+import excecoes.ExcecaoVeiculoJaCadastrado;
 
 public class ClienteTest {
 
@@ -20,6 +21,7 @@ public class ClienteTest {
         volvo = new Veiculo("2247");
     }
 
+    
     @Test
     public void testandoAdicionarUmVeiculoCadastrado() {
         malu.addVeiculo(bmw);
@@ -36,6 +38,42 @@ public class ClienteTest {
     void testAdicionarVeiculoNull() {
         assertThrows(NullPointerException.class, () -> {
             malu.addVeiculo(null);
+        });
+    }
+
+    @Test
+    public void testAdicionarVeiculoJaCadastrado() {
+        malu.addVeiculo(bmw);
+        assertThrows(ExcecaoVeiculoJaCadastrado.class, () -> {
+            malu.addVeiculo(bmw);
+        });
+    }
+
+    @Test
+    public void testRemoverVeiculo() {
+        malu.addVeiculo(bmw);
+        malu.removeVeiculo(bmw);
+        assertNull(malu.possuiVeiculo("3121"));
+    }
+
+    @Test
+    public void testRemoverVeiculoNaoCadastrado() {
+        assertThrows(RuntimeException.class, () -> {
+            malu.removeVeiculo(volvo);
+        });
+    }
+
+    @Test
+    public void testTotalDeVeiculos() {
+        malu.addVeiculo(bmw);
+        malu.addVeiculo(volvo);
+        assertEquals(2, malu.getVeiculos().size());
+    }
+
+    @Test
+    public void testPossuiVeiculoComPlacaInvalida() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            malu.possuiVeiculo("");
         });
     }
 }

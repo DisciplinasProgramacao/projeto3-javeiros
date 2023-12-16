@@ -5,9 +5,18 @@ import estacionamentos.Estacionamento;
 import estacionamentos.Veiculo;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
+import excecoes.ExcecaoClienteJaCadastrado;
+import excecoes.ExcecaoClienteNaoCadastrado;
+import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
+import excecoes.ExcecaoVeiculoJaCadastrado;
+import excecoes.ExcecaoVeiculoJaEstacionado;
+import excecoes.ExcecaoVeiculoNaoCadastrado;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
 
 public class EstacionamentoTest {
     private Estacionamento estacionamento;
@@ -103,5 +112,56 @@ public class EstacionamentoTest {
         estacionamento.sair("ABC1234");
         double arrecadacaoNoMes = estacionamento.arrecadacaoNoMes(LocalDateTime.now().getMonthValue());
         assertTrue(arrecadacaoNoMes >= 0);
+    }
+
+    @Test
+    void testAddClienteJaCadastrado() {
+        estacionamento.addCliente(cliente);
+        assertThrows(ExcecaoClienteJaCadastrado.class, () -> {
+            estacionamento.addCliente(cliente);
+        });
+    }
+
+    @Test
+    void testRemoverClienteNaoCadastrado() {
+        assertThrows(ExcecaoClienteNaoCadastrado.class, () -> {
+            estacionamento.removeCliente("2");
+        });
+    }
+
+    @Test
+    void testAddVeiculoJaCadastrado() {
+        estacionamento.addCliente(cliente);
+        estacionamento.addVeiculo("ABC1234", cliente.getId());
+        assertThrows(ExcecaoVeiculoJaCadastrado.class, () -> {
+            estacionamento.addVeiculo("ABC1234", cliente.getId());
+        });
+    }
+
+    @Test
+    void testRemoverVeiculoNaoCadastrado() {
+        estacionamento.addCliente(cliente);
+        assertThrows(ExcecaoVeiculoNaoCadastrado.class, () -> {
+            estacionamento.removeVeiculo("XYZ1234");
+        });
+    }
+
+    @Test
+    void testEstacionarVeiculoJaEstacionado() {
+        estacionamento.addCliente(cliente);
+        estacionamento.addVeiculo("ABC1234", cliente.getId());
+        estacionamento.estacionar("ABC1234");
+        assertThrows(ExcecaoVeiculoJaEstacionado.class, () -> {
+            estacionamento.estacionar("ABC1234");
+        });
+    }
+
+    @Test
+    void testSairVeiculoNaoEstacionado() {
+        estacionamento.addCliente(cliente);
+        estacionamento.addVeiculo("ABC1234", cliente.getId());
+        assertThrows(ExcecaoNaoEhPossivelSairDaVaga.class, () -> {
+            estacionamento.sair("ABC1234");
+        });
     }
 }
