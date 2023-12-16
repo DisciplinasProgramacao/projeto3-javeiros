@@ -81,9 +81,9 @@ public class App {
             ExcecaoVeiculoNaoCadastrado, ExcecaoNaoPossuiVagasDisponiveis {
 
         // Criação de 3 estacionamentos
-        Estacionamento estacionamentoA = new Estacionamento("Estacionamento A");
-        Estacionamento estacionamentoB = new Estacionamento("Estacionamento B");
-        Estacionamento estacionamentoC = new Estacionamento("Estacionamento C");
+        Estacionamento estacionamentoA = new Estacionamento("A");
+        Estacionamento estacionamentoB = new Estacionamento("B");
+        Estacionamento estacionamentoC = new Estacionamento("C");
 
         todosEstacionamentos.add(estacionamentoA);
         todosEstacionamentos.add(estacionamentoB);
