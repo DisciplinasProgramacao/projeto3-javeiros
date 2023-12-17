@@ -1,7 +1,6 @@
 package estacionamentos;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 

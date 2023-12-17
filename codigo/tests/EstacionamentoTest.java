@@ -1,5 +1,12 @@
 package tests;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import estacionamentos.Cliente;
 import estacionamentos.Estacionamento;
 import estacionamentos.Veiculo;
@@ -11,12 +18,6 @@ import excecoes.ExcecaoNaoEhPossivelSairDaVaga;
 import excecoes.ExcecaoVeiculoJaCadastrado;
 import excecoes.ExcecaoVeiculoJaEstacionado;
 import excecoes.ExcecaoVeiculoNaoCadastrado;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDateTime;
 
 public class EstacionamentoTest {
     private Estacionamento estacionamento;

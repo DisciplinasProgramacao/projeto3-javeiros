@@ -1,12 +1,9 @@
 package estacionamentos;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-
-import estacionamentos.Enums.TipoOrdenacao;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.Observer;
 import estacionamentos.interfaces.UsoDeVagaFactory;

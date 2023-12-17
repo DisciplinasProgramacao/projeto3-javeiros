@@ -1,6 +1,4 @@
 package estacionamentos.Enums;
-import java.time.Duration;
-import java.time.LocalTime;
 
 public enum TipoUso {
     HORISTA(4.00),

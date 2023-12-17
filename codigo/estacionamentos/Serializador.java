@@ -23,17 +23,3 @@ public class Serializador {
     }
     
 }
-
-
-
-/*serializar = persistir dados
-= transformar objetos/dados em bytes */
-
-/*deserializar = tranformar bytes em objeto */
-
-/* java.io.ObjectInputStream = recebe bytes para criar um objeto*/
-/* java.io.ObjectOutputStream = recebe um objeto e cria uma cadeia de bytes */
-//^Objetos
-
-/*Arquivos
- * java.io.FileInputStream e java.io.FileOutputStream */

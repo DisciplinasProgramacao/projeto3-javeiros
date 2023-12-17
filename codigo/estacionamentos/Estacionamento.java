@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import estacionamentos.Enums.TipoServico;
 import estacionamentos.Enums.TipoTurno;
-// import estacionamentos.Enums.TipoOrdenacao;
 import estacionamentos.Enums.TipoUso;
 import estacionamentos.interfaces.UsoDeVagaFactory;
 
