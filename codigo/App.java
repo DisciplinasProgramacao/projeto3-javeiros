@@ -39,6 +39,7 @@ public class App {
         try {
             criarDadosIniciais();
             salvarDados();
+            lerDados(todosEstacionamentos);
             menu();
         } catch (Exception e) {
             System.out.println(e);
